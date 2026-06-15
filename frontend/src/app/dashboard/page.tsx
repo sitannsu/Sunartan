@@ -32,6 +32,7 @@ export default function Dashboard() {
   const [region, setRegion] = useState('Rajasthan');
   const [imageUrl, setImageUrl] = useState('');
   const [productMessage, setProductMessage] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   const fetchDashboardData = () => {
     if (!token) return;
@@ -601,21 +602,42 @@ export default function Dashboard() {
               <div className="space-y-2">
                 <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Product Image File</label>
                 <div className="flex items-center gap-3">
-                  <label className="bg-primary/10 text-primary border border-primary/20 px-3 py-2 rounded text-xs uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary/15 transition-all flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-sm">cloud_upload</span>
-                    Choose File
+                  <label className={`bg-primary/10 text-primary border border-primary/20 px-3 py-2 rounded text-xs uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary/15 transition-all flex items-center gap-1.5 ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    <span className="material-symbols-outlined text-sm">{uploading ? 'progress_activity' : 'cloud_upload'}</span>
+                    {uploading ? 'Uploading...' : 'Choose File'}
                     <input
                       type="file"
                       accept="image/*"
                       className="hidden"
-                      onChange={(e) => {
+                      disabled={uploading}
+                      onChange={async (e) => {
                         const file = e.target.files?.[0];
                         if (file) {
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            setImageUrl(reader.result as string);
-                          };
-                          reader.readAsDataURL(file);
+                          setUploading(true);
+                          setProductMessage('Uploading image to S3...');
+                          const formData = new FormData();
+                          formData.append('file', file);
+                          
+                          try {
+                            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/upload`, {
+                              method: 'POST',
+                              headers: {
+                                Authorization: `Bearer ${token}`,
+                              },
+                              body: formData,
+                            });
+                            const data = await res.json();
+                            if (res.ok && data.url) {
+                              setImageUrl(data.url);
+                              setProductMessage('Image uploaded successfully.');
+                            } else {
+                              setProductMessage(data.message || 'Image upload failed.');
+                            }
+                          } catch (err) {
+                            setProductMessage('Network error uploading image.');
+                          } finally {
+                            setUploading(false);
+                          }
                         }
                       }}
                     />
@@ -641,7 +663,8 @@ export default function Dashboard() {
 
               <button
                 type="submit"
-                className="w-full bg-primary text-white py-3 rounded text-xs uppercase tracking-widest font-semibold hover:opacity-95 transition-all cursor-pointer"
+                disabled={uploading}
+                className="w-full bg-primary text-white py-3 rounded text-xs uppercase tracking-widest font-semibold hover:opacity-95 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 List Offering
               </button>

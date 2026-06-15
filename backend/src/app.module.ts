@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { OrderModule } from './order/order.module';
 import { AiModule } from './ai/ai.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AiModule } from './ai/ai.module';
     ProductModule,
     OrderModule,
     AiModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
