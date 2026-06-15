@@ -12,7 +12,12 @@ async function bootstrap() {
 
   // Enable CORS for Next.js frontend (default dev port 3000)
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://sunartn.com'],
+    origin: [
+      'http://localhost:3000',
+      'https://sunartn.com',
+      'https://sunartn-e336b.web.app',
+      'https://sunartn-e336b.firebaseapp.com',
+    ],
     credentials: true,
   });
 
