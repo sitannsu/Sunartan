@@ -224,7 +224,7 @@ export class ProductService {
   }
 
   async findArtisanDetail(id: string) {
-    const profile = await this.prisma.artisanProfile.findUnique({
+    let profile = await this.prisma.artisanProfile.findUnique({
       where: { id },
       include: {
         user: { select: { name: true, email: true } },
@@ -236,6 +236,21 @@ export class ProductService {
         },
       },
     });
+
+    if (!profile) {
+      profile = await this.prisma.artisanProfile.findUnique({
+        where: { userId: id },
+        include: {
+          user: { select: { name: true, email: true } },
+          products: true,
+          collections: {
+            include: {
+              items: { include: { product: true } },
+            },
+          },
+        },
+      });
+    }
 
     if (!profile) {
       throw new NotFoundException('Artisan profile not found.');
