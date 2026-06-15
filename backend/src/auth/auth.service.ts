@@ -1,4 +1,8 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma.service';
 import { SignupDto, SigninDto } from './auth.dto';
@@ -17,7 +21,9 @@ export class AuthService {
       where: { email: signupDto.email },
     });
     if (existing) {
-      throw new ConflictException('A user with this email address already exists.');
+      throw new ConflictException(
+        'A user with this email address already exists.',
+      );
     }
 
     const hashedPassword = await bcrypt.hash(signupDto.password, 10);
@@ -38,7 +44,9 @@ export class AuthService {
         await tx.artisanProfile.create({
           data: {
             userId: createdUser.id,
-            bio: signupDto.bio || 'Honoring tradition and bringing handcrafted beauty to global collectors.',
+            bio:
+              signupDto.bio ||
+              'Honoring tradition and bringing handcrafted beauty to global collectors.',
             region: signupDto.region || 'Unknown Region',
             craft: signupDto.craft || 'General Crafts',
             isVerified: false,
@@ -70,7 +78,10 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password.');
     }
 
-    const validPassword = await bcrypt.compare(signinDto.password, user.password);
+    const validPassword = await bcrypt.compare(
+      signinDto.password,
+      user.password,
+    );
     if (!validPassword) {
       throw new UnauthorizedException('Invalid email or password.');
     }

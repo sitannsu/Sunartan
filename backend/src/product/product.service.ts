@@ -1,7 +1,15 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { SearchService } from './search.service';
-import { CreateProductDto, CreateReviewDto, ProductQueryDto } from './product.dto';
+import {
+  CreateProductDto,
+  CreateReviewDto,
+  ProductQueryDto,
+} from './product.dto';
 
 @Injectable()
 export class ProductService {
@@ -101,7 +109,9 @@ export class ProductService {
     }
 
     if (!artisanProfile) {
-      throw new ForbiddenException('You must have an Artisan Profile to list products.');
+      throw new ForbiddenException(
+        'You must have an Artisan Profile to list products.',
+      );
     }
 
     const product = await this.prisma.product.create({
@@ -117,7 +127,11 @@ export class ProductService {
     return product;
   }
 
-  async update(id: string, userId: string, updateProductDto: Partial<CreateProductDto>) {
+  async update(
+    id: string,
+    userId: string,
+    updateProductDto: Partial<CreateProductDto>,
+  ) {
     const product = await this.prisma.product.findUnique({
       where: { id },
       include: { artisan: true },
@@ -166,8 +180,14 @@ export class ProductService {
   }
 
   // Review Sub-methods
-  async addReview(productId: string, userId: string, createReviewDto: CreateReviewDto) {
-    const product = await this.prisma.product.findUnique({ where: { id: productId } });
+  async addReview(
+    productId: string,
+    userId: string,
+    createReviewDto: CreateReviewDto,
+  ) {
+    const product = await this.prisma.product.findUnique({
+      where: { id: productId },
+    });
     if (!product) {
       throw new NotFoundException('Product not found.');
     }
@@ -182,7 +202,8 @@ export class ProductService {
 
     // Update Product average rating
     const reviews = await this.prisma.review.findMany({ where: { productId } });
-    const avgRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+    const avgRating =
+      reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
 
     await this.prisma.product.update({
       where: { id: productId },
@@ -224,7 +245,9 @@ export class ProductService {
   }
 
   async updateArtisanProfile(userId: string, data: any) {
-    const profile = await this.prisma.artisanProfile.findUnique({ where: { userId } });
+    const profile = await this.prisma.artisanProfile.findUnique({
+      where: { userId },
+    });
     if (!profile) {
       throw new NotFoundException('Artisan profile not found.');
     }
@@ -236,7 +259,9 @@ export class ProductService {
   }
 
   async verifyArtisan(id: string, isVerified: boolean) {
-    const profile = await this.prisma.artisanProfile.findUnique({ where: { id } });
+    const profile = await this.prisma.artisanProfile.findUnique({
+      where: { id },
+    });
     if (!profile) {
       throw new NotFoundException('Artisan profile not found.');
     }

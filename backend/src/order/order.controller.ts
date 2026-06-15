@@ -1,4 +1,13 @@
-import { Controller, Post, Put, Get, Param, Body, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Put,
+  Get,
+  Param,
+  Body,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto, VerifyPaymentDto } from './payment.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -18,7 +27,10 @@ export class OrderController {
 
   @UseGuards(JwtAuthGuard)
   @Post('verify')
-  async verifyPayment(@Request() req: any, @Body() verifyPaymentDto: VerifyPaymentDto) {
+  async verifyPayment(
+    @Request() req: any,
+    @Body() verifyPaymentDto: VerifyPaymentDto,
+  ) {
     return this.orderService.verifyPayment(req.user.id, verifyPaymentDto);
   }
 
@@ -45,7 +57,10 @@ export class OrderController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ARTISAN, Role.ADMIN)
   @Put(':id/status')
-  async updateStatus(@Param('id') id: string, @Body('status') status: OrderStatus) {
+  async updateStatus(
+    @Param('id') id: string,
+    @Body('status') status: OrderStatus,
+  ) {
     return this.orderService.updateOrderStatus(id, status);
   }
 }

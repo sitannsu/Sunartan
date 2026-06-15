@@ -10,12 +10,12 @@ export class SearchService implements OnModuleInit {
   async onModuleInit() {
     const host = process.env.MEILI_HOST || 'http://localhost:7700';
     const apiKey = process.env.MEILI_API_KEY || '';
-    
+
     try {
       this.client = new Meilisearch({ host, apiKey });
       // Create index if it does not exist
       this.index = this.client.index(this.indexUid);
-      
+
       // Try a ping check to verify connection
       await this.client.health();
       console.log('SearchService: Connected to Meilisearch successfully.');
@@ -23,13 +23,22 @@ export class SearchService implements OnModuleInit {
       // Configure settings for product searching
       if (this.index) {
         await this.index.updateSettings({
-          searchableAttributes: ['title', 'description', 'region', 'craft', 'category'],
+          searchableAttributes: [
+            'title',
+            'description',
+            'region',
+            'craft',
+            'category',
+          ],
           filterableAttributes: ['region', 'craft', 'category', 'price'],
           sortableAttributes: ['price', 'createdAt'],
         });
       }
     } catch (error) {
-      console.warn('SearchService: Could not connect to Meilisearch. Fallback to Prisma database search active.', error.message);
+      console.warn(
+        'SearchService: Could not connect to Meilisearch. Fallback to Prisma database search active.',
+        error.message,
+      );
       this.client = null;
       this.index = null;
     }
@@ -54,7 +63,10 @@ export class SearchService implements OnModuleInit {
         },
       ]);
     } catch (error) {
-      console.error('SearchService: Failed to index product in Meilisearch:', error.message);
+      console.error(
+        'SearchService: Failed to index product in Meilisearch:',
+        error.message,
+      );
     }
   }
 
@@ -63,7 +75,10 @@ export class SearchService implements OnModuleInit {
     try {
       await this.index.deleteDocument(productId);
     } catch (error) {
-      console.error('SearchService: Failed to delete product in Meilisearch:', error.message);
+      console.error(
+        'SearchService: Failed to delete product in Meilisearch:',
+        error.message,
+      );
     }
   }
 
@@ -73,7 +88,8 @@ export class SearchService implements OnModuleInit {
     }
     try {
       const filterArray: string[] = [];
-      if (filters?.category) filterArray.push(`category = "${filters.category}"`);
+      if (filters?.category)
+        filterArray.push(`category = "${filters.category}"`);
       if (filters?.region) filterArray.push(`region = "${filters.region}"`);
       if (filters?.craft) filterArray.push(`craft = "${filters.craft}"`);
       if (filters?.minPrice) filterArray.push(`price >= ${filters.minPrice}`);
@@ -85,7 +101,10 @@ export class SearchService implements OnModuleInit {
       });
       return results.hits;
     } catch (error) {
-      console.error('SearchService: Meilisearch query error, falling back:', error.message);
+      console.error(
+        'SearchService: Meilisearch query error, falling back:',
+        error.message,
+      );
       return null;
     }
   }

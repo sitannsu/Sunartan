@@ -1,4 +1,11 @@
-import { Controller, Post, Get, Body, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { AiService } from './ai.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
@@ -8,7 +15,11 @@ export class AiController {
   constructor(private aiService: AiService) {}
 
   @Post('consult')
-  async consult(@Request() req: any, @Body('text') text: string, @Body('conversationId') conversationId?: string) {
+  async consult(
+    @Request() req: any,
+    @Body('text') text: string,
+    @Body('conversationId') conversationId?: string,
+  ) {
     return this.aiService.consult(text, conversationId);
   }
 

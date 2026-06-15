@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { PaymentService } from './payment.service';
 import { CreateOrderDto, VerifyPaymentDto } from './payment.dto';
@@ -38,11 +42,15 @@ export class OrderService {
         });
 
         if (!product) {
-          throw new NotFoundException(`Product with ID "${item.productId}" not found.`);
+          throw new NotFoundException(
+            `Product with ID "${item.productId}" not found.`,
+          );
         }
 
         if (product.stock < item.quantity) {
-          throw new BadRequestException(`Insufficient stock for product "${product.title}". Only ${product.stock} left.`);
+          throw new BadRequestException(
+            `Insufficient stock for product "${product.title}". Only ${product.stock} left.`,
+          );
         }
 
         // Deduct stock
@@ -203,7 +211,9 @@ export class OrderService {
   }
 
   async updateOrderStatus(orderId: string, status: OrderStatus) {
-    const order = await this.prisma.order.findUnique({ where: { id: orderId } });
+    const order = await this.prisma.order.findUnique({
+      where: { id: orderId },
+    });
     if (!order) {
       throw new NotFoundException('Order not found.');
     }

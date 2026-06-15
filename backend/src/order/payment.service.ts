@@ -13,9 +13,13 @@ export class PaymentService implements OnModuleInit {
   onModuleInit() {
     const stripeKey = process.env.STRIPE_SECRET_KEY;
     if (stripeKey && !stripeKey.includes('mock')) {
-      this.stripeClient = new Stripe(stripeKey, { apiVersion: '2025-01-27' as any });
+      this.stripeClient = new Stripe(stripeKey, {
+        apiVersion: '2025-01-27' as any,
+      });
       this.isStripeMock = false;
-      console.log('PaymentService: Stripe client initialized (Live/Test mode).');
+      console.log(
+        'PaymentService: Stripe client initialized (Live/Test mode).',
+      );
     } else {
       console.log('PaymentService: Stripe in Mock mode.');
     }
@@ -28,13 +32,19 @@ export class PaymentService implements OnModuleInit {
         key_secret: rzpSecret,
       });
       this.isRazorpayMock = false;
-      console.log('PaymentService: Razorpay client initialized (Live/Test mode).');
+      console.log(
+        'PaymentService: Razorpay client initialized (Live/Test mode).',
+      );
     } else {
       console.log('PaymentService: Razorpay in Mock mode.');
     }
   }
 
-  async createStripeCheckoutSession(orderId: string, amount: number, customerEmail: string) {
+  async createStripeCheckoutSession(
+    orderId: string,
+    amount: number,
+    customerEmail: string,
+  ) {
     if (this.isStripeMock || !this.stripeClient) {
       return {
         id: `sess_mock_${crypto.randomBytes(8).toString('hex')}`,
@@ -68,7 +78,10 @@ export class PaymentService implements OnModuleInit {
 
       return { id: session.id, url: session.url, mock: false };
     } catch (error) {
-      console.error('PaymentService: Stripe Session creation failed:', error.message);
+      console.error(
+        'PaymentService: Stripe Session creation failed:',
+        error.message,
+      );
       throw error;
     }
   }
@@ -91,14 +104,26 @@ export class PaymentService implements OnModuleInit {
         notes: { orderId },
       };
       const order = await this.razorpayClient.orders.create(options);
-      return { id: order.id, amount: order.amount, currency: order.currency, mock: false };
+      return {
+        id: order.id,
+        amount: order.amount,
+        currency: order.currency,
+        mock: false,
+      };
     } catch (error) {
-      console.error('PaymentService: Razorpay Order creation failed:', error.message);
+      console.error(
+        'PaymentService: Razorpay Order creation failed:',
+        error.message,
+      );
       throw error;
     }
   }
 
-  verifyRazorpaySignature(orderId: string, paymentId: string, signature: string): boolean {
+  verifyRazorpaySignature(
+    orderId: string,
+    paymentId: string,
+    signature: string,
+  ): boolean {
     if (this.isRazorpayMock) {
       return true; // Auto-verify in mock mode
     }
@@ -110,7 +135,10 @@ export class PaymentService implements OnModuleInit {
       const generatedSignature = hmac.digest('hex');
       return generatedSignature === signature;
     } catch (error) {
-      console.error('PaymentService: Signature verification failed:', error.message);
+      console.error(
+        'PaymentService: Signature verification failed:',
+        error.message,
+      );
       return false;
     }
   }
