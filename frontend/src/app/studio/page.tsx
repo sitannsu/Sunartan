@@ -24,7 +24,7 @@ export default function Studio() {
     setCollectionPlan(null);
 
     try {
-      const response = await fetch('http://localhost:4000/api/ai/studio/plan', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/ai/studio/plan`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

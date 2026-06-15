@@ -19,7 +19,7 @@ function CheckoutSuccessPage() {
     // If Stripe session_id exists, trigger payment verification
     if (orderId && token) {
       const paymentId = sessionId || `mock_tx_${Date.now()}`;
-      fetch('http://localhost:4000/api/orders/verify', {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/orders/verify`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -38,7 +38,7 @@ export default function Dashboard() {
     setLoading(true);
 
     if (user?.role === 'CUSTOMER') {
-      fetch('http://localhost:4000/api/orders/customer', {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/orders/customer`, {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => res.json())
@@ -49,12 +49,12 @@ export default function Dashboard() {
         .catch(() => setLoading(false));
     } else if (user?.role === 'ARTISAN') {
       // Fetch artisan orders
-      const fetchOrders = fetch('http://localhost:4000/api/orders/artisan', {
+      const fetchOrders = fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/orders/artisan`, {
         headers: { Authorization: `Bearer ${token}` },
       }).then((res) => res.json());
 
       // Fetch artisan profile/products
-      const fetchProducts = fetch(`http://localhost:4000/api/products/artisans/${user.id}`)
+      const fetchProducts = fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products/artisans/${user.id}`)
         .then((res) => res.json())
         .then((profile) => profile.products || []);
 
@@ -67,15 +67,15 @@ export default function Dashboard() {
         .catch(() => setLoading(false));
     } else if (user?.role === 'ADMIN') {
       // Fetch all products
-      const fetchProducts = fetch('http://localhost:4000/api/products')
+      const fetchProducts = fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products`)
         .then((res) => res.json());
 
       // Fetch all artisans
-      const fetchArtisans = fetch('http://localhost:4000/api/products/artisans')
+      const fetchArtisans = fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products/artisans`)
         .then((res) => res.json());
 
       // Fetch all orders
-      const fetchOrders = fetch('http://localhost:4000/api/orders', {
+      const fetchOrders = fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/orders`, {
         headers: { Authorization: `Bearer ${token}` },
       }).then((res) => res.json());
 
@@ -106,7 +106,7 @@ export default function Dashboard() {
     setProductMessage('');
 
     try {
-      const response = await fetch('http://localhost:4000/api/products', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -143,7 +143,7 @@ export default function Dashboard() {
   const handleUpdateStatus = async (orderId: string, status: string) => {
     if (!token) return;
     try {
-      const response = await fetch(`http://localhost:4000/api/orders/${orderId}/status`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/orders/${orderId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -162,7 +162,7 @@ export default function Dashboard() {
   const handleDeleteProduct = async (productId: string) => {
     if (!token) return;
     try {
-      const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products/${productId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -179,7 +179,7 @@ export default function Dashboard() {
   const handleVerifyArtisan = async (artisanId: string, isVerified: boolean) => {
     if (!token) return;
     try {
-      const response = await fetch(`http://localhost:4000/api/products/artisans/${artisanId}/verify`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products/artisans/${artisanId}/verify`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -35,7 +35,7 @@ export default function Concierge() {
     }
 
     // Load initial conversation from NestJS backend
-    fetch('http://localhost:4000/api/ai/conversation', {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/ai/conversation`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -139,7 +139,7 @@ export default function Concierge() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:4000/api/ai/consult', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/ai/consult`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

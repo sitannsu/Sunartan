@@ -14,7 +14,7 @@ export default function CuratedDiscovery() {
 
   useEffect(() => {
     // Load artisans list from local NestJS backend
-    fetch('http://localhost:4000/api/products/artisans')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products/artisans`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {

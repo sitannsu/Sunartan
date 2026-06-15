@@ -41,7 +41,7 @@ function AuthForm() {
       : { email, password, name, role, bio, region, craft };
 
     try {
-      const response = await fetch(`http://localhost:4000/api/auth/${url}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/auth/${url}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),

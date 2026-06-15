@@ -44,7 +44,7 @@ export default function Checkout() {
         quantity: item.quantity,
       }));
 
-      const response = await fetch('http://localhost:4000/api/orders/checkout', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/orders/checkout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

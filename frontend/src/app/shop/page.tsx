@@ -33,7 +33,7 @@ function ShopCatalog() {
     if (selectedRegion) params.append('region', selectedRegion);
     if (selectedCraft) params.append('craft', selectedCraft);
 
-    fetch(`http://localhost:4000/api/products?${params.toString()}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products?${params.toString()}`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {

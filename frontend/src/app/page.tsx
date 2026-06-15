@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     // Fetch seed products from local NestJS backend
-    fetch('http://localhost:4000/api/products')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
