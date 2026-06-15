@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Elena Vance | CraftRoots Artisan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@300;400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#131f00",
+                    "on-background": "#1c1b1b",
+                    "on-secondary-fixed": "#1e1c12",
+                    "surface-container-high": "#eae7e7",
+                    "secondary-fixed-dim": "#ccc6b7",
+                    "on-surface": "#1c1b1b",
+                    "secondary": "#625e52",
+                    "on-primary-fixed-variant": "#394d14",
+                    "background": "#fcf9f8",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-tint": "#50652a",
+                    "on-tertiary-fixed": "#241a00",
+                    "inverse-primary": "#b6d088",
+                    "primary-container": "#556b2f",
+                    "error": "#ba1a1a",
+                    "surface-container": "#f0eded",
+                    "on-tertiary-container": "#4e3d00",
+                    "surface-container-highest": "#e5e2e1",
+                    "on-primary": "#ffffff",
+                    "outline": "#75796b",
+                    "inverse-on-surface": "#f3f0ef",
+                    "outline-variant": "#c5c8b8",
+                    "surface-bright": "#fcf9f8",
+                    "primary-fixed-dim": "#b6d088",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "on-primary-container": "#d0eba1",
+                    "error-container": "#ffdad6",
+                    "primary": "#3e5219",
+                    "surface-container-low": "#f6f3f2",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#ffe088",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#45483c",
+                    "surface": "#fcf9f8",
+                    "tertiary": "#735c00",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#e5e2e1",
+                    "on-secondary-fixed-variant": "#4a473b",
+                    "surface-dim": "#dcd9d9",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#313030",
+                    "primary-fixed": "#d2eca2",
+                    "secondary-fixed": "#e9e2d2",
+                    "secondary-container": "#e9e2d2",
+                    "tertiary-container": "#cba72f",
+                    "on-secondary-container": "#686457"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "12px",
+                    "xl": "24px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "12px",
+                    "stack-lg": "48px",
+                    "gutter": "24px",
+                    "margin-mobile": "20px",
+                    "unit": "8px",
+                    "stack-md": "24px",
+                    "margin-desktop": "64px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "display-lg": ["EB Garamond"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["EB Garamond"],
+                    "headline-md": ["EB Garamond"],
+                    "headline-sm": ["EB Garamond"],
+                    "display-lg-mobile": ["EB Garamond"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-lg": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-lg-mobile": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fcf9f8;
+            color: #1c1b1b;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0 20px 40px -10px rgba(85, 107, 47, 0.06);
+        }
+        .soft-mask {
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        }
+    </style>
+</head>
+<body class="bg-background">
+<!-- Top Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md shadow-sm dark:shadow-none transition-all duration-500 ease-in-out">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-stack-sm max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md-mobile md:text-headline-md tracking-tight text-primary dark:text-primary-fixed-dim">
+                CraftRoots
+            </div>
+<div class="hidden md:flex items-center gap-gutter">
+<a class="font-body-md text-body-md text-primary dark:text-primary-fixed-dim border-b border-primary dark:border-primary-fixed-dim pb-1 hover:text-primary transition-colors duration-300" href="#">Shop</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Artisans</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Our Story</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary transition-colors duration-300" href="#">Journal</a>
+</div>
+<div class="flex items-center gap-unit*2">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Section 1: Hero -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-stack-lg">
+<div class="relative grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
+<div class="md:col-span-7 relative overflow-hidden rounded-xl h-[500px] md:h-[700px] editorial-shadow">
+<img alt="Elena Vance Artisan Portrait" class="w-full h-full object-cover" data-alt="A sophisticated medium portrait of Elena Vance, a master ceramicist with kind eyes, standing in her sun-drenched Asheville studio. She wears a linen apron dusted with dry clay, surrounded by shelves of unfinished pottery. The lighting is warm and organic, with soft golden beams cutting through the mountain air. The aesthetic is handcrafted luxury, emphasizing textures of clay, wood, and linen in a refined, minimalist workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp4MvAKS2hFLlLYBmovHrdQ-GoJUadjJTZ9jFdX5t2biAuQOWadTpPyqpKuCQLIQLMeDuPfQgE6kb7Otx-zqHhRYu5Dh4YovYb0rrvnnSy8HjiiDl822uwCShY5QSmNC_JJ6U2r0v8ET5_GxeJ7t960MwjoGXivG_Ue0ogJ3KgSZGGtYdM4WuuHuCG0zYjqEgoSASxnUNkzPPWq_IsfATdnWgTxPWSHe1LmWWSvoabmsPi7FrCt6PNow2jfKeZKfX_MsuElfWDNqU"/>
+</div>
+<div class="md:col-span-5 pb-stack-md md:pl-gutter">
+<p class="font-label-md text-label-md uppercase tracking-[0.2em] text-primary mb-2">Master Ceramicist</p>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-background mb-4">Elena Vance</h1>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="location_on">location_on</span>
+<p class="font-body-md text-body-md text-on-surface-variant">Asheville, NC</p>
+<span class="mx-2 text-outline-variant">|</span>
+<p class="font-body-md text-body-md text-on-surface-variant">Root-inspired Ceramics</p>
+</div>
+<div class="flex flex-wrap gap-4 items-center">
+<button class="bg-primary text-on-primary px-10 py-4 rounded-lg font-body-md font-medium hover:bg-primary-container transition-all editorial-shadow">
+                            Follow
+                        </button>
+<div class="flex gap-4 ml-2">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined" data-icon="share">share</span></a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined" data-icon="public">public</span></a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: The Artisan's Story -->
+<section class="bg-surface-container-low py-stack-lg overflow-hidden">
+<div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-5 order-2 md:order-1">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-8">Clay as a Language of Time</h2>
+<div class="space-y-6 font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+<p>For twenty-two years, Elena Vance has practiced the slow, rhythmic dialogue between hand and earth. Her journey began in the rugged peaks of the Blue Ridge Mountains, where the red clay of her ancestral land first spoke to her as a medium of memory.</p>
+<p>“Clay is not just material,” Elena explains, “it is a vessel for time. Each piece I throw on the wheel carries the pressure of the moment, the temperature of the air, and the deep heritage of Appalachian craft.”</p>
+<p>Her signature style—distinguished by organic, root-like textures and wood-fired glazes—has become a hallmark of modern handcrafted luxury, sought after by collectors who value the soul within the object.</p>
+</div>
+</div>
+<div class="md:col-span-6 md:offset-1 order-1 md:order-2 mb-stack-md md:mb-0">
+<div class="relative p-gutter">
+<div class="absolute inset-0 bg-secondary-container/30 -rotate-3 rounded-xl -z-10"></div>
+<img alt="Raw clay and Appalachian landscape" class="w-full rounded-xl editorial-shadow" data-alt="A high-art editorial photograph of raw mountain clay drying on a weathered wooden table next to a window overlooking the lush green Appalachian mountains. The scene is bathed in soft morning mist light, highlighting the rich, earthy textures of the red clay. In the background, a subtle reflection of the craftsman's tools creates a sense of history and heritage. The overall mood is quiet, sophisticated, and deeply rooted in nature." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXFY63TV9iMjTsoCLDhlgfrS9Mx4Yxz5uKHId7jTvZtFQgocAdK2EDgadZuOfvuPVNSR_2a_SVElomBSEAaHVOxkqq18QMEsM3QUqgxVKxmrvrllXgp1-47FDp-Gk8oFXO7FxePz0tCst2mJXedHoWWLvXS-guBxQm9S92RrFSkStO3otnpT04NzHx8nUi8Ec8QXONi8gn3sATw5BtteJTJZu_cKiJ4XN2MF24kwIoc9yT2_nm84Lzxz8P0DxOnRxLpUM-1MomRBc"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Craft & Process Gallery -->
+<section class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="mb-stack-md text-center max-w-2xl mx-auto">
+<h2 class="font-headline-md text-headline-md text-on-background mb-2">The Rhythm of Creation</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">A visual journey through the deliberate, manual processes that define the Vance Studio.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<div class="aspect-[3/4] overflow-hidden rounded-xl group relative">
+<img alt="Hands at the wheel" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A close-up, high-fidelity shot of an artisan's hands covered in wet, grey clay as they masterfully shape a spinning vase on a pottery wheel. The focus is sharp on the texture of the mud and the strength in the fingers. Soft studio lighting highlights the movement of water and clay. The background is a warm, out-of-focus ceramic studio filled with earthen tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeIDDZ4KZPKTvcaop_mF0L2XcAkm7aFVTGjl2wtiGjt6D-u3tKsiWgbYh-TR6MSJenTR7hmAJFIbsQ1xppi4sBf1G9KpkW8MktmIDpTYdse9N1_Ey8vhkahB72CyocSb9XkSmtTqXIj7pnvxIYhcd8eyYWweBuamXt4yXedo20nMjmY_YeqdY0Nlt_CI8d03rw14POiHl-p0bDDY8vLT0IkJiEIJBCUKoevImOJz-lux44BNOK5KDEw8bPhmmaab7zRxodu7v9RlY"/>
+</div>
+<div class="aspect-[3/4] overflow-hidden rounded-xl group mt-gutter md:mt-12 relative">
+<img alt="Wood fired kiln" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="An atmospheric shot of a traditional brick wood-fired kiln during a firing session. Wisps of smoke and a warm orange glow emanate from the openings. The bricks are weathered and charred, telling a story of many fires. The lighting is low and dramatic, focusing on the intense heat and the primitive power of fire as a crafting tool. The style is editorial and moody." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASLGXYQTpE5oW-3_nNAvdlwpRrPs6KjV67uL0VSs6VJL5eTEVRh-LB5jt878O05AUoiMG0nCLyqWxCTuo-xKd92d0-PpnK_fA__7yIWlvZevd9xW2H2UWxJL9-fUkQRjK1e-_ebFusgc7cEEZEprUZmZ_yeBZDG8kyepqoNiGNJG8IT2i2S5tQLs0U0gWYC51f1q57fRDqSg3r4LAO4O3MsaSB4ZXBj5NWVodzeQsj2qlDk__3O8v8XpZBJGbp5mcDPaOtrjvZ7YU"/>
+</div>
+<div class="aspect-[3/4] overflow-hidden rounded-xl group relative">
+<img alt="Studio sketches" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Detailed sketches of organic vase forms on stained parchment paper, lying on a studio workbench. A charcoal pencil rests nearby among scattered bits of dried clay. The sketches are delicate and artistic, showing cross-sections of root-inspired ceramics. The lighting is soft and even, highlighting the artisan's planning process. The color palette is composed of creams, sepias, and charcoal greys." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByVUCB9sEO378EeQ6aBHWUsfbaHzeHXeBZbdD57y_W28EUrWADGtmxLB_bKYz9fz-IY_N2Wr3IJ3i1amd4ojcDzBeTCM2DQrjQ8Yj-_I0NI26cbFXBAPTtR3qIB2HeU2zNJx9vP2AD5H7bLB0YGNTG85NiQXOIgNZQsxln7MpmQG_f-2XEGADaUn2yi-mV3Di0iEh-DVb3laaTMD3xzL27iOHewd6gLY-bvZZBcDXa9uYSF7VZ8dGmuiPXyN8e_703x8Bcfo2_L4c"/>
+</div>
+<div class="aspect-[3/4] overflow-hidden rounded-xl group mt-gutter md:mt-12 relative">
+<img alt="Finished glaze details" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A macro shot of a ceramic surface showing a unique, crackled green and gold glaze that looks like lichen on stone. The texture is extremely detailed, showing crystalline structures and depth within the glass. The light reflects off the subtle sheen of the glaze. It is a portrait of pure craftsmanship and material science, captured in a luxurious, minimalist style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlY2r-7SEiDWdAZBRfYKFDy8I27Mf8Kc8Ea3aRuuPlYZKhAJcyBLKA5zuKOgmB6GJMcfkIkHB0xOs99-qsgDFl3yjbvELn-Yr6dJu5D4uswjNToNTcpN3FxjUFEV_KkNCRM4RMvLe8VLqOrLCWUo6CsA3wOdZYaiQDSdbG-zcHoWdyiQ5Oz_RU4RGXIkZmQMBxJO8IjQod-08G2WK1Gui7gd-y82Cgyk8eiOTrd5UEAInrWO5F5pzTOPg-vu2MO55ibBm0Oww3o88"/>
+</div>
+</div>
+</section>
+<!-- Section 4: Video Feature -->
+<section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mb-stack-lg">
+<div class="relative h-[400px] md:h-[600px] rounded-xl overflow-hidden editorial-shadow group cursor-pointer">
+<img alt="Film Thumbnail" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="A wide, cinematic landscape of a potter's studio at dusk. Elena Vance is seen as a silhouette working at her wheel in front of a large window. Outside, the blue mountains fade into the twilight. Inside, a single warm lamp illuminates the clay and her hands. The image serves as a movie poster or thumbnail, titled 'The Rhythm of the Wheel', with a quiet, poetic, and high-end cinematic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrx9HhDHWS5l9XM7t_Sicpm4Jd2P1qz1iEKpp0fcZRxJCtLKuQfLjxeTy57R0nZ57FS1xlVni_YGvNPxAG_cmj5XM9YrMIBvHwSZMC_NHIq6sFTrfwbw009eNuO4RTDoTNNrlrhGN1pvcrrzZ5CEFXKcVqLWjc9QpucqMGjNmdtDtATPreAKIg-5RoKXn2D8e1kJfFOBQlv2D_Hf8xV3jUxIDfq7YJnbisdS9yAQaoysBjk7WcVslIzw9-CMIOsmXrxEjj8r0Rnts"/>
+<div class="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-center p-gutter">
+<div class="w-20 h-20 bg-white/20 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-white text-4xl" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<p class="font-label-md text-label-md text-white/80 uppercase tracking-widest mb-2">Short Film</p>
+<h3 class="font-display-lg text-headline-lg text-white">The Rhythm of the Wheel</h3>
+</div>
+</div>
+</section>
+<!-- Section 5: Shop the Collection -->
+<section class="py-stack-lg bg-white">
+<div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="flex justify-between items-end mb-stack-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">Latest Works</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Small-batch releases from the winter kiln firing.</p>
+</div>
+<a class="font-label-md text-label-md text-primary border-b border-primary-fixed-dim pb-1 hover:border-primary transition-all" href="#">View Full Gallery</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Product Card 1 -->
+<div class="group">
+<div class="aspect-[4/5] bg-surface-container-low rounded-t-xl overflow-hidden mb-stack-sm relative">
+<img alt="The Ridge Vase" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A tall, slender ceramic vase with a deeply textured surface resembling weathered tree bark or mountain ridges. The glaze is a subtle matte forest green with iron specks. It sits on a minimalist white stone pedestal in a gallery-like setting with soft directional lighting. The photo emphasizes the handcrafted imperfections and the luxurious, tactile quality of the art piece." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjAIyolKkD9cfQQEJvN-7rLwtdFvhi3kFpXA9_lPuLvEeGBZYOtzRsv8ftwMhjJPW60gnS5MbFUMJ6kuP0Ec885MmC1_IKbNK19A56Y5euN7gmvR8dhN6lMjUD8BmQI_v_AXomwA7NMJiwV0O6d0LyqFSkk3FX1s1RhwpzuozwUf6X4-f89rKv5A4Aqg9Gwc6m2c5UVqlhjXERRI8PWri1hYt6vBON3MNyu2hep5wWNqwPOTM2WkCQXtT6NgFDX69kyo3O2ztiX0c"/>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="px-2">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Limited Edition</p>
+<h4 class="font-headline-sm text-headline-sm text-on-background mb-2">The Ridge Vase</h4>
+<p class="font-body-md text-body-md text-primary font-medium">$420.00</p>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group">
+<div class="aspect-[4/5] bg-surface-container-low rounded-t-xl overflow-hidden mb-stack-sm relative">
+<img alt="Lichen Tea Set" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A delicate three-piece ceramic tea set including a teapot and two small cups. The glaze is a pale, crackled celadon that resembles lichen growing on river stones. The set is beautifully arranged on a dark walnut tray. The lighting is soft and serene, highlighting the thin, refined walls of the pottery. The aesthetic is high-end, minimalist luxury craft." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEUX5_4enR42SWw5Euc39Zx9tOTXK2xBUZgkUB6yOVBRpi-83PqOoUHPAHRf94LF2XCmmKW06iUn0kZz_CdvpnAKCs76GbXulyJaAiO3ZS9Ur-OcTzAh8H93xnWKdwJ2tASZQpHYjy7ZMws_mO5ni6XS7sjqYw9LCUyfphI8hdIyqnXpC8C6KABABNR4ZcvJh4jG4D0UMcPejVxl1608-zhqhqFYxPIJomHO1t-DZq6DcAyoNxQDvW7jWyc1rNBacMBkJNZ_SZBEg"/>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="px-2">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Vance Signature</p>
+<h4 class="font-headline-sm text-headline-sm text-on-background mb-2">Lichen Tea Set</h4>
+<p class="font-body-md text-body-md text-primary font-medium">$585.00</p>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group">
+<div class="aspect-[4/5] bg-surface-container-low rounded-t-xl overflow-hidden mb-stack-sm relative">
+<img alt="Earth Heart Bowl" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A wide, shallow ceramic bowl with an irregular organic rim. The interior is glazed with a deep, glossy earth-tone pooling at the center, while the exterior remains raw and unglazed, showing the natural red clay of the Appalachian mountains. The bowl is captured from a top-down artistic angle, emphasizing its sculptural form and the contrast of textures. High-end editorial photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkqSKbr0H8v4G9-L0uSR5JjTZAasKukCPSVqaq5mgeH0z5K47t-k6lRKftcMExelLDx9H_Y3mlnJJV5Ngii96dDCWLjHn-JKzEilgWyhVCBwUXwlc4WJa-V9Uyg4KfEEbLfJV9AyqxJQfkfHFUfhYDxTMn0jgoU7rH0e8O9gdPQ_mgzI7DRcbVOPLQ1PPja_E3AxZcCAxuNSbs46e7ylkjgVfODpXXSScM6qJpx5joDNPIKAk3zL7nmyK1biA4SB7LEFfwI0_UapE"/>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="px-2">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">One of One</p>
+<h4 class="font-headline-sm text-headline-sm text-on-background mb-2">Earth Heart Bowl</h4>
+<p class="font-body-md text-body-md text-primary font-medium">$310.00</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: Reviews & Impact -->
+<section class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-4 border-l-2 border-primary-container pl-gutter mb-stack-md md:mb-0">
+<h2 class="font-headline-sm text-headline-sm text-primary mb-6">Sustainability in the Studio</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Elena's practice is closed-loop. She sources 80% of her clay locally and uses a wood-fired kiln fueled by fallen mountain timber, ensuring every piece has a minimal carbon footprint.</p>
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined" data-icon="eco">eco</span>
+<span class="material-symbols-outlined" data-icon="recycling">recycling</span>
+<span class="material-symbols-outlined" data-icon="local_fire_department">local_fire_department</span>
+</div>
+</div>
+<div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+<div class="bg-surface-container-lowest p-gutter rounded-xl shadow-sm italic text-on-surface-variant">
+<div class="flex gap-1 text-tertiary mb-4">
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md mb-6">“Owning a piece from Elena is like owning a fragment of the mountains. The texture is incredible, and the weight of the piece feels grounding in a way modern decor never does.”</p>
+<p class="font-label-md not-italic font-semibold">— Julianne M., San Francisco</p>
+</div>
+<div class="bg-surface-container-lowest p-gutter rounded-xl shadow-sm italic text-on-surface-variant">
+<div class="flex gap-1 text-tertiary mb-4">
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md mb-6">“The Ridge Vase is the centerpiece of my collection. You can feel the intention in every curve. Her work is truly a masterclass in organic luxury.”</p>
+<p class="font-label-md not-italic font-semibold">— David Thorne, Collector</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Shell -->
+<footer class="bg-surface-container dark:bg-surface-container-low w-full pt-stack-lg pb-stack-md mt-stack-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="flex flex-col gap-unit*2">
+<div class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed-dim mb-4">CraftRoots</div>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant">Honoring the hand that makes. Connecting collectors with global masters.</p>
+</div>
+<div class="flex flex-col gap-unit">
+<p class="font-label-md text-label-md text-primary mb-2">Shop</p>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Ceramics</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Textiles</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Woodwork</a>
+</div>
+<div class="flex flex-col gap-unit">
+<p class="font-label-md text-label-md text-primary mb-2">Company</p>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Sustainability</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Shipping</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Privacy Policy</a>
+</div>
+<div class="flex flex-col gap-unit">
+<p class="font-label-md text-label-md text-primary mb-2">Connect</p>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Instagram</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Newsletter</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Contact Us</a>
+</div>
+</div>
+<div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mt-stack-lg pt-stack-sm border-t border-outline-variant/30 text-center">
+<p class="font-label-md text-label-md text-on-surface-variant opacity-80">© 2024 CraftRoots. Honoring the hand that makes.</p>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for follow button
+        const followBtn = document.querySelector('button');
+        if(followBtn && followBtn.innerText === 'Follow') {
+            followBtn.addEventListener('click', () => {
+                followBtn.innerText = followBtn.innerText === 'Follow' ? 'Following' : 'Follow';
+                followBtn.classList.toggle('bg-primary');
+                followBtn.classList.toggle('bg-secondary');
+            });
+        }
+    </script>
+</body></html>

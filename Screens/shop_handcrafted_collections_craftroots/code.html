@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Collections | CraftRoots - Handcrafted Luxury</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#45483c",
+                    "tertiary-container": "#cba72f",
+                    "tertiary": "#735c00",
+                    "primary-fixed-dim": "#b6d088",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#686457",
+                    "on-primary-fixed": "#131f00",
+                    "secondary": "#625e52",
+                    "primary-container": "#556b2f",
+                    "surface-container-low": "#f6f3f2",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#394d14",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "surface-container": "#f0eded",
+                    "tertiary-fixed": "#ffe088",
+                    "surface-container-highest": "#e5e2e1",
+                    "surface-variant": "#e5e2e1",
+                    "on-primary-container": "#d0eba1",
+                    "surface-container-high": "#eae7e7",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#e9e2d2",
+                    "inverse-on-surface": "#f3f0ef",
+                    "on-background": "#1c1b1b",
+                    "on-secondary-fixed": "#1e1c12",
+                    "primary-fixed": "#d2eca2",
+                    "surface-bright": "#fcf9f8",
+                    "on-tertiary-container": "#4e3d00",
+                    "on-secondary-fixed-variant": "#4a473b",
+                    "secondary-fixed-dim": "#ccc6b7",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#313030",
+                    "on-tertiary-fixed": "#241a00",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#e9e2d2",
+                    "error": "#ba1a1a",
+                    "primary": "#3e5219",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "on-surface": "#1c1b1b",
+                    "outline": "#75796b",
+                    "surface-dim": "#dcd9d9",
+                    "background": "#fcf9f8",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#b6d088",
+                    "error-container": "#ffdad6",
+                    "surface": "#fcf9f8",
+                    "surface-tint": "#50652a",
+                    "outline-variant": "#c5c8b8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-mobile": "20px",
+                    "stack-md": "24px",
+                    "margin-desktop": "64px",
+                    "container-max": "1280px",
+                    "stack-lg": "48px",
+                    "stack-sm": "12px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "headline-sm": ["EB Garamond"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["EB Garamond"],
+                    "headline-md": ["EB Garamond"],
+                    "headline-lg": ["EB Garamond"],
+                    "display-lg-mobile": ["EB Garamond"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                    "headline-lg": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fcf9f8;
+            color: #1c1b1b;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .product-card-image-container {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .product-card:hover .product-card-image-container {
+            transform: scale(1.02);
+        }
+        .quick-view-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .product-card:hover .quick-view-overlay {
+            opacity: 1;
+        }
+        .custom-shadow {
+            box-shadow: 0 20px 40px -10px rgba(85, 107, 47, 0.06);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-12">
+<a class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tight" href="#">CraftRoots</a>
+<div class="hidden md:flex gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md" href="#">Shop</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md" href="#">Artisans</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md" href="#">Our Story</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md" href="#">Collections</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 font-body-md" placeholder="Search crafts..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all active:scale-95 relative">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="absolute -top-1 -right-1 bg-primary text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">2</span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-stack-lg max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Header Section -->
+<header class="mb-12">
+<nav class="flex text-label-sm text-on-surface-variant mb-4 gap-2">
+<a class="hover:text-primary" href="#">Home</a>
+<span>/</span>
+<span class="text-primary font-semibold">All Collections</span>
+</nav>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-4">The Masterpiece Gallery</h1>
+<p class="font-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+                Discover a curated selection of heirloom-quality crafts, each verified by the Geographical Indication registry and handcrafted by India's most skilled national award-winning artisans.
+            </p>
+</header>
+<div class="flex flex-col lg:flex-row gap-gutter">
+<!-- Sidebar Filters -->
+<aside class="w-full lg:w-64 flex-shrink-0">
+<div class="sticky top-28 space-y-8">
+<div>
+<h3 class="font-label-md uppercase tracking-wider text-primary mb-4">Price Range</h3>
+<div class="space-y-4">
+<input class="w-full h-1 bg-secondary-container rounded-lg appearance-none cursor-pointer accent-primary" max="50000" min="0" step="500" type="range"/>
+<div class="flex justify-between text-label-sm text-on-secondary-container">
+<span>₹1,000</span>
+<span>₹50,000+</span>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 pt-6">
+<h3 class="font-label-md uppercase tracking-wider text-primary mb-4">Craft Type</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="font-body-md group-hover:text-primary transition-colors">Hand-woven Textiles</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="font-body-md group-hover:text-primary transition-colors">Brass &amp; Metal Craft</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded border-outline-variant text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="font-body-md group-hover:text-primary transition-colors">Hand-painted Art</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="font-body-md group-hover:text-primary transition-colors">Terracotta Pottery</span>
+</label>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 pt-6">
+<h3 class="font-label-md uppercase tracking-wider text-primary mb-4">Origin (State)</h3>
+<select class="w-full bg-surface-container-low border border-outline-variant rounded-xl py-2 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none font-body-md">
+<option>All of India</option>
+<option>Gujarat</option>
+<option>Odisha</option>
+<option>Rajasthan</option>
+<option>Assam</option>
+</select>
+</div>
+<div class="border-t border-outline-variant/30 pt-6">
+<h3 class="font-label-md uppercase tracking-wider text-primary mb-4">Certifications</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<div class="flex items-center gap-1">
+<span class="font-body-md group-hover:text-primary transition-colors">GI Tagged</span>
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="verified">verified</span>
+</div>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="font-body-md group-hover:text-primary transition-colors">Verified Artisan</span>
+</label>
+</div>
+</div>
+<button class="w-full py-3 bg-secondary-container text-primary font-label-md rounded-xl hover:bg-primary hover:text-white transition-all duration-300">Clear All Filters</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1">
+<!-- Toolbar -->
+<div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 bg-surface-container-low p-4 rounded-2xl">
+<span class="text-on-surface-variant font-label-sm">Showing 1-12 of 148 results</span>
+<div class="flex items-center gap-4">
+<span class="text-on-surface-variant font-label-md">Sort by:</span>
+<select class="bg-transparent border-none focus:ring-0 font-label-md text-primary cursor-pointer">
+<option>Newest Arrivals</option>
+<option>Most Popular</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+</select>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-gutter gap-y-12">
+<!-- Product Card 1 -->
+<div class="product-card group cursor-pointer">
+<div class="relative overflow-hidden rounded-t-[24px] bg-secondary-container/30 aspect-[4/5] product-card-image-container">
+<img class="w-full h-full object-cover" data-alt="A close-up high-resolution photograph of an intricate hand-painted Pattachitra scroll from Odisha, showcasing traditional mythological motifs in vibrant natural dyes of vermillion red, deep indigo, and ochre yellow. The lighting is soft and directional, highlighting the fine brushwork and organic texture of the handmade canvas in a bright, modern studio setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuuGYK1Zz759OmhhHiy6Trjlc-aCU_UG3Hcntd3rUYUSz3OeMzuMIMtY2jgo75m8kKU3BLYdXRRFH1OzaJalu9nIz9xHG7IT1v-nWP__SEQlC-p5wIHnztdE9LH1LZX3el4T3J7ptFldfQS5O6HbS-1RlAr4L_0_AcMowGyd9I3eNtp93tuAmZ9-g_P1g0d7fNyylP5T_Kp_AZS_sx4LRhT-vixhEybKKkHSKp1IVCXJoxhcXhsJsy_45Yg_pw_GhNFNo2UN55x20"/>
+<div class="quick-view-overlay absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[2px]">
+<button class="bg-white text-primary px-8 py-3 rounded-xl font-label-md shadow-xl hover:bg-primary hover:text-white transition-all transform hover:-translate-y-1">Quick View</button>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary shadow-sm hover:bg-primary hover:text-white transition-all active:scale-90">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+</button>
+<div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-tertiary" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-label-md uppercase tracking-widest text-primary">GI Tagged</span>
+</div>
+</div>
+<div class="mt-6 space-y-2">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm uppercase tracking-widest text-on-secondary-container">By Master Somnath Das, Odisha</p>
+<h3 class="font-headline-sm text-primary mt-1">Ethereal Krishna Pattachitra</h3>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md text-on-surface">4.9</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-2">
+<span class="font-headline-sm text-primary">₹24,500</span>
+<button class="p-2 border border-primary text-primary rounded-xl hover:bg-primary hover:text-white transition-all active:scale-95 group/btn">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="product-card group cursor-pointer">
+<div class="relative overflow-hidden rounded-t-[24px] bg-secondary-container/30 aspect-[4/5] product-card-image-container">
+<img class="w-full h-full object-cover" data-alt="A detailed, premium photograph of a hand-cast brass Nataraja statue, exhibiting a rich antique patina. The sculpture is set against a clean, warm cream background with soft shadows, capturing the fluid movement and divine poise of the traditional craft. The image is bright and editorial, emphasizing the metallic luster and the meticulous handcrafted details of the Lost Wax process." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu9OaXgQCCSdQKoyMcRchaux2IQLP4Y6YtVdUZnT0b1zTsf_Boiu5VDd_516cH4VtIyyl_6YxAvD1sPtXyd4cRgfv5SgGkbdVY6vHiTRjq7sQ0nB6xKy0iU0EisL9NLFpFHJ8WYXhdhS8d7mnapR6hNkTFaRikMP8YS4B5Q05-HZGp7WJ3LflCd3lJ4GFpyNnnpOKWYvkkx1Cyu6ig_291cVVyFW0aPAUfUN8-D2bi-UU4NrbnTOeBLjYw-72CyRgUZNlGxAwuPzI"/>
+<div class="quick-view-overlay absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[2px]">
+<button class="bg-white text-primary px-8 py-3 rounded-xl font-label-md shadow-xl hover:bg-primary hover:text-white transition-all transform hover:-translate-y-1">Quick View</button>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary shadow-sm hover:bg-primary hover:text-white transition-all active:scale-90">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="mt-6 space-y-2">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm uppercase tracking-widest text-on-secondary-container">By Meenakshi S., Tamil Nadu</p>
+<h3 class="font-headline-sm text-primary mt-1">Celestial Cosmic Dance</h3>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md text-on-surface">4.8</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-2">
+<span class="font-headline-sm text-primary">₹38,200</span>
+<button class="p-2 border border-primary text-primary rounded-xl hover:bg-primary hover:text-white transition-all active:scale-95 group/btn">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="product-card group cursor-pointer">
+<div class="relative overflow-hidden rounded-t-[24px] bg-secondary-container/30 aspect-[4/5] product-card-image-container">
+<img class="w-full h-full object-cover" data-alt="An editorial shot of a luxurious, hand-spun Pashmina shawl in a soft, dusty rose hue, draped elegantly over a minimalist wooden form. The focus is on the incredible fine-gauge weave and the delicate hand-embroidery along the borders, depicting traditional paisley patterns. The setting is bright and spacious, using natural light to emphasize the soft, tactile quality and high-end artisanal heritage." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYqxMwgC-fUy-h6C9kKmhTWA9VLLVCdjcydNzpBsmWaPRDEeHsR0G_3TyxZ72pEjwZGjRFcSSKSDwdg4vAjDR7q3_fCFpuwFEVDt2toZr9m-k6VXpw_xauTdLbto0-0Y6Tb5FS2YJyQKB7gyWnEi00PldYs0sHSOnXa7Ay-7u4pEJifS8Trk0p15N68gJjfGwTJs6fTzpqA5ZSxRlQDiCh4RQSEgl9Njzz118Y4bj2X_Bu0ofkU9EB-LC7CyI5Cf4iwiAN0pLz5uU"/>
+<div class="quick-view-overlay absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[2px]">
+<button class="bg-white text-primary px-8 py-3 rounded-xl font-label-md shadow-xl hover:bg-primary hover:text-white transition-all transform hover:-translate-y-1">Quick View</button>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary shadow-sm hover:bg-primary hover:text-white transition-all active:scale-90">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+</button>
+<div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-tertiary" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-label-md uppercase tracking-widest text-primary">Certified Pashmina</span>
+</div>
+</div>
+<div class="mt-6 space-y-2">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm uppercase tracking-widest text-on-secondary-container">By Bashir Ahmad, Kashmir</p>
+<h3 class="font-headline-sm text-primary mt-1">Sozni Rose Pashmina</h3>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md text-on-surface">5.0</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-2">
+<span class="font-headline-sm text-primary">₹42,000</span>
+<button class="p-2 border border-primary text-primary rounded-xl hover:bg-primary hover:text-white transition-all active:scale-95 group/btn">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="product-card group cursor-pointer">
+<div class="relative overflow-hidden rounded-t-[24px] bg-secondary-container/30 aspect-[4/5] product-card-image-container">
+<img class="w-full h-full object-cover" data-alt="A wide-angle, high-end catalog image of a hand-knotted wool rug featuring intricate Persian-inspired floral motifs in a palette of forest green, burnt orange, and cream. The rug is showcased in a sunlit, minimalist living room with white walls and blonde wood floors, creating a luxurious and serene atmosphere. The texture of the high-pile wool is clearly visible under soft, ambient morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhUHJmL8nkQL3A-ILRDxzwWsoXb_QwD6afyBaaqeGIaDk8yzYUkFdgNPeN-xrp0ttq6UnxTkNxhUn--4jZjjckNllrK3yw78mSuxu405gjSAh2rkOGImTOKjrn749RiAm-m_vFPeCNwlcF2hyD0ogp0n09T1JtzkehWSO35mz6uuBN7GsmxQ9zTLxfGrMGvGwCRbQfDPJlsWn9kkQOfcoGjfLH7rbSqajNJ7s77nHUoBdtFZ7DbRvgbfcgeQnG2_GFSgUVCTS6Vrc"/>
+<div class="quick-view-overlay absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[2px]">
+<button class="bg-white text-primary px-8 py-3 rounded-xl font-label-md shadow-xl hover:bg-primary hover:text-white transition-all transform hover:-translate-y-1">Quick View</button>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary shadow-sm hover:bg-primary hover:text-white transition-all active:scale-90">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="mt-6 space-y-2">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm uppercase tracking-widest text-on-secondary-container">By Rahim Ali, Uttar Pradesh</p>
+<h3 class="font-headline-sm text-primary mt-1">Heritage Floral Knotted Rug</h3>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md text-on-surface">4.7</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-2">
+<span class="font-headline-sm text-primary">₹55,000</span>
+<button class="p-2 border border-primary text-primary rounded-xl hover:bg-primary hover:text-white transition-all active:scale-95 group/btn">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="product-card group cursor-pointer">
+<div class="relative overflow-hidden rounded-t-[24px] bg-secondary-container/30 aspect-[4/5] product-card-image-container">
+<img class="w-full h-full object-cover" data-alt="A macro-photograph of a handcrafted terracotta vase from Rajasthan, featuring delicate hand-etched tribal patterns and a rich, earthy umber finish. The vase is placed on a textured stone surface under warm, golden hour light that accentuates the organic curves and the artisanal variations in the clay. The background is a soft, out-of-focus desert landscape, reflecting the craft's geographical origin and soul." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjTLK6Qi0u8eQHiMTtVyDfERPPvuaNwn0GkzDTe30osKipecX3s3aafR9G2uE5fYN8tyaPlI3BjPNFgZo3Gx7latM2ic0o4Y4ucWPediaovfy-o5YDD2nMdYUHwIp3buOZ0vJFaB8gsNYJTF3V9M6ECuE-W_xh8Wxmo1cLYa1R8UfPGwrfc-9HIjW8dM0jf-XlyTGlfMeJHr_fMImpzL8QkY3-HeW_yWUVHkNTwHKvZVPySoa0tpAeLvAV9hF5ubIoRoyzGKEDx7E"/>
+<div class="quick-view-overlay absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[2px]">
+<button class="bg-white text-primary px-8 py-3 rounded-xl font-label-md shadow-xl hover:bg-primary hover:text-white transition-all transform hover:-translate-y-1">Quick View</button>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary shadow-sm hover:bg-primary hover:text-white transition-all active:scale-90">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="mt-6 space-y-2">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm uppercase tracking-widest text-on-secondary-container">By Keshav Prajapati, Rajasthan</p>
+<h3 class="font-headline-sm text-primary mt-1">Desert Soul Terra Vase</h3>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md text-on-surface">4.6</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-2">
+<span class="font-headline-sm text-primary">₹8,400</span>
+<button class="p-2 border border-primary text-primary rounded-xl hover:bg-primary hover:text-white transition-all active:scale-95 group/btn">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="product-card group cursor-pointer">
+<div class="relative overflow-hidden rounded-t-[24px] bg-secondary-container/30 aspect-[4/5] product-card-image-container">
+<img class="w-full h-full object-cover" data-alt="A sophisticated editorial image of a blue-pottery platter from Jaipur, adorned with classic cobalt blue and turquoise floral patterns against a crisp white glaze. The platter is positioned on a rustic wooden dining table alongside organic elements like a linen napkin and a single sprig of greenery. Bright, overhead natural lighting creates soft highlights on the glossy ceramic surface, emphasizing the handcrafted luxury feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAedi9snJf1YctLqv_mVBnnIhH-umO71lLW_Nh8o4ezTVbpKNTpa5OD2QvH4DN-aZf7tpY3FqtTkxuZ8iRdCwy2oURk2-xLrDaSePZIlFMyiPnhIesj7tC6er1a5GjpiMpSw2HKfK7gfOXJo87BzLf5o8fYdEG1sRdIQNvD1zmYzQLGIVsZlDl0hjtd4btnsAyhbICbWsamgFDINxtfjwo1FCNm14fZrflPnudnAxdBpRakB_iZCSJspWK1NlyE8q31ShRhgoMZQKA"/>
+<div class="quick-view-overlay absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[2px]">
+<button class="bg-white text-primary px-8 py-3 rounded-xl font-label-md shadow-xl hover:bg-primary hover:text-white transition-all transform hover:-translate-y-1">Quick View</button>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary shadow-sm hover:bg-primary hover:text-white transition-all active:scale-90">
+<span class="material-symbols-outlined text-[20px]" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="mt-6 space-y-2">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm uppercase tracking-widest text-on-secondary-container">By Anjali Verma, Rajasthan</p>
+<h3 class="font-headline-sm text-primary mt-1">Royal Blue Pottery Platter</h3>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md text-on-surface">4.9</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-2">
+<span class="font-headline-sm text-primary">₹12,600</span>
+<button class="p-2 border border-primary text-primary rounded-xl hover:bg-primary hover:text-white transition-all active:scale-95 group/btn">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-20 flex justify-center items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white font-label-md">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant hover:border-primary hover:text-primary transition-all font-label-md">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant hover:border-primary hover:text-primary transition-all font-label-md">3</button>
+<span class="mx-2 text-on-surface-variant">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant hover:border-primary hover:text-primary transition-all font-label-md">12</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-outline-variant hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Artisan Feature Section (Asymmetric Bento Grid Element) -->
+<section class="bg-secondary-container py-stack-lg overflow-hidden">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="flex flex-col lg:flex-row items-center gap-16">
+<div class="w-full lg:w-1/2 relative">
+<div class="aspect-[16/10] overflow-hidden rounded-[40px] custom-shadow">
+<img class="w-full h-full object-cover" data-alt="A soulful, environmental portrait of an elderly master weaver sitting at a traditional large wooden handloom in a sun-drenched rural courtyard. Dust motes dance in the light as his wrinkled, expert hands guide the shuttle through fine cotton threads. The overall mood is quiet, dignified, and timeless, emphasizing the human soul and ancient tradition behind every piece of handcrafted textile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuATSU8xQBHtZM2vbKDQ-dsXu1KO5nImaBmD6nitr3wSjftnyY5WmchfnpUnrUi-U08e-SRJoXFB6_IXY58X1CofpOLtko_kntp9jLboK1jE1UAcoNarO9b_8RBrOBO16R9tKg3EdH2ELYzxvmzLJup5DMozk-GrrJPVrbTRNVug6SYCHjIDIJC75IhzVtMu77h53hzmrul1pTTEtq5orDGvt4R8_8XHD1f_HeCiSQIm_pGJWopzz2SWBwMQuURJKw6FiNG21rrHrc0"/>
+</div>
+<div class="absolute -bottom-8 -right-8 bg-surface p-8 rounded-[32px] shadow-2xl hidden md:block max-w-[280px]">
+<p class="font-headline-sm text-primary italic mb-2">"Each thread is a prayer, each knot a legacy."</p>
+<p class="text-label-sm uppercase tracking-widest text-on-secondary-container">— Shri Ram Singh, Weaver</p>
+</div>
+</div>
+<div class="w-full lg:w-1/2 space-y-6">
+<span class="text-label-md uppercase tracking-widest text-tertiary">Our Ethical Commitment</span>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary leading-tight">Tracing the Heart of the Craft</h2>
+<p class="font-body-lg text-on-secondary-container leading-relaxed">
+                        Beyond the product, we invest in the person. CraftRoots guarantees 100% fair-wage transparency and direct-to-artisan payouts. By shopping this collection, you support the preservation of endangered techniques that have been passed down for over seven generations.
+                    </p>
+<div class="flex gap-4 pt-4">
+<button class="bg-primary text-white px-10 py-4 rounded-xl font-label-md hover:opacity-90 transition-all shadow-lg active:scale-95">Our Artisan Charter</button>
+<button class="border border-primary text-primary px-10 py-4 rounded-xl font-label-md hover:bg-primary hover:text-white transition-all active:scale-95">Sustainability Report</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-secondary-container dark:bg-surface-container-highest w-full mt-stack-lg">
+<div class="flex flex-col md:flex-row justify-between items-center gap-stack-md w-full px-margin-mobile md:px-margin-desktop py-stack-lg max-w-container-max mx-auto">
+<div class="flex flex-col gap-4">
+<span class="font-headline-sm text-headline-sm text-primary">CraftRoots</span>
+<p class="font-body-md text-body-md text-on-secondary-container max-w-xs">Connecting the world to India's most profound artisanal legacies through ethical commerce.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-on-secondary-container hover:text-primary transition-all font-body-md" href="#">Privacy Policy</a>
+<a class="text-on-secondary-container hover:text-primary transition-all font-body-md" href="#">Shipping &amp; Returns</a>
+<a class="text-on-secondary-container hover:text-primary transition-all font-body-md" href="#">Artisan Portal</a>
+<a class="text-on-secondary-container hover:text-primary transition-all font-body-md" href="#">Sustainability</a>
+</div>
+<div class="flex flex-col items-end gap-4">
+<div class="flex gap-4">
+<a class="w-10 h-10 flex items-center justify-center rounded-full bg-surface/50 text-primary hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="w-10 h-10 flex items-center justify-center rounded-full bg-surface/50 text-primary hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined">public</span></a>
+</div>
+<p class="font-body-md text-body-md text-on-secondary-container">© 2024 CraftRoots. Handcrafted with intention.</p>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions and subtle scroll effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const productCards = document.querySelectorAll('.product-card');
+            
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('opacity-100', 'translate-y-0');
+                            entry.target.classList.remove('opacity-0', 'translate-y-8');
+                        }, index * 100);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            productCards.forEach(card => {
+                card.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-700', 'ease-out');
+                observer.observe(card);
+            });
+
+            // Sticky Header background change on scroll
+            const nav = document.querySelector('nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    nav.classList.add('shadow-md');
+                    nav.classList.remove('shadow-sm');
+                } else {
+                    nav.classList.add('shadow-sm');
+                    nav.classList.remove('shadow-md');
+                }
+            });
+        });
+    </script>
+</body></html>

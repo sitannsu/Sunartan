@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CraftRoots | Artisan Concierge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Source+Sans+3:ital,wght@0,200..900;1,200..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "primary-container": "#556b2f",
+                    "inverse-primary": "#b6d088",
+                    "surface-container-lowest": "#ffffff",
+                    "background": "#fcf9f8",
+                    "on-tertiary-fixed": "#1c1c18",
+                    "surface-tint": "#50652a",
+                    "on-surface": "#1c1b1b",
+                    "secondary-fixed-dim": "#e9c349",
+                    "secondary": "#735c00",
+                    "on-primary-fixed-variant": "#394d14",
+                    "on-background": "#1c1b1b",
+                    "on-primary-fixed": "#131f00",
+                    "surface-container-high": "#eae7e7",
+                    "on-secondary-fixed": "#241a00",
+                    "outline-variant": "#c5c8b8",
+                    "inverse-on-surface": "#f3f0ef",
+                    "surface-container-highest": "#e5e2e1",
+                    "outline": "#75796b",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-container": "#e4e1da",
+                    "surface-container": "#f0eded",
+                    "on-surface-variant": "#45483c",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#c9c6c0",
+                    "tertiary": "#4d4c47",
+                    "surface": "#fcf9f8",
+                    "tertiary-fixed": "#e5e2db",
+                    "primary": "#3e5219",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f6f3f2",
+                    "surface-bright": "#fcf9f8",
+                    "primary-fixed-dim": "#b6d088",
+                    "on-primary-container": "#d0eba1",
+                    "on-tertiary-fixed-variant": "#474742",
+                    "tertiary-container": "#65645f",
+                    "on-secondary-container": "#745c00",
+                    "secondary-fixed": "#ffe088",
+                    "secondary-container": "#fed65b",
+                    "surface-dim": "#dcd9d9",
+                    "on-secondary-fixed-variant": "#574500",
+                    "primary-fixed": "#d2eca2",
+                    "inverse-surface": "#313030",
+                    "on-error": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#e5e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "margin-desktop": "64px",
+                    "unit": "8px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "display-lg": ["EB Garamond"],
+                    "body-sm": ["Source Sans 3"],
+                    "display-lg-mobile": ["EB Garamond"],
+                    "label-caps": ["Source Sans 3"],
+                    "headline-md": ["EB Garamond"],
+                    "body-lg": ["Source Sans 3"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .concierge-border { border-left: 1px solid #735c00; } /* Antique Gold */
+        .glass-effect { backdrop-filter: blur(8px); background: rgba(252, 249, 248, 0.8); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-lg min-h-screen flex flex-col">
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-headline-md text-primary tracking-tight">CraftRoots</span>
+<div class="hidden md:flex items-center gap-2 bg-primary-container/10 px-3 py-1 rounded-full">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-primary uppercase">Consultation in Progress</span>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-caps text-label-caps uppercase" href="#">Collection</a>
+<a class="text-primary border-b border-primary font-label-caps text-label-caps uppercase" href="#">Concierge</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-caps text-label-caps uppercase" href="#">Discovery</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-caps text-label-caps uppercase" href="#">Studio</a>
+</nav>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary cursor-pointer active:opacity-70">shopping_bag</span>
+<span class="material-symbols-outlined text-primary cursor-pointer active:opacity-70">person</span>
+</div>
+</header>
+<main class="flex-grow pt-24 pb-32 px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter max-w-container-max mx-auto w-full">
+<aside class="md:col-span-4 flex flex-col gap-8 overflow-y-auto no-scrollbar max-h-[calc(100vh-250px)]">
+<div class="space-y-8 pr-4">
+<div class="space-y-4">
+<div class="flex flex-col items-end">
+<div class="bg-surface-container-low p-6 rounded-lg max-w-[90%] shadow-[0px_4px_20px_rgba(85,107,47,0.05)]">
+<p class="font-body-lg text-on-surface">I'm looking for earth-toned ceramics for my dining room. Something that feels organic and handcrafted.</p>
+</div>
+<span class="text-[10px] font-label-caps text-on-surface-variant mt-2 uppercase tracking-widest">10:24 AM • Sent</span>
+</div>
+<div class="flex flex-col items-start concierge-border pl-6">
+<div class="max-w-full">
+<p class="font-display-lg text-body-lg text-primary leading-relaxed italic">
+                                "A dining room is the heart of slow living. For earth tones that bridge the gap between soil and stone, I recommend looking towards the Takayama kiln or the textured stoneware of the Peak District. I've curated a few pieces that speak to that raw, organic silhouette you're describing."
+                            </p>
+</div>
+<span class="text-[10px] font-label-caps text-secondary mt-2 uppercase tracking-widest">Concierge AI • Just now</span>
+</div>
+<div class="flex flex-col items-end">
+<div class="bg-surface-container-low p-6 rounded-lg max-w-[90%] shadow-[0px_4px_20px_rgba(85,107,47,0.05)]">
+<p class="font-body-lg text-on-surface">Those sound perfect. Could you show me some larger centerpiece bowls? Specifically in a deep terracotta or umber.</p>
+</div>
+<span class="text-[10px] font-label-caps text-on-surface-variant mt-2 uppercase tracking-widest">10:26 AM • Sent</span>
+</div>
+</div>
+</div>
+</aside>
+<section class="md:col-span-8 space-y-12 overflow-y-auto no-scrollbar">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+<article class="group space-y-4 bg-white p-6 shadow-[0px_4px_20px_rgba(85,107,47,0.05)] border border-transparent hover:border-secondary/20 transition-all duration-500">
+<div class="relative aspect-[4/5] overflow-hidden">
+<img alt="Artisan Ceramic Bowl" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A close-up, high-end editorial photograph of a large, hand-thrown ceramic bowl with a deep terracotta matte finish. The texture of the clay is visible, showing organic irregularities and subtle umber speckles. It sits on a minimalist light-colored wooden table in a sun-drenched, airy studio with soft, directional lighting creating elegant shadows. The overall aesthetic is refined, artisanal, and serene, following a sophisticated luxury palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8KWwq2AoBngRwk0_31NrPEIiFH2tJCh-Pmmp7aO7dnUw0Q8rswFDGoaPsg-I6-09Xhl50ia5iIcq6eg-n0iRMyrCdRs3YqYhFvwjqZw2mG19qReD6UPRa6BtDoIkhqrTQ-NaEDjA3I0LPsJyf7jpa2M8mWMl4ZGVr90frlrSitTagGUViuwAZaQrcSU1KnmESKGRD4ScGWEpjoRZCFgpJBsEp1OHIriCd5C1ibtF5uAzN0B-VWvGAoboGuzc2_8-7nYPvjsgRomo"/>
+<div class="absolute top-4 right-4 bg-background px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-caps text-[10px] text-secondary uppercase">Concierge Choice</span>
+</div>
+</div>
+<div class="flex justify-between items-start pt-2">
+<div>
+<h3 class="font-headline-md text-on-surface leading-tight">Umber Earth Bowl</h3>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-1">By Elena Varga • Artisan Collective</p>
+</div>
+<span class="font-label-caps text-label-caps text-secondary">$340</span>
+</div>
+<p class="font-body-sm text-on-surface-variant line-clamp-2">Hand-fired using ancient reduction techniques to achieve a deep, multidimensional terracotta hue that shifts in the light.</p>
+<button class="w-full py-4 bg-primary text-on-primary font-label-caps text-label-caps uppercase tracking-[0.2em] hover:bg-primary/90 transition-colors active:scale-[0.98]">Add to Studio</button>
+</article>
+<article class="group space-y-4 bg-white p-6 shadow-[0px_4px_20px_rgba(85,107,47,0.05)] border border-transparent hover:border-secondary/20 transition-all duration-500">
+<div class="relative aspect-[4/5] overflow-hidden">
+<img alt="Textured Earth Vessel" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A professional product shot of a minimalist stoneware vessel with a rough, sandy texture and an earth-toned gradient from charcoal grey to ochre. The vessel is displayed against a neutral, warm-toned plaster wall in a high-fashion architectural setting. Soft natural light spills across the surface, highlighting the artisanal craft and the organic, asymmetric lip of the piece. The atmosphere is quiet, expensive, and deeply grounded in natural materials." src="https://lh3.googleusercontent.com/aida-public/AB6AXuApLdVRWT91TBj3t1ixezSR9uU0G2vRG4w-Bx_ISZNnBHUb8ytjGcTvT6MwMNSqD7_Xqvn0vcijv_4YyQkeMkA6ptoQ-bDi930jZi1atDZJkUxlvmNhlc4eGmDsBdHfFJLm8E-D7vYB4Kn8etTzTt-CNENr3RhFPxqars1WIpIBiQAPONV_9mhIZXe-TTRhlzsiDYCDPKk1_S2CM89N-t-9HfPnsd9cqdR-RqYBZAVoXK9WkkxMpM9d9y6z2xLnVL2NEZ_X5KToIGI"/>
+</div>
+<div class="flex justify-between items-start pt-2">
+<div>
+<h3 class="font-headline-md text-on-surface leading-tight">Ochre Horizon Vessel</h3>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-1">By Studio Arhos • Material Archive</p>
+</div>
+<span class="font-label-caps text-label-caps text-secondary">$520</span>
+</div>
+<p class="font-body-sm text-on-surface-variant line-clamp-2">A sculptural piece that doubles as a functional centerpiece, featuring a sand-infused glaze for tactile depth.</p>
+<button class="w-full py-4 border border-primary text-primary font-label-caps text-label-caps uppercase tracking-[0.2em] hover:bg-primary/5 transition-colors active:scale-[0.98]">Add to Studio</button>
+</article>
+</div>
+<div class="bg-surface-container-low p-8 rounded-lg flex flex-col md:flex-row gap-8 items-center border border-outline-variant/30">
+<div class="w-24 h-24 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-secondary ring-offset-4 ring-offset-surface-container-low">
+<img alt="Artisan Portrait" class="w-full h-full object-cover" data-alt="A close-up portrait of a female ceramic artisan in her studio, wearing a minimalist linen apron stained with dried clay. She has a serene, focused expression, and the background is softly blurred, showing pottery wheels and shelves of drying vessels. The lighting is warm and natural, suggesting a peaceful late afternoon in a craft atelier. The image conveys mastery, authenticity, and a deep connection to the material." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJX_nH22T2-RjyZUMhrkltf9x0YFYXub9DwtWw2wDMpTH-C_8OcQL6zYoeTE_LWAaxi-IPIYBAAkXFjNsUtRobv_4BzloAPNt2mwRkuhsJG7qvruVpKboMvYPGMvAiOS7Ja1d1Zh-1jm0SNvG--Jlq3CZ0RQ9fRJYs0l4yeInUj0t0Kxmz_LPBsM5UCfw4hZXpel5p1R2ldSwdZ49cQU4aDBRrPKsNFAOfqU2eTfA9jqXiCB0A8kCdzPm1L0N5hOLY2FWrc2fegaI"/>
+</div>
+<div class="flex-grow space-y-2 text-center md:text-left">
+<h4 class="font-label-caps text-label-caps text-secondary uppercase tracking-[0.15em]">Meet the Artisan</h4>
+<h3 class="font-headline-md text-on-surface">Elena Varga</h3>
+<p class="font-body-sm text-on-surface-variant max-w-xl">"My work is a dialogue between the clay of the Carpathian mountains and the modern dining space. I believe objects should carry the weight of their origin."</p>
+</div>
+<button class="px-8 py-3 bg-secondary text-white font-label-caps text-label-caps uppercase tracking-widest hover:opacity-90 transition-opacity whitespace-nowrap">View Story</button>
+</div>
+</section>
+</main>
+<footer class="fixed bottom-0 w-full z-50 bg-background/95 backdrop-blur-lg flex flex-col items-center">
+<div class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-6">
+<div class="relative flex items-center w-full">
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b border-primary py-4 px-2 focus:ring-0 focus:border-secondary font-display-lg text-body-lg italic placeholder:text-on-surface-variant/40 transition-all duration-300" placeholder="Ask the Concierge..." type="text"/>
+<div class="absolute right-2 flex items-center gap-4">
+<button class="material-symbols-outlined text-primary-fixed-dim hover:text-primary transition-colors">mic</button>
+<button class="material-symbols-outlined text-primary hover:text-secondary transition-colors p-2 bg-primary-container/10 rounded-full">arrow_upward</button>
+</div>
+</div>
+<div class="flex gap-4 mt-4 overflow-x-auto no-scrollbar pb-2">
+<span class="px-4 py-1.5 rounded-full border border-outline-variant text-[11px] font-label-caps uppercase text-on-surface-variant hover:border-secondary hover:text-secondary cursor-pointer transition-all">Tell me about shipping</span>
+<span class="px-4 py-1.5 rounded-full border border-outline-variant text-[11px] font-label-caps uppercase text-on-surface-variant hover:border-secondary hover:text-secondary cursor-pointer transition-all">Match with dining table</span>
+<span class="px-4 py-1.5 rounded-full border border-outline-variant text-[11px] font-label-caps uppercase text-on-surface-variant hover:border-secondary hover:text-secondary cursor-pointer transition-all">Show artisan bio</span>
+<span class="px-4 py-1.5 rounded-full border border-outline-variant text-[11px] font-label-caps uppercase text-on-surface-variant hover:border-secondary hover:text-secondary cursor-pointer transition-all">Eco-friendly options</span>
+</div>
+</div>
+<nav class="md:hidden w-full flex justify-around items-center px-4 py-3 pb-safe bg-surface-container-lowest border-t border-outline-variant">
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">folder_special</span>
+<span class="font-label-caps text-[10px] mt-1">Collection</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary font-bold scale-110">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-caps text-[10px] mt-1">Concierge</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-caps text-[10px] mt-1">Discovery</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-label-caps text-[10px] mt-1">Studio</span>
+</div>
+</nav>
+</footer>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.querySelector('input');
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('scale-[1.01]');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('scale-[1.01]');
+            });
+
+            // Smooth entrance animations for cards
+            const articles = document.querySelectorAll('article');
+            articles.forEach((article, index) => {
+                article.style.opacity = '0';
+                article.style.transform = 'translateY(20px)';
+                article.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                setTimeout(() => {
+                    article.style.opacity = '1';
+                    article.style.transform = 'translateY(0)';
+                }, 100 * (index + 1));
+            });
+        });
+    </script>
+</body></html>

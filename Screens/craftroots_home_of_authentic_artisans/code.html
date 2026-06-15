@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CraftRoots | Every Handmade Piece Carries a Story</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#45483c",
+                    "tertiary-container": "#cba72f",
+                    "tertiary": "#735c00",
+                    "primary-fixed-dim": "#b6d088",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#686457",
+                    "on-primary-fixed": "#131f00",
+                    "secondary": "#625e52",
+                    "primary-container": "#556b2f",
+                    "surface-container-low": "#f6f3f2",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#394d14",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "surface-container": "#f0eded",
+                    "tertiary-fixed": "#ffe088",
+                    "surface-container-highest": "#e5e2e1",
+                    "surface-variant": "#e5e2e1",
+                    "on-primary-container": "#d0eba1",
+                    "surface-container-high": "#eae7e7",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#e9e2d2",
+                    "inverse-on-surface": "#f3f0ef",
+                    "on-background": "#1c1b1b",
+                    "on-secondary-fixed": "#1e1c12",
+                    "primary-fixed": "#d2eca2",
+                    "surface-bright": "#fcf9f8",
+                    "on-tertiary-container": "#4e3d00",
+                    "on-secondary-fixed-variant": "#4a473b",
+                    "secondary-fixed-dim": "#ccc6b7",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#313030",
+                    "on-tertiary-fixed": "#241a00",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#e9e2d2",
+                    "error": "#ba1a1a",
+                    "primary": "#3e5219",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "on-surface": "#1c1b1b",
+                    "outline": "#75796b",
+                    "surface-dim": "#dcd9d9",
+                    "background": "#fcf9f8",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#b6d088",
+                    "error-container": "#ffdad6",
+                    "surface": "#fcf9f8",
+                    "surface-tint": "#50652a",
+                    "outline-variant": "#c5c8b8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "8px",
+                    "xl": "12px",
+                    "2xl": "24px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-mobile": "20px",
+                    "stack-md": "24px",
+                    "margin-desktop": "64px",
+                    "container-max": "1280px",
+                    "stack-lg": "48px",
+                    "stack-sm": "12px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "headline-sm": ["EB Garamond"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["EB Garamond"],
+                    "headline-md": ["EB Garamond"],
+                    "headline-lg": ["EB Garamond"],
+                    "display-lg-mobile": ["EB Garamond"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                    "headline-lg": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .luxury-shadow {
+            box-shadow: 0 20px 40px -10px rgba(85, 107, 47, 0.08);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<a class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tight" href="#">CraftRoots</a>
+<nav class="hidden lg:flex items-center space-x-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Shop</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md text-label-md" href="#">Artisans</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md text-label-md" href="#">Our Story</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md text-label-md" href="#">Collections</a>
+</nav>
+<div class="flex items-center space-x-6">
+<div class="hidden md:flex items-center bg-secondary-container/50 px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-40 font-body-md" placeholder="Search crafts..." type="text"/>
+</div>
+<div class="flex items-center space-x-4">
+<button class="text-on-surface-variant hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined">person</span>
+</button>
+<button class="lg:hidden text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Secondary Desktop Nav for specific prompt items -->
+<div class="hidden lg:block border-t border-outline-variant/30 py-2 bg-surface/50 backdrop-blur-sm">
+<div class="max-w-container-max mx-auto px-margin-desktop flex justify-center space-x-10">
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="#">Explore Crafts</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="#">Artisan Stories</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="#">Gift Boxes</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="#">Corporate Gifting</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="#">Become Seller</a>
+</div>
+</div>
+</header>
+<main class="pt-32">
+<!-- Hero Section -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col md:flex-row items-center gap-12">
+<div class="md:w-1/2 space-y-8 animate-in fade-in slide-in-from-left-4 duration-700">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-background leading-tight">
+                    Every Handmade Piece <br/>Carries a <span class="italic text-primary">Story</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                    Discover authentic handcrafted treasures made by skilled artisans across India. Each creation is a testament to heritage and mindful luxury.
+                </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="bg-primary text-white px-8 py-4 rounded-xl font-label-md text-label-md hover:bg-primary/90 transition-all active:scale-95 luxury-shadow">
+                        Shop Collection
+                    </button>
+<button class="border border-primary text-primary px-8 py-4 rounded-xl font-label-md text-label-md hover:bg-primary/5 transition-all active:scale-95">
+                        Meet Artisans
+                    </button>
+</div>
+</div>
+<div class="md:w-1/2 relative grid grid-cols-12 grid-rows-6 gap-4 h-[500px] md:h-[650px] w-full">
+<div class="col-span-7 row-span-4 rounded-2xl overflow-hidden luxury-shadow">
+<img class="w-full h-full object-cover" data-alt="A macro close-up of a potter's hands shaping raw brown clay on a rotating wheel in a sun-drenched studio. The lighting is soft and golden, highlighting the tactile texture of the wet clay. The overall aesthetic is one of handcrafted luxury, focusing on artisanal heritage and the organic process of creation in a minimalist setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArGZaGNSSGUqshzD4L2uv2q7R2FWq-JZBw3C8RHp7TWS6mTwSOwQm9gYVLKU75_4e1-RaZ4NnIPs7JLcPiG7IlrAfv9LECkhpNbDASq-R2MHJfWMx9yXARMurAbcJxxcZvM-ldtG1TnLV7ZyTABoiDmeri_H1zW_QC116rNrWsXbydG0Cogiev6r1NsURw7q2th3LcftmLk665M8QpWZ3iplYXe3U4jplciAsa3i3DpcK7XPVtJKvLk9lsJTcUjzRNtKYkzvnYkJM"/>
+</div>
+<div class="col-span-5 row-span-3 rounded-2xl overflow-hidden luxury-shadow self-end">
+<img class="w-full h-full object-cover" data-alt="Detailed flat lay of intricate Indian textiles featuring deep forest green and gold threads. The fabric is folded elegantly to show artisanal embroidery patterns. The mood is high-end editorial, with soft ambient shadows and a warm color palette of cream and moss green, reflecting authentic handcrafted sophistication." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgsb5dmEeNnlFAROX2WHMiIlPfKafI_qL4chd4hH9OCDX6j_BAn_MvcJn7qjFZUnCzB8HbY41lusLOxiP_YZLJXBWH-wRYO1FjpK0WP4bevRciLDm3PQJbBDvB4FDhATlshLSnteQVOQe2-TMSDpHeanWNO98WJRV3lQpLU2GVQRLdE_AcnDT_97VO6RSOgfedaEeLLQr6do2u1uVXytACaLwmNJK3hJ81zyhBNIGmpUPf-UZFAzL0HIe9To-3k-hWLrQvIa8v6r4"/>
+</div>
+<div class="col-span-5 row-span-3 rounded-2xl overflow-hidden luxury-shadow mt-4">
+<img class="w-full h-full object-cover" data-alt="A curated collection of handcrafted jewelry including gold brass earrings and delicate beaded necklaces laid on a textured secondary color surface. The lighting is bright and modern, creating soft shadows. The aesthetic is minimal luxury, treating each jewelry item as a unique piece of art within a gallery-like composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5CvpA_YSRMK4BC0fkE5wIiCQlbvRkIauhAJvunX669_RET6HwhtJY6E4M1SJkMcH_XFHc23G8Ceb5gvbXNuIybD29IP4VjNPMzcDy8xCrQRZ4GRHwy-a_vKKsvPKgZpWA_AFPWvVVBKsF5cyy9CpqrshbzKVkcXBQnOAxjW2SanWI1td89kzxnkeheqV98ZavWLT3UhCeH1BqCooomhJBC0_rq99R4I0lv2AWrZmwmuU5zUUtFQjUf1qQf-FKJ7qRucdaI8uLHs4"/>
+</div>
+</div>
+</section>
+<!-- Trust Bar -->
+<section class="bg-secondary-container/30 py-12 border-y border-outline-variant/20">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-2 md:grid-cols-5 gap-8">
+<div class="flex flex-col items-center text-center space-y-2">
+<span class="material-symbols-outlined text-primary text-3xl">verified</span>
+<p class="font-label-md text-label-md text-on-surface">Handmade Verified</p>
+</div>
+<div class="flex flex-col items-center text-center space-y-2">
+<span class="material-symbols-outlined text-primary text-3xl">payments</span>
+<p class="font-label-md text-label-md text-on-surface">Artisan Earnings</p>
+</div>
+<div class="flex flex-col items-center text-center space-y-2">
+<span class="material-symbols-outlined text-primary text-3xl">public</span>
+<p class="font-label-md text-label-md text-on-surface">Worldwide Shipping</p>
+</div>
+<div class="flex flex-col items-center text-center space-y-2">
+<span class="material-symbols-outlined text-primary text-3xl">lock</span>
+<p class="font-label-md text-label-md text-on-surface">Secure Payments</p>
+</div>
+<div class="flex flex-col items-center text-center space-y-2">
+<span class="material-symbols-outlined text-primary text-3xl">rebase_edit</span>
+<p class="font-label-md text-label-md text-on-surface">Easy Returns</p>
+</div>
+</div>
+</section>
+<!-- Browse by Craft -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="text-primary font-label-md text-label-md uppercase tracking-widest">Collections</span>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg mt-2">Browse by Craft</h2>
+</div>
+<a class="text-primary font-label-md text-label-md hover:underline decoration-2 underline-offset-4" href="#">View All</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+<!-- Craft Card -->
+<a class="group block text-center" href="#">
+<div class="aspect-square rounded-2xl overflow-hidden mb-4 luxury-shadow bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A minimalist studio photograph of handmade ceramic pottery with earthy tones and raw textures. The lighting is diffused and high-key, creating a clean light-mode aesthetic. The products are arranged artistically with ample whitespace to emphasize the handcrafted luxury and editorial minimalism of the collection." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbQ5ZDR78tChwhNZceYHducfnbrTED0DVIzWi0fsPET7dR3yFwsBncmLiss7Eig4q23Jy6lPPWGtQlJXAfbyVvmy3e2qma_rS0uFqMW8_PS3jo4dpvk_Q0MRAJ4FPGAEe2gHHccn0tDB8t6YKP4pibBYHxS-PnlzDy5N-9WRl91jWYlEbKPuqv1KGNEi1KuLVHMbjIHSMZy4CcSbzcL04Osv-1YOUMJuylM-8S5XmN5MLeyxPzPIIuBUQXDv9PYQc18grrG_Cbcu4"/>
+</div>
+<span class="font-headline-sm text-headline-sm">Pottery</span>
+</a>
+<a class="group block text-center" href="#">
+<div class="aspect-square rounded-2xl overflow-hidden mb-4 luxury-shadow bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Elegant display of organic hand-woven textiles with intricate patterns and raw edges. The scene is lit with soft morning sunlight, casting gentle shadows. The palette is dominated by creams, muted greens, and earthy browns, reflecting a sophisticated and tactile artisan lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaXQfP5M9NtWumetybneVEzUEZcJ3Ok3oy663qJkN8x6vFsHRT8zGUg20kWXg2HrZ_872ZEsLAOyWUOK4_9oJB9-BcoCK_bAIHlWB694XX9XDPHcR43ql1WL1Ot5QLfMZ80LSdB75eKHf0MOCcD_2RvGYpUMeTj9Kpjyde67HqQjLUnUqA_VMEQqTfepK4ud8V2FcjAfWKJHiBhwVzabFTZlyPboUPAtTnW4wPzu6B4DDrQc-axpGXV56R8Tjlz18XlOmj-_Rq5fo"/>
+</div>
+<span class="font-headline-sm text-headline-sm">Textiles</span>
+</a>
+<a class="group block text-center" href="#">
+<div class="aspect-square rounded-2xl overflow-hidden mb-4 luxury-shadow bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="High-end artisanal jewelry featuring hand-hammered metals and natural gemstones. The composition is clean and minimalist, set against a warm white background with extremely soft shadows. The focus is on the intricate craftsmanship and the luxury feel of the individual jewelry pieces." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtxepjzTEK3LLCyxqhsVpHzvWe5BupTRdSYzIbxpy7jLl0L4ruM0O1_UzfReXt-8VPWopmns8APBhA19eOYOKJWUAhpThHOxtXjHRx5E7sKp98Jy15cTRNvsGGTcW8FAaYJBbBG2lNY6-ImndvI5JbcJRTTulo-GBA-MOeI0OtTEAmnu0I--3kufrYHcV480AgQWTuAIJJWz4-DjBeYZ__NG8znkCEkAxi4bRkXjEp02qa6RqVJ1VJ4VZAGXIPbwm7JLhKktqYGts"/>
+</div>
+<span class="font-headline-sm text-headline-sm">Jewelry</span>
+</a>
+<a class="group block text-center" href="#">
+<div class="aspect-square rounded-2xl overflow-hidden mb-4 luxury-shadow bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A collection of masterfully carved woodwork items showing rich grain and smooth polished finishes. The lighting emphasizes the depth and organic nature of the wood. The setting is modern and minimal, allowing the warm amber and sienna tones of the wood to be the focal point of the handcrafted aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoUbb-pXlS0UscQtgWLD3r9Zf9SuH2HUNg-izGWI7hArDUmNSE3KBmllYSVFEQVr5ykcN1NQtLnA7i74Uac2McA2ELqcSAuBel62lP-YC_q_2ES2CQzWrkmfnPGuLUB2qqYsX0_etM_qCCoO1jTIAXykVwWH98G0c2jkXuPmh5uiTgXDr__eQFmZFfv7mbsNIFfxePJbCJkq3kh2E_MOTkRL_f7bzkwiNHlqNHSfr4MWYOlu5W375dr0qyrGn61sFIMwIVs6ciHOM"/>
+</div>
+<span class="font-headline-sm text-headline-sm">Woodwork</span>
+</a>
+<a class="group block text-center" href="#">
+<div class="aspect-square rounded-2xl overflow-hidden mb-4 luxury-shadow bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Vibrant traditional paintings with rich pigments and fine brushwork, displayed in a gallery-like setting. The colors are deep and saturated, contrasting against a minimalist, well-lit background. The style is editorial and sophisticated, celebrating the cultural heritage of the artwork." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALmDug-SiFGvAWDC890id6imKUFc_Z2r1wLhG3D90LbIO6cClvBKZhSMVLnRBJy8AFBDtU0055x0maZOQCfzymdyabDF5q2iVqvsGk3XlxQLjkTFHNbNtwsaVayOe1sQnBnX66aBG6PUPuwd1MW7OjH0M-dUKai4giQdShQsTWdIDOklR1QVyqld7P9KsvlcyIqf9mdvFFeFm5y9haOI-hWzV4_Cqm88aUK6iwSJYveiul6u70LqWhUbE_TTLNP_0xuo75FPmbwNM"/>
+</div>
+<span class="font-headline-sm text-headline-sm">Paintings</span>
+</a>
+<a class="group block text-center" href="#">
+<div class="aspect-square rounded-2xl overflow-hidden mb-4 luxury-shadow bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Exquisite metal crafts including hand-etched brass vessels and decorative objects with a subtle golden sheen. The lighting is focused and warm, creating high-contrast highlights and soft, tinted shadows. The overall feel is one of heritage luxury and quiet, sophisticated confidence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdDKuRrjmo8cU6Af3Ek-ZsQN-LhjwBzFDNc-UsOLGoe6m3VaH_3OLkxzRpsIrfTEu1ogeXDWqzha-yD-I1Zkdd_8bQrMl8j5Ieh0uh6Iid1Maviq5-b-dW2Mefyz1sBnJhaiLUW3XGGPUES-mFFdUW_CIVNFt5tDb4g3cXCRWgk1knLM5k2BkJjmEAIabdLmr09OepPNl2S-yYCjRhREAiSb8ZGzUFb0MPcjNWvmM0UcgFHBDxHIXkIX8nMLHrRRiCKGAPYcxou-s"/>
+</div>
+<span class="font-headline-sm text-headline-sm">Metal Crafts</span>
+</a>
+</div>
+</section>
+<!-- Browse by Region (Bento Grid Style) -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<div class="mb-12">
+<span class="text-primary font-label-md text-label-md uppercase tracking-widest text-center block">Heritage Journeys</span>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-center mt-2">Browse by Region</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 h-[800px] md:h-[600px]">
+<div class="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-2xl luxury-shadow">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="A sweeping cinematic view of an ancient Rajasthani palace reflecting in a calm lake at dusk. The lighting is dramatic and warm, with orange and indigo hues. The aesthetic is epic and traditional, symbolizing the rich heritage of craftsmanship in the region within a modern, minimalist frame." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVkDI3tevjt5mDM38Lp7b_HdUNOBw0THh-245ZfcizYySmg5hgNeQpRvZmfHRmL3mMoGX8O4s6Wg7AA0Bytn5kCUnVn-kaLhW6bXDYH6RiEr-yYEZvzNVL-Jriu5rXQGlHJpWdkyZLKkprBl7l0SDqCGG5aoLwIMiCSDyuKoKs01nYhtRy-ICb892pkK_Iojrmf8mJYAp7I7OhYQhA2u6dUL7Us6-Z8Jt7O9QxeTKB6fBeBPaF6Gp5vCN6SN5Y0zh5NZNCqUhmU7A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-8 left-8">
+<h3 class="text-white font-display-lg text-headline-lg">Rajasthan</h3>
+<p class="text-white/80 font-body-md mt-2">Timeless Blue Pottery &amp; Textiles</p>
+</div>
+</div>
+<div class="md:col-span-2 relative group overflow-hidden rounded-2xl luxury-shadow">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Serene landscape of Kashmir's mountains and calm waters during the early morning. Soft blue and grey tones create a tranquil mood. The imagery represents the soulful and meticulous nature of Pashmina and woodwork from the region, presented with editorial sophistication." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPIt46qnwNIudAERLrqkJ20Tv1wrWjdrqp4uOOM3rzs6FsGxnjXkXvgZqV-Pqo2hTj2VfozAN6VEPTCK0lIwRwVtp9akYoujLE9rw6cuqZHOe6yBZQJDD-zisMaTBJwcIllVIZUkcdCpt3L4RgBhgGKiaWEhxMjmQL2aKn48HHg7hZkS1JnwQRlp2VT5tycHYy8wWGXSbby56Arb4ELvsF8-XE1NnTT37jzGeTXBp10o0qXx0367nY_kG6-WvqDjXo6ii-JNI3BXw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6">
+<h3 class="text-white font-headline-lg text-headline-lg-mobile">Kashmir</h3>
+</div>
+</div>
+<div class="relative group overflow-hidden rounded-2xl luxury-shadow">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Artistic shots of West Bengal's terracota temples and lush greenery. The lighting is warm and organic, highlighting the deep reds and oranges of the brickwork. The composition is balanced and modern, evoking a sense of cultural depth and artisanal history." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz4OQu77NiX0cubAhCT3Nfu7DCSUQpEXkmjlEQJMm5_3CMgaKoclsmGoJWdeI0LOgld2hQ1ioSTzIxPXR1ta10kAYFDowuYjsqi86FSoHH_NEEde-wX7Ka2CrKSPxvrMY53EDEgw5KbsGf65HbhIxdcj10d6mCio3rYPEYmBFow5d8KvvFxCTpXm980ExUsmCR_GJszxW4gvHjg6SepDIFNexpscNlhIwidoVWigOXysdxZXvqA_WC_4MlaU8VHOpBMoh-QueYNE0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6">
+<h3 class="text-white font-headline-lg text-headline-lg-mobile">West Bengal</h3>
+</div>
+</div>
+<div class="relative group overflow-hidden rounded-2xl luxury-shadow">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="The colorful Rann of Kutch landscape in Gujarat featuring traditional embroidery patterns. High-key lighting and vibrant colors create a celebratory and authentic aesthetic. The focus is on the intricate geometric patterns that are characteristic of the region's textile heritage." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP6qJ3u0pBHAmMq0GZ3lD1VI96Q0b3gx3Qi5V7EYOehF2TALFXM-DY6mIBlccAOqkowdvP_TEdw5QM7tAtQu6UbxxMMsZJEhSkhtISntdEHPmHmDYDGCsdP2BruIfHH60DFZO7WSYIV0fDpnYNhDixpfw1pFJeUPjQgi8IwXmR8yAtxumZOjx36OLaCvM7hdMCWMrA8SuxfggsxPvyYczG8eRebEmwJA0S0vcBHVMihrRg9n3MYWGwKf9-wl9akYxIg21OID-8C0M"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6">
+<h3 class="text-white font-headline-lg text-headline-lg-mobile">Gujarat</h3>
+</div>
+</div>
+</div>
+</section>
+<!-- Trending Products & New Arrivals -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<div class="flex flex-col md:flex-row gap-gutter">
+<!-- Trending -->
+<div class="flex-1">
+<div class="flex justify-between items-end mb-8">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg">Trending Now</h2>
+<a class="text-primary font-label-md text-label-md" href="#">Shop Trending</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-surface border border-outline-variant/30 rounded-2xl overflow-hidden group luxury-shadow">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-end editorial product shot of a handcrafted ceramic vase with a unique matte finish and organic silhouette. The vase is set on a minimalist light-colored pedestal with soft, warm lighting. The background is a clean white, emphasizing the refined craftsmanship and minimalist luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABcubTNztmfQLwaV9a0DHCTHAHeV48--PL01ObXgk0zE9VJtV3-GDe4m1Qb4MFK5fpo8JAm3f8NsAeiRClrvbWmldVB2eFzKHDg2BSNoHqoOUNLKj2pox36b6DGotHjILKI5Q3BO3qZlsM-kW2LOOvP2jClI9CawGaBtfLkZq5gQfF_dYbx2cvYDQD-tiJNnz3rLjNQF1KqZYjkDrclbbK20eQrfO25urHynErrY6NJnvZ_jZHmci9aEn4PawJL_dRP0bpO2jXtpc"/>
+<button class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-white transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<span class="text-label-sm font-label-sm text-on-secondary-container uppercase tracking-widest">Master Potter Kaviraj</span>
+<h3 class="font-headline-sm text-headline-sm mt-1">Sienna Earth Vessel</h3>
+<div class="flex justify-between items-center mt-4">
+<span class="text-on-surface-variant font-body-md">₹3,450</span>
+<button class="text-primary font-label-md flex items-center">Add to Bag <span class="material-symbols-outlined ml-1 text-sm">add</span></button>
+</div>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="bg-surface border border-outline-variant/30 rounded-2xl overflow-hidden group luxury-shadow">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Detailed studio image of a handcrafted brass storage box with intricate hand-engraved floral motifs. The metal has a subtle antique sheen under soft, directional lighting. The aesthetic is one of heritage luxury, highlighting the artisan's skill and the timeless nature of the piece." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDigWYsguELBsQ0LWVQ7bKpDSZR7GQ-nFpPP6xjOn7hSyyUHheT9nQ_tvVQweJ4per136tPe-BQeK6K6kBJPXC0meWLU_4kvU6NHfjxJwBsjTdI293bpZpBhGEFbc8PidVddv-GljkwkLZfTNYgKDq90VXIHKzObOXrQ084pQwes6da2-RjDmXo83CfOiBzAQJFaeCZyMPM2cEc9oxBo3zM5E83BUC7e14oIMEyYmN_m0WsH5UYvMSgkbaBj4PIfTq_g1KcRR5bgm4"/>
+<button class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-white transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<span class="text-label-sm font-label-sm text-on-secondary-container uppercase tracking-widest">Heritage Brass Works</span>
+<h3 class="font-headline-sm text-headline-sm mt-1">Engraved Heirloom Box</h3>
+<div class="flex justify-between items-center mt-4">
+<span class="text-on-surface-variant font-body-md">₹5,200</span>
+<button class="text-primary font-label-md flex items-center">Add to Bag <span class="material-symbols-outlined ml-1 text-sm">add</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- New Arrivals -->
+<div class="md:w-1/3 mt-12 md:mt-0">
+<div class="flex justify-between items-end mb-8">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg">New Arrivals</h2>
+</div>
+<div class="space-y-6">
+<!-- Mini Product Card -->
+<div class="flex gap-4 group">
+<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A close-up of a hand-woven indigo textile with a subtle geometric pattern. The lighting is natural and bright, emphasizing the soft texture of the organic cotton. The style is minimalist and clean, focusing on the quality of the artisan-made fabric." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJjDAY4xJZnkMI-CA_lE7EMP7roQJvqP2-gedSy8uHx6NJ_7IV8sCkcaIixfu1NtE2YAyqjq1WANAn4IuplttHvfaL6INEJ62bVMTYZSWG2UMhTU_BuDcWueh8UOzNgUpLV_bpNcogDhjwIIEfHgq3-K59EexMHJ0UZ_8oXgV1uXeuFbz2CFP1CXY0A6qYIwvtBNtCppoIDMGRH8R0-UhPyQrnneV0GBGxpMQWoz9HE5o_8facbb0TXvCre363HH6sv1ceXMVXDXk"/>
+</div>
+<div class="flex flex-col justify-center">
+<h4 class="font-headline-sm text-headline-sm text-base">Indigo Dabu Stole</h4>
+<p class="text-on-surface-variant text-label-md">Rajasthan Collective</p>
+<span class="text-primary font-bold mt-1">₹1,850</span>
+</div>
+</div>
+<div class="flex gap-4 group">
+<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Hand-painted Pattachitra artwork featuring traditional motifs in vibrant, natural colors. The lighting is soft and even, showing the fine detail of the brushwork. The composition is clean and editorial, celebrating the artistic heritage of Odisha." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB48g5Tm54T8uK_PH5caiyvSA6HVRZXwTAr7Vm9ZKFLtKnZfurvhv0Nd_gmiybVOzeZ3thMFMAseoK9V4olQ6RX6I4mnpCzIS4OFBjuR0gVkNCBlNnJ2ic-eN4AgLh5fjOVt1guDClP2UdPNSKQBx8Nz-bm1MB0auvA2NDwEOsbF7pBYQ4_0Jnl8pTA6NTlJqd6ZUnmy40a5_qRoVHr2EzQ2NJKfOpeTitI0tB81ppO6VB4U08xBkPzsXvszsJDcMs-JD9UEP0S5-c"/>
+</div>
+<div class="flex flex-col justify-center">
+<h4 class="font-headline-sm text-headline-sm text-base">Mythical Pattachitra Wall Art</h4>
+<p class="text-on-surface-variant text-label-md">Odisha Artisans</p>
+<span class="text-primary font-bold mt-1">₹4,900</span>
+</div>
+</div>
+<div class="flex gap-4 group">
+<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A beautiful, handcrafted wicker basket with a modern, minimalist design. The lighting is bright and warm, casting soft ambient shadows on a light-colored surface. The aesthetic is clean and organic, highlighting the tactile nature of the handcrafted material." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzp2XWMWrHI-aoqkrLdNLrS8i_cQ_OQRNm5-w6a3621UBfeOqxj8-pV2WMa63oR54Y8xdiu0y3t-2bmN7qK1KkVKPXgBv-DfXzjR4H4mOO-Zbqvo_Q-UtYpuhbwIrxonevTivMMwoPrUjt7d_zyk_cs8KUv5tq11GMUzc8znwdMB0ELyVng9oYCjClFp_g7ZSRBLImDfCBNUxTsWAFkXfGO1SE6S4MtyQOPRC5Cvb8T63YTHjJPpLsm2za0JMnm0DXxcs1CiZidfM"/>
+</div>
+<div class="flex flex-col justify-center">
+<h4 class="font-headline-sm text-headline-sm text-base">Hand-Woven Cane Basket</h4>
+<p class="text-on-surface-variant text-label-md">Northeast Weaves</p>
+<span class="text-primary font-bold mt-1">₹2,400</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Artisan Spotlight -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg my-12">
+<div class="bg-primary-container rounded-[40px] overflow-hidden flex flex-col md:flex-row items-stretch">
+<div class="md:w-1/2 p-12 md:p-20 space-y-8 flex flex-col justify-center order-2 md:order-1">
+<span class="text-tertiary-fixed font-label-md text-label-md uppercase tracking-widest">Artisan Spotlight</span>
+<h2 class="text-white font-display-lg text-display-lg-mobile md:text-display-lg leading-tight italic">Rameshwar Lal: The Soul of Terracotta</h2>
+<p class="text-white/80 font-body-lg text-body-lg">"The earth tells me what it wants to become. I am simply the hands that listen." Rameshwar has been practicing the art of Molela terracotta for 45 years in rural Rajasthan.</p>
+<div>
+<button class="bg-tertiary-container text-on-tertiary-container px-8 py-4 rounded-xl font-label-md text-label-md hover:bg-tertiary-container/90 transition-all">Read His Story</button>
+</div>
+</div>
+<div class="md:w-1/2 min-h-[400px] order-1 md:order-2">
+<img class="w-full h-full object-cover" data-alt="A poignant environmental portrait of an elderly artisan with deep wisdom in his eyes, working in his traditional outdoor workshop surrounded by clay sculptures. The lighting is natural and soulful, with soft shadows. The overall aesthetic is one of authentic craftsmanship and quiet, human-centered luxury." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGz-nNdPOy8GhcejfvOkRg1b2O2k71vpffWzcBp2us2yOm2Y8w3PYR24ZIUK7139f7D_E3daiPt22nDslx6e7ROl7F4P41Bsrre4yBAKEmcaqa9mOh-dAnzqxg0iihOA78n1pD3pBXbGhYMXXiUhW84dRkAaWSbDkKygynAWqs_H8opUxqQX5cRBjnb4xvlD74hNWGBhwvaE7EZl6h0GG2-ksg1Nsssp0e0cgPv-lWmbSzuLhOOWCnKsptZDpfV31ZuoySkJ72nFo"/>
+</div>
+</div>
+</section>
+<!-- Video Stories Preview -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg">Stories in Motion</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto mt-4">Witness the meticulous process behind your favorite crafts through our cinematic artisan films.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="relative group cursor-pointer aspect-video rounded-2xl overflow-hidden luxury-shadow">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="Cinematic frame from a video showing the process of hand-weaving a loom. The light is diffused and soft, focusing on the rhythmic movement of threads and the artisan's hands. The mood is peaceful and rhythmic, emphasizing the 'slow' nature of traditional craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBlBQzK5R-QW4ZwqjW9Y6WK6GxgsEDXwYOHrTAvqZEggusZZ1weJAEp29_ct77Rmg0RkOL-SrG7La3xZbhGaDgnmiH2p-OF0mdgxAc28M-w9CbETDRR_QFDpdJNQPXNylbwYqUpnUQ4nXivrx8j-0Hgf-5KBs46sugdeV3z1rgjaB8x56Ygwkt1fUVMn63L5zuvaYToAwTgpwQQ9w0tx8KjO0gbATA0oSo6ObaJJz5OOkMdQxgmbz1wlRUUO4q0eEkR_xYsBDb2Us"/>
+<div class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-colors">
+<div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/50 transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-6 left-6 text-white">
+<p class="font-label-md text-label-md">The Loom's Song</p>
+<span class="text-xs opacity-80">4:20 mins</span>
+</div>
+</div>
+<!-- Video 2 -->
+<div class="relative group cursor-pointer aspect-video rounded-2xl overflow-hidden luxury-shadow">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="A cinematic video thumbnail showing a master potter's wheel spinning in a quiet studio. Soft golden sunlight streams in, illuminating dust motes in the air. The aesthetic is extremely sophisticated and high-end, focusing on the calm and beauty of artisanal work." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfNWYVfmn-UdzbeqQdEPIDU9A-oryrakAznQ0cjpolMI8r6f8qsNdHyU_4pwwaZachhwB0cllrbGn3laSDTojXldiAHCghUsnIPiJ20GIqwz6ny8UgeL6McyT1ZUk8uYp0lkhMv-NIdcJCKGA52wCYjboobJofS_slroD8GHmltmSkCamrC_GcrJU9eqO7mu9zAxCedwUUvHwF13WLu75Al6w0bVaaWCQApiUBcb6LEfUDtX6KmHonfxD0Awyv5rgGCePhhW-2spA"/>
+<div class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-colors">
+<div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/50 transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-6 left-6 text-white">
+<p class="font-label-md text-label-md">Echoes of Earth</p>
+<span class="text-xs opacity-80">3:15 mins</span>
+</div>
+</div>
+<!-- Video 3 -->
+<div class="relative group cursor-pointer aspect-video rounded-2xl overflow-hidden luxury-shadow">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="Artistic video shot of a jewelry maker's bench with various hand tools and gold scrap. The lighting is warm and directional, highlighting the fine metallic textures. The overall feel is one of quiet expertise and handcrafted luxury within a modern setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAicQ6siEKAPvQ75JAO3mjgWMc-5Udcnm-e5y6DFb3S0uJ1BUwh_5YQDv1g04oJLveDVchNmGfVN8JKjKQQJOVng2mxu1SyL6sc-yda-IgOSZoTQniTg545EO2hAgaAdDigt_WnFE6uIJfaf78L9Au2Tr-rTufP7BrcN3FAt-bFexIPl_pxId-HeyKHvxxWm2q3XNZT_cVRehwloyYX-c2x5Kp-lwCEARFxmi5mgNkP_3oxVKWOneQavbjOKI7bTM2DcUTbK1T6cNM"/>
+<div class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-colors">
+<div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/50 transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-6 left-6 text-white">
+<p class="font-label-md text-label-md">Golden Threads</p>
+<span class="text-xs opacity-80">5:45 mins</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Gift Collections -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg bg-secondary-container/20 rounded-[40px]">
+<div class="flex flex-col md:flex-row items-center gap-12 p-8 md:p-16">
+<div class="md:w-1/2">
+<img class="rounded-2xl luxury-shadow w-full h-96 object-cover" data-alt="Beautifully curated gift boxes featuring handcrafted artisanal items wrapped in organic, eco-friendly materials. The presentation is elegant and high-end, set against a warm, neutral background. The lighting is bright and cheerful, suggesting a premium gifting experience rooted in authenticity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGb7sbpKHqNRVjUar3rnldTcj450Aor-VSzBP-tEuq3WAjngpFQrGaSM3Hme-UEy2ZCEv8dar4bCat9HWln86Jt12iCpC3lVYtWchY2Sr0azouVAJ5tBGVFPHCWwG0RSIWomv2qSwcREk4p_oMLoR6T44cO1iJZPDyQ6u41gNZ5AKI33hChZqTAhbvbpcf186UQBQuL8FLo_-aRnzhcPoJXFJuxrbWDJFnkfA6EoC6gvnHdtLKz6848H1s1qlIpzCwjkkN520EHrs"/>
+</div>
+<div class="md:w-1/2 space-y-6">
+<span class="text-primary font-label-md text-label-md uppercase tracking-widest">Gifting with Intention</span>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg">Curated Gift Boxes</h2>
+<p class="text-on-surface-variant font-body-lg">Perfect for weddings, corporate milestones, or special occasions. Our gift boxes are curated with meaningful stories and high-quality artisan crafts.</p>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-primary">eco</span>
+<span>Sustainable Packaging</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-primary">edit</span>
+<span>Handwritten Notes</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+<span>Bulk Global Delivery</span>
+</div>
+</div>
+<button class="bg-primary text-white px-10 py-4 rounded-xl mt-4 font-label-md text-label-md hover:bg-primary/90 luxury-shadow transition-all">Explore Gifting</button>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="text-center p-8 bg-surface rounded-2xl border border-outline-variant/30 luxury-shadow italic">
+<p class="text-on-surface-variant text-body-lg mb-6">"The detail in the pottery I ordered is breathtaking. You can really feel the artisan's touch in every curve."</p>
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+<img data-alt="Portrait of a sophisticated woman with a warm smile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqSNs3o2CwS1HBtMpNmURssMlIuVstdEqkV1gs3M4ULs38P-qBzphk3oJqvS1hjKvZKLdZtT9i3lVbVFFDCYKd2GlK_En1ewGI8Vd-X7X_usrG72pobSWsyenwuOAkEh7HJmotNKH3rHLEWe8XADSVdEbLMvqbgXrfceo3NRDD0Cr1N6QD17LyWB6twPZ7Q-Px_WsCfm3urKUDZTlT_sgyc6vVQlLsx2ltqE-o_pcmSC8EGVDGpbN3pgBh71b9Q81m0D-krghlpjY"/>
+</div>
+<h4 class="font-label-md text-label-md">Anjali M., Mumbai</h4>
+</div>
+</div>
+<div class="text-center p-8 bg-surface rounded-2xl border border-outline-variant/30 luxury-shadow italic">
+<p class="text-on-surface-variant text-body-lg mb-6">"Finding authentic Pattachitra paintings used to be so hard. CraftRoots made it a seamless, luxurious experience."</p>
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+<img data-alt="Portrait of a young man in a minimalist studio." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQJ9HXbfcMFGd2sFxmTTdjpKWIZXyIX20EGIvlijIPUEk8KQhGHYFsFIXwxwEgyiEMUa40mMBkBy8go9qXJF5cLZsErUPriMA0_Sfwg2qlorHNYERNgPHkr-DCdUiJCy62sqKjE_RXzDtovI4EiXds49hK1dp-RGSPFsbt2OMl_rskqAd7fbLbt5nRhJ6BC2A9-LOOYsqdk9Jok5vJYqYXkO0ir7UnU1V_P81WpxIrrWbGs4rDuXD7FPSugplxUPwT1A3pzGj5cSU"/>
+</div>
+<h4 class="font-label-md text-label-md">David K., London</h4>
+</div>
+</div>
+<div class="text-center p-8 bg-surface rounded-2xl border border-outline-variant/30 luxury-shadow italic">
+<p class="text-on-surface-variant text-body-lg mb-6">"I gifted the Silk &amp; Spice box to my clients and they were blown away by the quality and the artisan story."</p>
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+<img data-alt="Portrait of a professional woman." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP5vRg92SPCYzJ2rKgox1kOVL5rig6Mk8JZA4Ws0mtVB3jDbLfBDued7MQRkKIi3gAHwvxhh3__a8wyqKpldxfkwE392SlRVAmZ3b6KPDjQLPRlOUarCSdMDlevsCCL2-a8x6NdlLw1mY_eJi4b4F2rwMpKap6o-Die2XTdiPZ8SVGIaeulJQF9w_ifJ9O2RtjJmZbApNVKzF8uhdxpaQYk2HH7nSwo0O7VxuYAxtAu4mpL15_YITckVNWIGsy4Fk_rhocF0eixPM"/>
+</div>
+<h4 class="font-label-md text-label-md">Sarah W., New York</h4>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg border-t border-outline-variant/30">
+<div class="max-w-3xl mx-auto text-center space-y-8">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg">Join the Craft Movement</h2>
+<p class="text-on-surface-variant font-body-lg">Get early access to new artisan collections and stories delivered to your inbox once a month.</p>
+<form class="flex flex-col md:flex-row gap-4 mt-8">
+<input class="flex-grow px-6 py-4 rounded-xl border border-outline focus:ring-2 focus:ring-tertiary outline-none bg-surface transition-all" placeholder="Enter your email address" type="email"/>
+<button class="bg-primary text-white px-10 py-4 rounded-xl font-label-md text-label-md hover:bg-primary/90 transition-all active:scale-95">Subscribe</button>
+</form>
+<p class="text-xs text-on-surface-variant/60">By subscribing, you agree to our Privacy Policy and Terms of Service.</p>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-secondary-container w-full mt-stack-lg">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+<div class="col-span-1 md:col-span-1">
+<a class="font-headline-sm text-headline-sm text-primary" href="#">CraftRoots</a>
+<p class="mt-4 text-on-secondary-container/80 text-body-md">Honoring tradition, supporting livelihoods, and bringing handcrafted beauty to modern homes.</p>
+</div>
+<div class="flex flex-col space-y-4">
+<h5 class="text-primary font-label-md text-label-md uppercase tracking-widest">Shop</h5>
+<a class="text-on-secondary-container hover:text-primary transition-all" href="#">All Crafts</a>
+<a class="text-on-secondary-container hover:text-primary transition-all" href="#">New Arrivals</a>
+<a class="text-on-secondary-container hover:text-primary transition-all" href="#">Gift Boxes</a>
+<a class="text-on-secondary-container hover:text-primary transition-all" href="#">Corporate Gifting</a>
+</div>
+<div class="flex flex-col space-y-4">
+<h5 class="text-primary font-label-md text-label-md uppercase tracking-widest">About</h5>
+<a class="text-on-secondary-container hover:text-primary transition-all" href="#">Our Story</a>
+<a class="text-on-secondary-container hover:text-primary transition-all" href="#">Artisan Stories</a>
+<a class="text-on-secondary-container hover:text-primary transition-all" href="#">Sustainability</a>
+<a class="text-on-secondary-container hover:text-primary transition-all" href="#">Impact Report</a>
+</div>
+<div class="flex flex-col space-y-4">
+<h5 class="text-primary font-label-md text-label-md uppercase tracking-widest">Connect</h5>
+<a class="text-on-secondary-container hover:text-primary transition-all" href="#">Contact Us</a>
+<a class="text-on-secondary-container hover:text-primary transition-all" href="#">Become a Seller</a>
+<div class="flex space-x-4 mt-2">
+<a class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">public</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">share</span>
+</a>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center gap-stack-md pt-12 border-t border-on-secondary-container/10">
+<p class="text-body-md text-on-secondary-container/60">© 2024 CraftRoots. Handcrafted with intention.</p>
+<div class="flex gap-8">
+<a class="text-on-secondary-container hover:text-primary text-body-md" href="#">Privacy Policy</a>
+<a class="text-on-secondary-container hover:text-primary text-body-md" href="#">Shipping &amp; Returns</a>
+<a class="text-on-secondary-container hover:text-primary text-body-md" href="#">Artisan Portal</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Simple reveal animation on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('translate-y-8');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-1000', 'translate-y-8', 'opacity-0');
+            observer.observe(section);
+        });
+
+        // Initialize scroll reveal
+        window.addEventListener('load', () => {
+            document.querySelector('main > section').classList.remove('opacity-0', 'translate-y-8');
+        });
+    </script>
+</body></html>

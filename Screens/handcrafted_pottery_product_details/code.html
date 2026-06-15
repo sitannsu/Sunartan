@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CraftRoots | Handcrafted Luxury</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#45483c",
+                        "tertiary-container": "#cba72f",
+                        "tertiary": "#735c00",
+                        "primary-fixed-dim": "#b6d088",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#686457",
+                        "on-primary-fixed": "#131f00",
+                        "secondary": "#625e52",
+                        "primary-container": "#556b2f",
+                        "surface-container-low": "#f6f3f2",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#394d14",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "surface-container": "#f0eded",
+                        "tertiary-fixed": "#ffe088",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-variant": "#e5e2e1",
+                        "on-primary-container": "#d0eba1",
+                        "surface-container-high": "#eae7e7",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#e9e2d2",
+                        "inverse-on-surface": "#f3f0ef",
+                        "on-background": "#1c1b1b",
+                        "on-secondary-fixed": "#1e1c12",
+                        "primary-fixed": "#d2eca2",
+                        "surface-bright": "#fcf9f8",
+                        "on-tertiary-container": "#4e3d00",
+                        "on-secondary-fixed-variant": "#4a473b",
+                        "secondary-fixed-dim": "#ccc6b7",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#313030",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#e9e2d2",
+                        "error": "#ba1a1a",
+                        "primary": "#3e5219",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-surface": "#1c1b1b",
+                        "outline": "#75796b",
+                        "surface-dim": "#dcd9d9",
+                        "background": "#fcf9f8",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#b6d088",
+                        "error-container": "#ffdad6",
+                        "surface": "#fcf9f8",
+                        "surface-tint": "#50652a",
+                        "outline-variant": "#c5c8b8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "stack-md": "24px",
+                        "margin-desktop": "64px",
+                        "container-max": "1280px",
+                        "stack-lg": "48px",
+                        "stack-sm": "12px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["EB Garamond"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["EB Garamond"],
+                        "headline-md": ["EB Garamond"],
+                        "headline-lg": ["EB Garamond"],
+                        "display-lg-mobile": ["EB Garamond"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                        "headline-lg": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-fixed-dim selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<a class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tight" href="/">CraftRoots</a>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md" href="#">Shop</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md" href="#">Artisans</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md" href="#">Our Story</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 font-label-md" href="#">Collections</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">person</span>
+</button>
+<button class="md:hidden text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-stack-lg max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Product Main Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-start">
+<!-- Left: Gallery -->
+<div class="md:col-span-5 flex flex-col gap-4">
+<div class="relative aspect-[4/5] rounded-[24px] overflow-hidden bg-surface-container shadow-md">
+<img alt="Veridian Clay Vessel" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" data-alt="A large, handcrafted ceramic vessel with a deep forest green glaze and organic, wavy texture. The lighting is soft and cinematic, casting gentle shadows across its matte finish. It is placed on a minimalist stone plinth within a high-end gallery setting, emphasizing its luxury and tactile nature. The scene is dominated by earth tones and natural textures." id="main-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU5jbh_XgserwJB9IhjsK6D5voFDcoes-58j5hiA2Qu9HVsI211sQQJmz8Oj23i1H8vfLjqfHMmjVvEY2vH6y2nBrHVjDZe0eZ54_ECyMHu-CVhCbgdj94EN6yknAhHpWupbaGfgBIs1FgYyhwhzcyM3-tnkoW5YkjxaEuQg6srrNMLYA9Up8XenNKoxkW1-dger2CqJOCiHvLfV0zUzNtla_BTl1FcJ0yPuKSMa9WDhEZO22IugJUvnzkgXTZq5FTXiH-JfjF8Bw"/>
+</div>
+<div class="flex gap-3 overflow-x-auto no-scrollbar py-2">
+<button class="shrink-0 w-20 aspect-square rounded-xl overflow-hidden border-2 border-primary ring-offset-2" onclick="document.getElementById('main-image').src=this.querySelector('img').src">
+<img class="w-full h-full object-cover" data-alt="Close up of a handcrafted ceramic vessel's surface showing the forest green glaze texture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZRS-NfYtdY4ULjJMLyXaq9GBrBP2X2_iekeseWM8U6MZvAznqY69DcxVmGENs0v25DTqBrXuAhyFmnrx6vyzYMgk1Vf5gm1T84OLThBpMWNS-c_PLcK30GuUu02NvxPOV_c90slnU4WZIrkRbV_brKW2Mc7NlkNw9wa0cBIUnmvhcIZEd0CGYUMbyYL5UkXEJ93jseFZ2-xLZu_m4Heo8PZh1eOe-GogmbiFaIAbHA8GSt3dk55tL4CrRLW4FuzqIUXucPxddeEY"/>
+</button>
+<button class="shrink-0 w-20 aspect-square rounded-xl overflow-hidden border-2 border-transparent hover:border-outline transition-all" onclick="document.getElementById('main-image').src=this.querySelector('img').src">
+<img class="w-full h-full object-cover" data-alt="The artisan's hands shaping the wet clay on a potter's wheel in a warm, sunlit workshop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyHtxad93TPa3n8NkNKhsVOoPTvuRalj1ODABk5_d9oGTyRypte1uB4HBMfkk24UkiJbD9ChBdyhvyBDLNes0bGjTlRVtj0mtSiuxeVWPLsTA-CdD_pgu0JkbBZzU7qo8wFoigdCrbMECWP4EeM-pfYARkcXJ2L9AFtAzsrZCFHHRzBOSPhh5NSpobyGFXh-rHckiGtfU7HlelRQ-SHuHMHUhRke-1prDrUc2GWdCQmYDAgU2th4StFWr_mRvdeLOpkyxo2Gc_VbE"/>
+</button>
+<button class="shrink-0 w-20 aspect-square rounded-xl overflow-hidden border-2 border-transparent hover:border-outline transition-all" onclick="document.getElementById('main-image').src=this.querySelector('img').src">
+<img class="w-full h-full object-cover" data-alt="A top-down view of the ceramic vessel showcasing its circular opening and hand-pinched rim details." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCj3r5IoUyUFimEGziVbDlNyu44LddWvRHfbcNIaC5-PCR1y00NahCFiaJull2Drk7-h8cfnx6DYF7KbkDMmYpU-trcgsm0VP6uCtP1-IvfXRP0tFrv5IHV6g14mOfhBYQdtpZlAFx0jh7Pi9uOT8t1mDAMUaCMb6yThj-_lF3UfdFj8xUxPisOQrGUI5ZFr78FDz4B3pn-vCsUbuez5J2l__wxizqutc61bxQbcravHBOOHeJozY16SZU5ApilSYOR0ZPqTB2mhkc"/>
+</button>
+</div>
+</div>
+<!-- Center: Details -->
+<div class="md:col-span-4 flex flex-col gap-stack-md">
+<nav class="flex text-label-sm text-on-surface-variant/60 gap-2 uppercase tracking-widest">
+<span>Ceramics</span>
+<span>/</span>
+<span>Vessels</span>
+</nav>
+<div class="flex flex-col gap-2">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">The Veridian Root Vessel</h1>
+<div class="flex items-center gap-4">
+<p class="font-headline-sm text-headline-sm text-primary">$420.00</p>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md font-bold">4.9</span>
+<span class="text-label-sm text-on-surface-variant font-normal">(24 Reviews)</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3 py-4 border-y border-outline-variant/30">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-secondary-container">
+<img alt="Artisan Elena Vance" class="w-full h-full object-cover" data-alt="A portrait of Elena Vance, a master ceramicist, in her studio. She is smiling warmly, wearing a linen apron stained with clay, surrounded by shelves of drying pottery in a naturally lit workshop with earthy tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRlZRdPMf3R_6ACkFTugDupvwtTAxy3gYpuI316WcrzcyPqjJIYspf68l_AsoFWyiXmoWGQott1yfePKYzIBuPH4zt1fD62HI6Nr0gehoUZmQqdcCbky7wf810rS9_Wih2jnrdFSsme78_IbU93bUdvAqdFh0iaXu0X816HQ2WLW_PUN0hsYC4A2IXqLmDwtbJ4RtelVToMf4gCBlqjaOF7R4PPN6uaRy0DFGQcRY1az-F5Z-NDRniJzYImEPdUuf8LPjAI3mCpnE"/>
+</div>
+<div>
+<p class="text-label-sm uppercase tracking-wider text-on-surface-variant/70">Master Artisan</p>
+<p class="text-label-md font-bold text-on-surface">Elena Vance — Asheville, NC</p>
+</div>
+</div>
+<section class="flex flex-col gap-4">
+<h3 class="font-label-md text-primary uppercase tracking-widest">The Story Behind</h3>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                        Inspired by the ancient root systems of the Appalachian forest, this vessel is hand-thrown and individually carved. Each piece takes three weeks to complete, undergoing a double-firing process in a custom wood-kiln that creates its unique, unpredictable depth of color.
+                    </p>
+</section>
+<div class="grid grid-cols-2 gap-stack-md">
+<div>
+<h3 class="font-label-md text-on-surface uppercase tracking-widest mb-2">Materials</h3>
+<p class="text-body-md text-on-surface-variant">Local Blue Ridge Clay, Ash Glaze</p>
+</div>
+<div>
+<h3 class="font-label-md text-on-surface uppercase tracking-widest mb-2">Dimensions</h3>
+<p class="text-body-md text-on-surface-variant">12" H x 8" W</p>
+</div>
+</div>
+<div class="bg-secondary-container/30 p-6 rounded-xl border border-outline-variant/20">
+<h3 class="font-label-md text-on-surface uppercase tracking-widest mb-2">Care Instructions</h3>
+<p class="text-label-md text-on-surface-variant italic leading-relaxed">
+                        Hand wash only with mild detergent. To maintain the matte patina, avoid abrasive cleaners and prolonged exposure to direct sunlight.
+                    </p>
+</div>
+</div>
+<!-- Right: Purchase Box (Fixed on Desktop) -->
+<div class="md:col-span-3 sticky top-32">
+<div class="bg-surface-bright p-8 rounded-[24px] shadow-sm border border-outline-variant/30 flex flex-col gap-6">
+<div class="flex flex-col gap-4">
+<button class="w-full py-4 bg-primary text-white rounded-[12px] font-label-md hover:bg-primary-container transition-all active:scale-[0.98]">
+                            Add to Cart
+                        </button>
+<button class="w-full py-4 border-2 border-primary text-primary rounded-[12px] font-label-md hover:bg-primary/5 transition-all active:scale-[0.98]">
+                            Buy Now
+                        </button>
+</div>
+<div class="flex flex-col gap-4 pt-4 border-t border-outline-variant/30">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+<div>
+<p class="text-label-md font-bold">Complimentary Shipping</p>
+<p class="text-label-sm text-on-surface-variant">Est. Delivery: 5–7 business days</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary">assignment_return</span>
+<div>
+<p class="text-label-md font-bold">Artisan Returns</p>
+<p class="text-label-sm text-on-surface-variant">30-day window for handcrafted items</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary">verified</span>
+<div>
+<p class="text-label-md font-bold">Certificate of Authenticity</p>
+<p class="text-label-sm text-on-surface-variant">Signed by Elena Vance</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Meet the Maker Section -->
+<section class="mt-stack-lg pt-stack-lg border-t border-outline-variant/30">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-center bg-secondary-container/20 rounded-[40px] p-8 md:p-16">
+<div class="relative">
+<div class="absolute -top-4 -left-4 w-32 h-32 bg-tertiary-container/20 rounded-full blur-3xl"></div>
+<img alt="Elena Vance's Workshop" class="w-full h-auto aspect-square object-cover rounded-[32px] shadow-lg relative z-10" data-alt="A wide-angle interior shot of a rustic potter's workshop. In the center, a woman with graying hair in a simple linen garment works at a wooden bench. The room is filled with shelves of pottery, sacks of clay, and large windows looking out onto a misty, green mountainous landscape. The atmosphere is quiet, soulful, and deeply connected to nature." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCW6DWHn2I7xyyRBM7Zn6OyuLMWzpqo1X0PZONaMd-jxMWFG9zg7T0Kkp01osB2p0OeTAhsMuGoyhD7OXPDTp1-qSmtssrLWQRJJLjlc5VKtF1i6iVK6w7lBv0XmIuXbXPzUZpl4aDRoM2iiQKkkieruFp7bGAOLmaSLbvD8lglZQcD3gkIGxIBqGP3qcAaPJiq1lipXYNMenpbslDMaZxU4D0ZtDZcPmbhuC81zaYsNq8JShBOFTMLvXj-JAvuO9xcObBUK8KH_J8"/>
+<div class="absolute -bottom-6 -right-6 bg-primary text-on-primary px-6 py-4 rounded-2xl shadow-xl z-20">
+<p class="text-display-lg-mobile font-display-lg leading-none">22</p>
+<p class="text-label-sm uppercase font-bold tracking-widest opacity-80">Years Crafting</p>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Meet Elena Vance</h2>
+<p class="font-body-lg text-on-surface-variant leading-relaxed">
+                        “The clay speaks a language of time. When I sit at the wheel, I am not just making a vessel; I am continuing a conversation that started in my grandmother’s kitchen in the Appalachian foothills.”
+                    </p>
+<div class="flex flex-col gap-4">
+<div class="flex flex-col">
+<h4 class="font-label-md text-primary uppercase tracking-widest mb-1">Village Story</h4>
+<p class="text-body-md text-on-surface-variant italic">Rooted in the high peaks of Asheville, Elena’s studio is a sanctuary for the traditional techniques of wood-firing, a process she revived in the late 90s to honor local heritage.</p>
+</div>
+<div class="flex flex-col">
+<h4 class="font-label-md text-primary uppercase tracking-widest mb-1">The Craft History</h4>
+<p class="text-body-md text-on-surface-variant">Every glaze used is formulated from local minerals and plant ash, ensuring that every piece of CraftRoots pottery is literally a part of the land it came from.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Reviews Section -->
+<section class="mt-stack-lg">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Voices of Our Community</h2>
+<p class="text-body-md text-on-surface-variant">24 reviews from intentional collectors.</p>
+</div>
+<button class="text-primary font-label-md underline underline-offset-4">Write a Review</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Review 1 -->
+<div class="p-6 bg-surface-container rounded-2xl border border-outline-variant/20 flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<div class="flex text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="text-label-sm text-on-surface-variant/60">Oct 12, 2023</span>
+</div>
+<p class="font-body-md text-on-surface italic">"The texture is unlike anything I've owned. You can feel the fingerprints of the maker. It has become the centerpiece of my study."</p>
+<p class="text-label-md font-bold text-on-surface">— Julian S., Seattle</p>
+</div>
+<!-- Review 2 -->
+<div class="p-6 bg-surface-container rounded-2xl border border-outline-variant/20 flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<div class="flex text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="text-label-sm text-on-surface-variant/60">Sep 28, 2023</span>
+</div>
+<p class="font-body-md text-on-surface italic">"Exquisite quality. The way the light catches the green glaze is different at every hour of the day. A true heirloom piece."</p>
+<p class="text-label-md font-bold text-on-surface">— Clara L., London</p>
+</div>
+<!-- Review 3 -->
+<div class="p-6 bg-surface-container rounded-2xl border border-outline-variant/20 flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<div class="flex text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined">star</span>
+</div>
+<span class="text-label-sm text-on-surface-variant/60">Sep 15, 2023</span>
+</div>
+<p class="font-body-md text-on-surface italic">"Beautifully packaged and shipping was surprisingly fast for such a delicate item. The story booklet included is a lovely touch."</p>
+<p class="text-label-md font-bold text-on-surface">— Marcus D., NY</p>
+</div>
+</div>
+</section>
+<!-- Related Products -->
+<section class="mt-stack-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-8">Complementary Pieces</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<!-- Related 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] rounded-t-[24px] overflow-hidden bg-surface-container relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A set of handcrafted stoneware mugs with a speckled earthy glaze, sitting on a rustic wooden table." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT7zUCojHxypIWjNRXoxoAtdmBBF9749j4me1PSGJE8y_IIwtsjODbTWRQAn5zz6lLBL96S-itikgwSPCJHK9fowklxOstjpfQqcX84dD2MhEFDAq2KRO12opqOFfJjI9vUUyuots8yQYV0TsQKtiuOUq83gvAXrOefEk7py_TDA5ez7laoTqk8605nBxyp7_qfHT2l-iynIEHxoLQOObXlHXPsOUCoaFzoTinf_BAD2NNHoJk5LvEmHVt-nKti_YVx1nG8W8KUPg"/>
+<div class="absolute bottom-4 right-4 bg-surface/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">add_shopping_cart</span>
+</div>
+</div>
+<div class="py-4">
+<p class="text-label-sm text-on-surface-variant/60 uppercase tracking-widest">Elena Vance</p>
+<h3 class="font-headline-sm text-headline-sm group-hover:text-primary transition-colors">Stoneware Tea Set</h3>
+<p class="text-label-md text-on-surface mt-1">$145.00</p>
+</div>
+</div>
+<!-- Related 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] rounded-t-[24px] overflow-hidden bg-surface-container relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A wide ceramic fruit bowl with a hand-painted abstract pattern in cobalt blue and white, reflecting a bright, airy coastal style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzbubn1HhrHbvB3cSrwxNoUS6NU6ofYzWNBbC1vm2O4nXrKNrf3q4N6DsO_D7Hdlit0vjZUXNjwKZKZuPZxwh1L8NoJhaMDV7QNKMfUhUXdbjzgSZljSCexN-nUm70KhuUoI9pv9ZYlN3z8PucAUI74AkvIIZI-wWYZahGSyWW9wZjCRnVQFBG4odFaxCJpwNmK5slwq0J6S6W3HLxtj7wpkctkYqE1kc_z-o08apd7csYLhEiH0_axJCqYWSM6I-Wiei1cc9VQdk"/>
+<div class="absolute bottom-4 right-4 bg-surface/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">add_shopping_cart</span>
+</div>
+</div>
+<div class="py-4">
+<p class="text-label-sm text-on-surface-variant/60 uppercase tracking-widest">Elena Vance</p>
+<h3 class="font-headline-sm text-headline-sm group-hover:text-primary transition-colors">Tidepool Bowl</h3>
+<p class="text-label-md text-on-surface mt-1">$180.00</p>
+</div>
+</div>
+<!-- Related 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] rounded-t-[24px] overflow-hidden bg-surface-container relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A minimalist clay incense holder in a warm sand color, featuring a smooth, curved shape and a single gold-painted detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH7ZJr5wcRCACRRIboWU1wTvWAAunWyiQqhmLCpadrW7B7BhovjWy-UyomHWUb2qkOZbTicfLk3g4O-1qFNqp1HX7AuJiRGLotmlkPq6IQ9JqI5U5u6pTmcjUiYcWyEtbzdFssmi_r1jKSdIM2diQMpBOaGWFJeFH8lXDODZUn-P5nmsV3FQSfIeJYnmaOmtN9qFcgq4yfy7JcXUcz9pvyAbnZgsNjeqFlJBNyluO91A3Z0svyWvacyD87S_2dBK1y8SEWDyHVhSQ"/>
+<div class="absolute bottom-4 right-4 bg-surface/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">add_shopping_cart</span>
+</div>
+</div>
+<div class="py-4">
+<p class="text-label-sm text-on-surface-variant/60 uppercase tracking-widest">Elena Vance</p>
+<h3 class="font-headline-sm text-headline-sm group-hover:text-primary transition-colors">Summit Incense Holder</h3>
+<p class="text-label-md text-on-surface mt-1">$65.00</p>
+</div>
+</div>
+<!-- Related 4 -->
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] rounded-t-[24px] overflow-hidden bg-surface-container relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A tall, slender ceramic bud vase with a textured white glaze and organic irregular edges, holding a single dried flower." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9ZFuMomdyzZWXiHm-2_rp9dSMjRL_bvQslDmmi8W6Fe9vBxvZn-Ve9O8d_L9q7D0ClQKRVvwsaSoP3_VXi600okt-XBpHbWwXF9g4eroEKigFRfMbjPp39T8fNrC5F7krEGUn87PI8G3hSbcXByDURB5tdHZZvACx0ZNi0sWffANaejJe7aGEEDz9ZFnWA9yaPg_GIrbsY04dbR59a0rwDVri4TCXPJNvmndDxj1FbXnAo1qEcDaaqCDkDjg7niD73sc3i7H_toc"/>
+<div class="absolute bottom-4 right-4 bg-surface/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">add_shopping_cart</span>
+</div>
+</div>
+<div class="py-4">
+<p class="text-label-sm text-on-surface-variant/60 uppercase tracking-widest">Elena Vance</p>
+<h3 class="font-headline-sm text-headline-sm group-hover:text-primary transition-colors">Mist Bud Vase</h3>
+<p class="text-label-md text-on-surface mt-1">$85.00</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-stack-lg bg-secondary-container dark:bg-surface-container-highest">
+<div class="flex flex-col md:flex-row justify-between items-center gap-stack-md w-full px-margin-mobile md:px-margin-desktop py-stack-lg max-w-container-max mx-auto">
+<div class="flex flex-col gap-4 text-center md:text-left">
+<p class="font-headline-sm text-headline-sm text-primary">CraftRoots</p>
+<p class="font-body-md text-body-md text-on-secondary-container max-w-xs">Connecting discerning collectors with the world's finest master artisans.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8 text-on-secondary-container">
+<a class="hover:text-primary transition-all font-label-md" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-all font-label-md" href="#">Shipping &amp; Returns</a>
+<a class="hover:text-primary transition-all font-label-md" href="#">Artisan Portal</a>
+<a class="hover:text-primary transition-all font-label-md" href="#">Sustainability</a>
+</div>
+<div class="text-on-secondary-container font-label-sm text-center md:text-right">
+<p>© 2024 CraftRoots. Handcrafted with intention.</p>
+</div>
+</div>
+</footer>
+<script>
+        // Simple Interaction: Change active thumbnail border
+        const thumbnails = document.querySelectorAll('button[onclick*="main-image"]');
+        thumbnails.forEach(btn => {
+            btn.addEventListener('click', () => {
+                thumbnails.forEach(t => t.classList.replace('border-primary', 'border-transparent'));
+                btn.classList.replace('border-transparent', 'border-primary');
+            });
+        });
+
+        // Sticky buy box shadow adjustment on scroll
+        const stickyBox = document.querySelector('.sticky');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                stickyBox.querySelector('div').classList.add('shadow-xl');
+            } else {
+                stickyBox.querySelector('div').classList.remove('shadow-xl');
+            }
+        });
+    </script>
+</body></html>

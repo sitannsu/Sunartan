@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Collection | CraftRoots Luxury Shopping</title>
+<meta content="Review your curated collection of handcrafted artisan goods at CraftRoots." name="description"/>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Design System Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#1e1c12",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#eae7e7",
+                    "tertiary-fixed": "#ffe088",
+                    "primary-container": "#556b2f",
+                    "on-primary-fixed-variant": "#394d14",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#fcf9f8",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e5e2e1",
+                    "on-primary-fixed": "#131f00",
+                    "on-surface": "#1c1b1b",
+                    "on-background": "#1c1b1b",
+                    "surface-container-low": "#f6f3f2",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#f3f0ef",
+                    "inverse-surface": "#313030",
+                    "secondary-fixed": "#e9e2d2",
+                    "surface-tint": "#50652a",
+                    "on-secondary-container": "#686457",
+                    "on-secondary-fixed-variant": "#4a473b",
+                    "surface": "#fcf9f8",
+                    "primary-fixed": "#d2eca2",
+                    "on-tertiary-container": "#4e3d00",
+                    "on-surface-variant": "#45483c",
+                    "on-tertiary-fixed": "#241a00",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#b6d088",
+                    "background": "#fcf9f8",
+                    "primary-fixed-dim": "#b6d088",
+                    "surface-variant": "#e5e2e1",
+                    "secondary-container": "#e9e2d2",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "secondary": "#625e52",
+                    "secondary-fixed-dim": "#ccc6b7",
+                    "outline": "#75796b",
+                    "tertiary-container": "#cba72f",
+                    "surface-container": "#f0eded",
+                    "error": "#ba1a1a",
+                    "primary": "#3e5219",
+                    "tertiary": "#735c00",
+                    "surface-dim": "#dcd9d9",
+                    "outline-variant": "#c5c8b8",
+                    "on-primary-container": "#d0eba1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "container-max": "1280px",
+                    "stack-lg": "48px",
+                    "gutter": "24px",
+                    "margin-desktop": "64px",
+                    "stack-sm": "12px",
+                    "stack-md": "24px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "display-lg-mobile": ["EB Garamond"],
+                    "body-lg": ["Inter"],
+                    "headline-sm": ["EB Garamond"],
+                    "headline-md": ["EB Garamond"],
+                    "display-lg": ["EB Garamond"],
+                    "headline-lg": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg-mobile": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                    "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "headline-lg": ["40px", {"lineHeight": "48px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #fcf9f8;
+            color: #1c1b1b;
+        }
+        .cart-item-shadow {
+            box-shadow: 0 4px 40px rgba(85, 107, 47, 0.04);
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm shadow-primary/5">
+<div class="flex justify-between items-center px-margin-desktop py-unit max-w-container-max mx-auto h-20">
+<div class="font-headline-md text-headline-md text-primary tracking-tighter cursor-pointer">CraftRoots</div>
+<div class="hidden md:flex items-center space-x-gutter">
+<a class="font-headline-sm text-headline-sm tracking-wide text-on-surface-variant hover:text-primary transition-colors" href="#">Shop</a>
+<a class="font-headline-sm text-headline-sm tracking-wide text-on-surface-variant hover:text-primary transition-colors" href="#">Artisans</a>
+<a class="font-headline-sm text-headline-sm tracking-wide text-on-surface-variant hover:text-primary transition-colors" href="#">Our Story</a>
+<a class="font-headline-sm text-headline-sm tracking-wide text-on-surface-variant hover:text-primary transition-colors" href="#">Collections</a>
+</div>
+<div class="flex items-center space-x-6">
+<button class="transition-transform duration-200 active:scale-95 text-primary">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+<button class="transition-transform duration-200 active:scale-95 text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-stack-lg max-w-container-max mx-auto px-margin-desktop">
+<!-- Cart Hero Section -->
+<div class="mb-stack-lg">
+<h1 class="font-display-lg text-display-lg mb-2">Your Collection</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">2 Artisanal Items</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left Column: Cart Items -->
+<div class="lg:col-span-8 space-y-stack-md">
+<!-- Cart Item 1 -->
+<div class="bg-surface p-6 rounded-xl flex gap-gutter cart-item-shadow transition-all hover:shadow-lg">
+<div class="w-48 h-64 overflow-hidden rounded-lg flex-shrink-0">
+<img alt="Handcrafted Ceramic Bowl" class="w-full h-full object-cover" data-alt="A high-end, close-up photograph of a handcrafted ceramic bowl with organic, uneven edges and a subtle matte glaze in earth tones. The bowl sits on a natural oak surface in a minimalist, light-filled studio. Soft, ambient shadows dance across the textured surface, highlighting the artisan's fingerprints. The aesthetic is clean, luxurious, and rooted in the CraftRoots brand palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAz-7DZ8t74L2l06IGXbjuTiVaXy_dGpNd0ZOIZzZFCyjFoSpwqKdQUQyQKCuF0-_9AhKP0jKT9yOEi6EC_iCWdXZLjXBFtl-2GbYbUw3M0PIew_EsGHK02z_Up2aN-x69Z4L_k0VaM7qzQhYrnb3AtAB14TwuXAebPGcrIDulobtpP1Rrpamw2GdRhQfdhLnCiBWhfTAXkX-M7EDGZ_fQDGT8HvxieoJtyA84Wqv9_Y8CBqbYPj5QLhvolcmRC8jSqFZt3Yx5M1Q"/>
+</div>
+<div class="flex flex-col justify-between flex-grow">
+<div>
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-md text-label-md text-outline tracking-wider uppercase">Artisan: Elena Rossi</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mt-1">Earthen Harvest Bowl</h3>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">$185.00</span>
+</div>
+<p class="text-on-surface-variant mt-2 max-w-md">Large serving bowl hand-thrown in Tuscany using local volcanic clay. Features a distinctive textured rim.</p>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center border border-outline-variant rounded-lg p-1">
+<button class="w-8 h-8 flex items-center justify-center text-primary hover:bg-secondary-container rounded transition-colors">-</button>
+<span class="w-12 text-center font-label-md">1</span>
+<button class="w-8 h-8 flex items-center justify-center text-primary hover:bg-secondary-container rounded transition-colors">+</button>
+</div>
+<div class="flex gap-6">
+<button class="flex items-center gap-2 text-outline hover:text-primary transition-colors font-label-md">
+<span class="material-symbols-outlined text-sm">bookmark</span> Save for Later
+                                </button>
+<button class="flex items-center gap-2 text-outline hover:text-error transition-colors font-label-md">
+<span class="material-symbols-outlined text-sm">close</span> Remove
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Cart Item 2 -->
+<div class="bg-surface p-6 rounded-xl flex gap-gutter cart-item-shadow transition-all hover:shadow-lg">
+<div class="w-48 h-64 overflow-hidden rounded-lg flex-shrink-0">
+<img alt="Hand-woven Linen Runner" class="w-full h-full object-cover" data-alt="Detailed macro shot of a hand-woven linen table runner with intricate geometric patterns in deep forest green and ivory. The fabric's natural texture is illuminated by warm, side-lit sunlight in an elegant residential dining setting. The composition emphasizes the fine craftsmanship and luxury feel of the textile, maintaining a soft, editorial blur in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMiyMVM14P-mmGOpWsBMk3edHiJSUTeYyE8hx1FN24X_j0ZWJUONBvV7koazLi7dxcU8QYWZf8ZfWwFP-c80Jo_fKiFku-0K5jyDAA_gkVFPctzvmsoD-9IqG6_9uREc4r_7Su8MLNmH8f6WLRVGz8-8baj6N9Nx20b4e6NAd3T03pn2CGH1aV6Evc7uFiPvpqfVYPMo09IT9QlA123F-8HKqTeorUfGyNVyXXJMu6VfWDRqMXIZml4UhigDwnKaQxsWpWigmpyXo"/>
+</div>
+<div class="flex flex-col justify-between flex-grow">
+<div>
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-md text-label-md text-outline tracking-wider uppercase">Artisan: Marcus Thorne</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mt-1">Forest Weave Runner</h3>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">$120.00</span>
+</div>
+<p class="text-on-surface-variant mt-2 max-w-md">Sustainable European linen woven on traditional floor looms. Naturally dyed with botanical extracts.</p>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center border border-outline-variant rounded-lg p-1">
+<button class="w-8 h-8 flex items-center justify-center text-primary hover:bg-secondary-container rounded transition-colors">-</button>
+<span class="w-12 text-center font-label-md">1</span>
+<button class="w-8 h-8 flex items-center justify-center text-primary hover:bg-secondary-container rounded transition-colors">+</button>
+</div>
+<div class="flex gap-6">
+<button class="flex items-center gap-2 text-outline hover:text-primary transition-colors font-label-md">
+<span class="material-symbols-outlined text-sm">bookmark</span> Save for Later
+                                </button>
+<button class="flex items-center gap-2 text-outline hover:text-error transition-colors font-label-md">
+<span class="material-symbols-outlined text-sm">close</span> Remove
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Summary Sidebar -->
+<aside class="lg:col-span-4 sticky top-32">
+<div class="bg-secondary-container/60 p-gutter rounded-xl">
+<h2 class="font-headline-md text-headline-md text-primary mb-6">Summary</h2>
+<div class="space-y-4 border-b border-outline-variant/30 pb-6 mb-6">
+<div class="flex justify-between text-body-md text-on-surface-variant">
+<span>Subtotal</span>
+<span>$305.00</span>
+</div>
+<div class="flex justify-between text-body-md text-on-surface-variant">
+<span>Estimated Shipping</span>
+<span>$15.00</span>
+</div>
+<div class="flex justify-between text-body-md text-on-surface-variant">
+<span>Taxes</span>
+<span>$24.40</span>
+</div>
+</div>
+<div class="flex justify-between items-center mb-8">
+<span class="font-headline-sm text-headline-sm text-on-surface">Total</span>
+<span class="font-headline-md text-headline-md text-primary font-bold">$344.40</span>
+</div>
+<div class="space-y-4 mb-8">
+<div class="relative">
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-tertiary-container focus:border-tertiary-container outline-none transition-all font-body-md" placeholder="Promotional Code" type="text"/>
+<button class="absolute right-2 top-2 px-4 py-1.5 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary-container transition-colors">Apply</button>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-body-lg font-semibold hover:bg-primary-container transition-all active:scale-[0.98] shadow-md shadow-primary/10">
+                        Proceed to Checkout
+                    </button>
+<a class="block text-center mt-6 text-primary hover:text-tertiary-container transition-colors font-label-md border-b border-transparent hover:border-tertiary-container w-fit mx-auto" href="#">
+                        Continue Shopping
+                    </a>
+</div>
+<!-- Trusted Badge -->
+<div class="mt-gutter flex items-center gap-4 px-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<p class="text-label-sm text-on-surface-variant">Secure checkout powered by CraftRoots. Every purchase supports independent artisans directly.</p>
+</div>
+</aside>
+</div>
+<!-- Recommended Section -->
+<section class="mt-stack-lg pt-stack-lg border-t border-outline-variant/20">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-gutter">Recommended for Your Studio</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<!-- Recommendation 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden rounded-xl mb-4 bg-surface-container">
+<img alt="Wooden Pedestal" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A minimalist hand-carved walnut wood pedestal for art display, showcased in a soft-lit, airy contemporary studio. The wood features a rich, dark grain with a polished oil finish. The scene is calm and sophisticated, with long shadows from a nearby window creating a gallery-like atmosphere. Colors are warm walnuts, soft creams, and the signature forest green accents of the brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpUOsI_y2EG4aN-AGKbBmNSYWd8ym_6L9uQCaoS23JWEfn8MrUbcKtnLc_pMPKx_oDfj-G0vq5Uu-Se8wejqsJOSAEzUfbRVsGTjUebT1HdyYnAOq4iMKx8K6K_opFyUmrjXbKaNW0vZBjkZREnFR_npwQ30z8jQaw4APG2Q1M122lW1UbmC4QumB8xWRzCmAzX8XM4ljFshxAOVH091IcjSRcHZP0_uYSqVJEL4WdhxmN6lbU6gYWN8OSQYbpBkm9INifJql-VK8"/>
+</div>
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider">Silas Vane</span>
+<h4 class="font-headline-sm text-headline-sm text-primary group-hover:text-tertiary-container transition-colors">Walnut Display Pedestal</h4>
+<p class="text-body-md text-on-surface mt-1">$210.00</p>
+</div>
+<!-- Recommendation 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden rounded-xl mb-4 bg-surface-container">
+<img alt="Handmade Candle" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A luxury artisanal candle in a textured stone vessel, placed on a marble surface. The candle flame is glowing warmly, casting soft light onto surrounding handcrafted elements like a small ceramic tray. The mood is intimate, serene, and premium. The lighting is low-key, emphasizing the tactile textures of the stone and the rich, waxy surface of the candle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1IJjV4yfRUL1ncuE9BCC_R0T65C8Du-xsz4PwxsralGw93JwPKeQRPC127xsbXsphpoPRQQdplLCchVC-PAgOYeII8TjYc_c_YTBCyc04bt5I6fibF3ATifJlxFjeq7DE5uHe8A4BpxDLybtJf_1Mg41cof2rTtQGtGs_nMjwoSVH-PIwMrL6B9FZj4nXwEy6-WcYTSJMuG7r3yQlzrGkfXamSKpBOGfHoUtJ5bacHZuB9sMDUpe3IYu2Rd30AybKxW8_YFqWMuI"/>
+</div>
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider">Aria Moon</span>
+<h4 class="font-headline-sm text-headline-sm text-primary group-hover:text-tertiary-container transition-colors">Dusk Stone Candle</h4>
+<p class="text-body-md text-on-surface mt-1">$65.00</p>
+</div>
+<!-- Recommendation 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden rounded-xl mb-4 bg-surface-container">
+<img alt="Linen Napkins" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A set of four rolled linen napkins secured with hand-forged brass rings, presented on a rustic wooden table. The linen has a natural, slightly wrinkled texture in a soft sage color. The lighting is bright and airy, typical of a high-end editorial kitchen spread. The focus is sharp on the metal craftsmanship of the rings, with a soft background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbV6R_AunstMTa8qW-w6gnrZOEri1zXrElIHPvZC2VPBFBzIf-FHVghRe25jPIa3ym2giKEiJ3zAuIqh6mU745SKo2jkBbpD7NnYh1itr_aAhUfGLW-1hYpyUuEUFpIRxpImzzgUHEzMYnN0TUN3fDwiBWWSidLRSPpa7Ly6DDb112IVQruUToJLFrugETNU7RlFfwA_E3J5jxcoNc7aHC_sdrtuR3LIkt-JJOOKTEtsexWh__2Mdeit9xglBQuuz6DOoFZusrcek"/>
+</div>
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider">Marcus Thorne</span>
+<h4 class="font-headline-sm text-headline-sm text-primary group-hover:text-tertiary-container transition-colors">Brass &amp; Sage Napkin Set</h4>
+<p class="text-body-md text-on-surface mt-1">$88.00</p>
+</div>
+<!-- Recommendation 4 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden rounded-xl mb-4 bg-surface-container">
+<img alt="Studio Vase" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A tall, sculptural ceramic vase with a reactive glaze that transitions from deep charcoal to pale mist. The vase stands alone as a piece of art against a clean, off-white gallery wall. The composition is highly balanced and minimalist, evoking a sense of calm and heritage. The lighting is museum-grade, highlighting the three-dimensional form and subtle surface variations." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQwTyhrRtCanqqx5l-Sn2SWT1u7vlFsZWQb-BGrvhkLxqL0GQIPigGDhuL_0Wkeya2hvMbQPnlYEGCQmSmajNKzKXPS3X4XAaFBICdQ5Vrv2O-ndIyqL_92vU5nsRTs4tAdSP-GU0xlVSFTYJph03m_tVr2QyVDcAg4gaIavUOsWD_TCg4_naAu8PrZRWPQKEK3JsxJHtctyns2lCaiotaa6d9ig7VLT-MQbc6TSIoHWJ0eE1hxwctzisqbhAM5VTmsvwXjHMfy18"/>
+</div>
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider">Elena Rossi</span>
+<h4 class="font-headline-sm text-headline-sm text-primary group-hover:text-tertiary-container transition-colors">Mist Glaze Tall Vase</h4>
+<p class="text-body-md text-on-surface mt-1">$245.00</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="w-full pt-stack-lg pb-stack-md bg-secondary-container dark:bg-surface-container-high border-t border-outline-variant/10">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter px-margin-desktop max-w-container-max mx-auto">
+<div class="md:col-span-4 space-y-4">
+<div class="font-headline-sm text-headline-sm text-primary">CraftRoots</div>
+<p class="text-body-md text-on-secondary-container max-w-xs">Connecting discerning collectors with the world's most exceptional handcrafted artifacts.</p>
+</div>
+<div class="md:col-span-2 space-y-4">
+<h5 class="font-label-md text-primary uppercase tracking-widest">Shop</h5>
+<ul class="space-y-2">
+<li><a class="text-body-md text-on-secondary-container hover:text-tertiary transition-colors" href="#">All Products</a></li>
+<li><a class="text-body-md text-on-secondary-container hover:text-tertiary transition-colors" href="#">New Arrivals</a></li>
+<li><a class="text-body-md text-on-secondary-container hover:text-tertiary transition-colors" href="#">Artisan Spotlight</a></li>
+</ul>
+</div>
+<div class="md:col-span-3 space-y-4">
+<h5 class="font-label-md text-primary uppercase tracking-widest">CraftRoots Story</h5>
+<ul class="space-y-2">
+<li><a class="text-body-md text-on-secondary-container hover:text-tertiary transition-colors" href="#">Sustainability</a></li>
+<li><a class="text-body-md text-on-secondary-container hover:text-tertiary transition-colors" href="#">Artisan Portal</a></li>
+<li><a class="text-body-md text-on-secondary-container hover:text-tertiary transition-colors" href="#">Ethics</a></li>
+</ul>
+</div>
+<div class="md:col-span-3 space-y-4">
+<h5 class="font-label-md text-primary uppercase tracking-widest">Customer Care</h5>
+<ul class="space-y-2">
+<li><a class="text-body-md text-on-secondary-container hover:text-tertiary transition-colors" href="#">Shipping</a></li>
+<li><a class="text-body-md text-on-secondary-container hover:text-tertiary transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div class="md:col-span-12 mt-stack-lg pt-6 border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-label-sm text-on-surface-variant">© 2024 CraftRoots. Consciously Handcrafted.</p>
+<div class="flex gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for quantity selectors
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.innerText === '+' || this.innerText === '-') {
+                    const span = this.parentElement.querySelector('span');
+                    let val = parseInt(span.innerText);
+                    if (this.innerText === '+') val++;
+                    if (this.innerText === '-' && val > 1) val--;
+                    span.innerText = val;
+                }
+            });
+        });
+
+        // Simple Fade-in animation for images on load
+        window.addEventListener('load', () => {
+            const images = document.querySelectorAll('img');
+            images.forEach((img, i) => {
+                img.style.opacity = '0';
+                img.style.transition = 'opacity 1s ease-in-out';
+                setTimeout(() => {
+                    img.style.opacity = '1';
+                }, i * 150);
+            });
+        });
+    </script>
+</body></html>

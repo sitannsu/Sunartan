@@ -1,0 +1,175 @@
+// Prisma schema for Sunartn Artisan Marketplace
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+enum Role {
+  CUSTOMER
+  ARTISAN
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  SHIPPED
+  DELIVERED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model User {
+  id            String          @id @default(uuid())
+  email         String          @unique
+  password      String
+  name          String
+  role          Role            @default(CUSTOMER)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  
+  // Relations
+  artisanProfile ArtisanProfile?
+  orders        Order[]
+  conversations Conversation[]
+  reviews       Review[]
+}
+
+model ArtisanProfile {
+  id             String       @id @default(uuid())
+  userId         String       @unique
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio            String       @db.Text
+  region         String       // e.g. "Kashmir", "Rajasthan", "Gujarat"
+  craft          String       // e.g. "Pottery", "Textiles", "Woodwork"
+  studioLocation String?
+  avatarUrl      String?
+  bannerUrl      String?
+  rating         Float        @default(5.0)
+  isVerified     Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  // Relations
+  products       Product[]
+  collections    Collection[]
+}
+
+model Product {
+  id               String          @id @default(uuid())
+  title            String
+  description      String          @db.Text
+  price            Float
+  stock            Int             @default(10)
+  images           String[]        // Array of URLs
+  category         String          // e.g. "Vases", "Stoles", "Baskets"
+  region           String          // e.g. "Rajasthan", "Kashmir"
+  craft            String          // e.g. "Pottery", "Textiles"
+  rating           Float           @default(5.0)
+  artisanId        String
+  artisan          ArtisanProfile  @relation(fields: [artisanId], references: [id], onDelete: Cascade)
+  meiliIndexed     Boolean         @default(false)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  // Relations
+  orderItems       OrderItem[]
+  reviews          Review[]
+  collectionItems  CollectionItem[]
+}
+
+model Order {
+  id             String        @id @default(uuid())
+  userId         String
+  user           User          @relation(fields: [userId], references: [id])
+  status         OrderStatus   @default(PENDING)
+  paymentStatus  PaymentStatus @default(UNPAID)
+  paymentMethod  String        // "STRIPE", "RAZORPAY", "MOCK"
+  paymentId      String?       // Transaction reference ID
+  totalAmount    Float
+  shippingAddress String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  // Relations
+  items          OrderItem[]
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float    // Historical price at which purchased
+}
+
+model Collection {
+  id             String          @id @default(uuid())
+  title          String
+  description    String          @db.Text
+  coverImage     String?
+  artisanId      String
+  artisan        ArtisanProfile  @relation(fields: [artisanId], references: [id], onDelete: Cascade)
+  isAiCurated    Boolean         @default(false)
+  isPublished    Boolean         @default(true)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  // Relations
+  items          CollectionItem[]
+}
+
+model CollectionItem {
+  id           String     @id @default(uuid())
+  collectionId String
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  productId    String
+  product      Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([collectionId, productId])
+}
+
+model Conversation {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relations
+  messages  Message[]
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         String       // "USER" or "AI"
+  text           String       @db.Text
+  // JSON array of recommended products to link items interactively in the UI
+  recommendedJson String?
+  createdAt      DateTime     @default(now())
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String   @db.Text
+  createdAt DateTime @default(now())
+}

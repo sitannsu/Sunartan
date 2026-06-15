@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Julian Sol | CraftRoots Collector Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@300;400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#e5e2e1",
+                    "outline-variant": "#c5c8b8",
+                    "surface-tint": "#50652a",
+                    "inverse-surface": "#313030",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#686457",
+                    "on-primary-fixed-variant": "#394d14",
+                    "on-secondary-fixed": "#1e1c12",
+                    "on-primary-fixed": "#131f00",
+                    "surface": "#fcf9f8",
+                    "error-container": "#ffdad6",
+                    "primary": "#3e5219",
+                    "surface-dim": "#dcd9d9",
+                    "background": "#fcf9f8",
+                    "on-background": "#1c1b1b",
+                    "primary-fixed": "#d2eca2",
+                    "secondary": "#625e52",
+                    "surface-container-low": "#f6f3f2",
+                    "primary-container": "#556b2f",
+                    "on-surface-variant": "#45483c",
+                    "surface-container": "#f0eded",
+                    "secondary-fixed": "#e9e2d2",
+                    "outline": "#75796b",
+                    "surface-container-high": "#eae7e7",
+                    "on-tertiary-container": "#4e3d00",
+                    "on-primary-container": "#d0eba1",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "on-secondary-fixed-variant": "#4a473b",
+                    "secondary-fixed-dim": "#ccc6b7",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed": "#ffe088",
+                    "inverse-on-surface": "#f3f0ef",
+                    "surface-container-highest": "#e5e2e1",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#cba72f",
+                    "tertiary": "#735c00",
+                    "on-surface": "#1c1b1b",
+                    "secondary-container": "#e9e2d2",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#241a00",
+                    "inverse-primary": "#b6d088",
+                    "surface-bright": "#fcf9f8",
+                    "primary-fixed-dim": "#b6d088",
+                    "on-tertiary-fixed-variant": "#574500"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "24px",
+                    "unit": "8px",
+                    "stack-sm": "12px",
+                    "margin-mobile": "20px",
+                    "stack-lg": "48px",
+                    "gutter": "24px",
+                    "margin-desktop": "64px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "headline-md": ["EB Garamond"],
+                    "body-md": ["Inter"],
+                    "headline-sm": ["EB Garamond"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-lg": ["EB Garamond"],
+                    "label-md": ["Inter"],
+                    "display-lg-mobile": ["EB Garamond"],
+                    "display-lg": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg-mobile": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                    "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fcf9f8;
+            color: #1c1b1b;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .collector-card {
+            transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.4s cubic-bezier(0.2, 0, 0, 1);
+        }
+        .collector-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(85, 107, 47, 0.06);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md shadow-[0_20px_40px_rgba(85,107,47,0.04)]">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto">
+<span class="font-headline-sm text-headline-sm text-primary tracking-tight">CraftRoots</span>
+<div class="hidden md:flex gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Marketplace</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Artisans</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Our Story</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Journal</a>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary cursor-pointer">shopping_bag</span>
+<span class="material-symbols-outlined text-primary cursor-pointer border-b-2 border-primary pb-1">person</span>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-stack-lg max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Header Section -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-stack-md mb-stack-lg">
+<div class="flex items-center gap-8">
+<div class="relative group">
+<img class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-lg border-4 border-white" data-alt="A sophisticated portrait of a man in his late 30s with short groomed hair and a kind expression, wearing a high-quality linen shirt. The lighting is soft and natural, suggesting an art studio setting. The background is a warm neutral tone, consistent with a luxury minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyVjqNk0eRcBaZLhuTTzPV_V1QEwG_hz0ZGog_CgqPtGVUWnU1VvrouNE0rBau7zyeSMt7Jow9loLJbAuDIKtuEELSaNB2WG-C0-qmHoT0UmDmpVcJeoMx0bssUc2y1lD9Er640iUU91pV18wJJkbFZJDZo9Dtynt9FI5PGAIvgWx3jf39uNuitPzZUlXW4Qs42zYC2y_shtczAPrWHV-iTq22XHUvNOzdAW7zwWAeIdoVY2SKWl-DRHGEcnTGT58Dlhmjeg3Pxh8"/>
+<div class="absolute bottom-1 right-1 bg-primary p-2 rounded-full text-white cursor-pointer hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-sm">edit</span>
+</div>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Julian Sol</h1>
+<p class="text-on-surface-variant font-body-md italic mt-1">Collector since October 2021</p>
+<div class="mt-4 flex gap-4">
+<span class="inline-flex items-center px-3 py-1 bg-secondary-container text-on-secondary-fixed-variant rounded-full text-label-sm uppercase tracking-wider font-semibold">Gold Member</span>
+</div>
+</div>
+</div>
+<div class="hidden md:flex gap-4">
+<button class="px-6 py-3 border border-outline text-primary rounded-xl font-label-md hover:bg-surface-container transition-colors">Edit Profile</button>
+<button class="px-6 py-3 bg-primary text-white rounded-xl font-label-md hover:opacity-90 transition-opacity">Share Studio</button>
+</div>
+</header>
+<!-- Main Layout with Sidebar -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Profile Navigation Sidebar -->
+<aside class="md:col-span-3">
+<nav class="flex flex-col gap-2 sticky top-32">
+<button class="flex items-center gap-4 px-6 py-4 rounded-xl bg-primary-container text-on-primary-container font-bold transition-all text-left">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</button>
+<button class="flex items-center gap-4 px-6 py-4 rounded-xl text-on-surface-variant hover:bg-surface-container transition-all text-left">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-body-md">Order History</span>
+</button>
+<button class="flex items-center gap-4 px-6 py-4 rounded-xl text-on-surface-variant hover:bg-surface-container transition-all text-left">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-body-md">Wishlist</span>
+</button>
+<button class="flex items-center gap-4 px-6 py-4 rounded-xl text-on-surface-variant hover:bg-surface-container transition-all text-left">
+<span class="material-symbols-outlined">group</span>
+<span class="font-body-md">Following Artisans</span>
+</button>
+<button class="flex items-center gap-4 px-6 py-4 rounded-xl text-on-surface-variant hover:bg-surface-container transition-all text-left">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md">Addresses & Payments</span>
+</button>
+<div class="mt-stack-lg pt-stack-md border-t border-outline-variant">
+<button class="flex items-center gap-4 px-6 py-4 rounded-xl text-error hover:bg-error-container/20 transition-all text-left w-full">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-md">Sign Out</span>
+</button>
+</div>
+</nav>
+</aside>
+<!-- Dashboard Content -->
+<div class="md:col-span-9 flex flex-col gap-stack-lg">
+<!-- Quick Stats -->
+<section class="grid grid-cols-1 sm:grid-cols-3 gap-gutter">
+<div class="bg-white p-8 rounded-3xl shadow-[0_20px_40px_rgba(85,107,47,0.04)] border border-surface-container">
+<p class="text-label-sm uppercase tracking-widest text-on-surface-variant mb-2">Total Orders</p>
+<h3 class="font-headline-md text-headline-md text-primary">12</h3>
+</div>
+<div class="bg-white p-8 rounded-3xl shadow-[0_20px_40px_rgba(85,107,47,0.04)] border border-surface-container">
+<p class="text-label-sm uppercase tracking-widest text-on-surface-variant mb-2">Saved Items</p>
+<h3 class="font-headline-md text-headline-md text-primary">24</h3>
+</div>
+<div class="bg-white p-8 rounded-3xl shadow-[0_20px_40px_rgba(85,107,47,0.04)] border border-surface-container">
+<p class="text-label-sm uppercase tracking-widest text-on-surface-variant mb-2">Artisans Followed</p>
+<h3 class="font-headline-md text-headline-md text-primary">8</h3>
+</div>
+</section>
+<!-- Recommended for You (Bento Style) -->
+<section>
+<div class="flex items-baseline justify-between mb-stack-md">
+<h2 class="font-headline-md text-headline-md text-on-surface">Curated for Your Studio</h2>
+<a class="text-primary font-label-md hover:underline" href="#">Explore More</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<div class="md:col-span-2 collector-card relative overflow-hidden rounded-[24px] bg-secondary-container h-[400px] group">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A beautifully hand-thrown ceramic vase with an organic, uneven rim and a textured, earthy glaze. It sits on a minimalist wooden pedestal with soft side-lighting highlighting the intricate texture of the clay. The scene is tranquil and evokes a sense of artisanal luxury and wabi-sabi aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPbuYOrnmKMvMnWTaewO3kC4q2aBDbphcTTlfhW5j9lrQeSg0CXLhEukRaAsiI-dha4Kk3m_lWq0Iv_nzcjFI7tJN68t_nokLLyWUcseY85lto32Rw7cxdgzsXsK-azTuD6njSuWmgZXeER4NOpRtBoiXSUfJQ8F9CXiE9HdCDWBMpSQUh_17iq9n45T9uKU7mQMIpLBEQB8kzxBr96fo5uMzy5xXkhrKyG3CaibdvBygsyz02lnSF6QKdKyT7Ma81kiWmRcUzKBg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-0 p-8 text-white">
+<p class="text-label-sm uppercase tracking-widest opacity-80 mb-2">New from Elena Vance</p>
+<h3 class="font-headline-sm text-headline-sm mb-4">Obsidian Glaze Collection</h3>
+<button class="px-6 py-2 bg-white text-primary rounded-full font-label-md">View Piece</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="collector-card bg-white p-6 rounded-[24px] border border-surface-container shadow-[0_20px_40px_rgba(85,107,47,0.04)] flex flex-col">
+<img class="w-full aspect-square object-cover rounded-[16px] mb-6" data-alt="A close-up shot of a hand-woven textile featuring intricate geometric patterns in muted forest green and cream tones. The focus is sharp on the delicate weave and high-quality wool fibers, emphasizing the tactile quality of the craft. Soft, directional light creates gentle shadows within the texture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUiVDvKumBGAjSyARdusRjhoWyq1DLT6x20rQU6FWTAH8oHEWX1I7aihezZxcWCgOYRGKrqbtCgGMLY_NFVdgJWTYlQ6oFmBFijxRA2_rBbUNd3HJ0knFbtoH6BLUY5cB8mUzbcAIArqNnrJwA1dfSNUj4axV0NMYuYcDaURymNVS7wf3SXqeGRkUEfWYGeBFPAWkuaRphV4ZOCE8osnZD8wtNv0x-UenshHfq8TdWA_PMtKUjmpgHRtXH-n0-W-Mvlo3oWoAqS9U"/>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Textured Wool Throw</h4>
+<p class="text-on-surface-variant font-body-md mt-2 mb-4">By Heritage Loom</p>
+<div class="mt-auto flex justify-between items-center">
+<span class="font-headline-sm text-primary">$320</span>
+<span class="material-symbols-outlined text-primary cursor-pointer">favorite</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Following Artisans Section -->
+<section>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-stack-md">Your Circle of Artisans</h2>
+<div class="flex overflow-x-auto gap-gutter pb-6 -mx-margin-mobile px-margin-mobile no-scrollbar">
+<!-- Artisan 1 -->
+<div class="flex-shrink-0 w-64 text-center group cursor-pointer">
+<div class="relative mb-4">
+<img class="w-32 h-32 rounded-full mx-auto object-cover group-hover:ring-4 ring-primary-fixed transition-all" data-alt="A professional portrait of an artisan woman in her mid-50s, Elena Vance, with grey-streaked hair pulled back, wearing a denim apron covered in clay dust. She is smiling warmly in her sun-drenched pottery studio. The atmosphere is authentic, artistic, and filled with creative energy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKIxGhOxbTycWPIZzr2OHGN7eO0LfJliArVFaZuBONVWCL4t7vsDwNDdvSZ5unqBrUS10ypVZY1wCN_iY3PGbuxBHCtgCQJRCzua8CNyrTfSAuIDJ4yvlAyIToaK4Aiuk3f_k099j5F7IknDaxyD-3ZaO22JpG066yf3zCFYJAuS1XseQ2Rnu1vKxwUB9xnNXJ4U9R4pwG4SIAVxoL58nE5dLivLJsPn4tKTCXWO-ufEXnG_KI8s5kAKbtO52t2_00EcSEjjTQ4oY"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Elena Vance</h4>
+<p class="text-label-sm uppercase tracking-widest text-on-surface-variant">Ceramicist</p>
+</div>
+<!-- Artisan 2 -->
+<div class="flex-shrink-0 w-64 text-center group cursor-pointer">
+<div class="relative mb-4">
+<img class="w-32 h-32 rounded-full mx-auto object-cover group-hover:ring-4 ring-primary-fixed transition-all" data-alt="A focused portrait of a male woodworker with a thick beard and rugged features, looking intently at a piece of walnut wood. He is in a dusty, sunlit workshop filled with hand tools. The style is moody and cinematic, celebrating the raw physicality of craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwPlaXx71uOMVK6Ymug3SXzOBzBt6ZIqYMxkfStdadZwqGhBrBkCY2Tv_6nmdl-itbRHwI30qPbrEv7KKIu3F556wn67wU4HIIrD5zC_jXHk1OTo0XgB5kR9ID_96zNlerlJm5pMwXlyCPM9A0M6wLHwKmMT9NZTiVS3Sqe8fTLxK1gueHauLpG35J-_QBr98HjOr6aWP_1sO9MeScmuNpKg6XEIl1TSr1t-lWVIIaeNj_WjBVMCgDYJfV3Nc5gzV7zUENPk1E5mE"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Marcus Thorne</h4>
+<p class="text-label-sm uppercase tracking-widest text-on-surface-variant">Woodworker</p>
+</div>
+<!-- Artisan 3 -->
+<div class="flex-shrink-0 w-64 text-center group cursor-pointer">
+<div class="relative mb-4">
+<img class="w-32 h-32 rounded-full mx-auto object-cover group-hover:ring-4 ring-primary-fixed transition-all" data-alt="A close-up portrait of a textile designer with glasses and an elegant silk scarf, surrounded by hanging dyed fabrics in various shades of indigo. The lighting is diffused and ethereal, highlighting the vibrant blues and the designer's refined, artistic presence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYc8fPufeQDt1VQJ8jkeJTIB7User-pBTUCXTaZ3_mnslYH_qLxGdOF-iYK2FHKWofS2cmz-eVFR40iumuEvDB7LfdXGAk9mrcqHfKfaevnBlxmm5p5xfUXWoyz--Z6Zfzfs-GApFYRnuBqDt4qmBBOM461e6J5jNoK1_jmsBvA2H38vHboSBWizuRzhEzpuNtBnpDBCCdsiyQVNMPyqgbgrfS9GYbnQh-doU9ayJXdKXfSUMS6Y7WydsZ_jWRFHv4nPfxWj9h-gc"/>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Sana Kapoor</h4>
+<p class="text-label-sm uppercase tracking-widest text-on-surface-variant">Textile Designer</p>
+</div>
+</div>
+</section>
+<!-- Recent Activity/Orders Preview -->
+<section class="bg-white rounded-[32px] p-8 border border-surface-container shadow-[0_20px_40px_rgba(85,107,47,0.04)]">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-stack-md">Recent Acquisitions</h2>
+<div class="flex flex-col gap-6">
+<!-- Order Item 1 -->
+<div class="flex flex-col sm:flex-row gap-6 items-center p-4 rounded-2xl hover:bg-surface-container-low transition-colors">
+<img class="w-24 h-24 object-cover rounded-xl" data-alt="A high-quality studio shot of a leather bound journal with a hand-stitched spine. The leather is a deep, rich tan color with visible natural grain. It lies open on a dark mahogany table next to an antique fountain pen, suggesting a mood of quiet contemplation and luxury writing." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtYfKiL-jTNEyx96-42FS0TeuQJ_Jvu7AZaBHyD4iB7a0HzI5LajbMPfxDOOEdic7M_Ircx5-o0_o7_P4lHKC9B_Cz3QJGV1dkgicXuugNEbVeiElBEsgksPvOP3-90Ry_crLjNPK9iXW9sBObCWMeIAcBVRLlCmguBJMHXYr1fTgbA1otd5tWTtoo59VyBNPVLtTT30Yn4Ft_v9GApJvmEy9hsdj2gdu8TALclM7LibcbAZiwu5plHUUgrjDkoe2sDy7U6kMevVU"/>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-headline-sm text-headline-sm">Artisan Leather Journal</h4>
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-label-sm font-semibold">Delivered</span>
+</div>
+<p class="text-on-surface-variant font-body-md">Ordered on Feb 12, 2024</p>
+<p class="text-on-surface font-bold mt-1">$145.00</p>
+</div>
+<button class="px-4 py-2 border border-outline rounded-lg text-label-md hover:bg-primary hover:text-white transition-all">Track Order</button>
+</div>
+<!-- Order Item 2 -->
+<div class="flex flex-col sm:flex-row gap-6 items-center p-4 rounded-2xl hover:bg-surface-container-low transition-colors">
+<img class="w-24 h-24 object-cover rounded-xl" data-alt="A minimalist set of four hand-carved wooden coasters made from light oak. Each coaster has a unique grain pattern and a slightly irregular, organic shape. They are stacked neatly on a white marble countertop with a single green leaf resting on top, creating a clean and modern still life." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKKs8yTs9SpVD0ZXklbtE2vQFbxcHFYYcibYOknr2O1LenFR9BGMw9DJ7814ZjVblLXC98loXKGBqQbdBolArTSYJNSWvSjO_5miIwg_uehul1fKM6dH_88NiM-QRsQU0otnveWSA5nzMsoln9SqMrkuj77DeTi4r-cNlBg8yAnAwCRgmbdoaayrVZG_qLt_MOhPuyjptBzOZ81uRH8q0pOKZglcXvYq-rZiH5E-LNKd83t11cKGBwPqZKTH-RFSE27wv3LXHer5k"/>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-headline-sm text-headline-sm">Oak Carved Coaster Set</h4>
+<span class="px-3 py-1 bg-tertiary-container/30 text-tertiary rounded-full text-label-sm font-semibold">Shipped</span>
+</div>
+<p class="text-on-surface-variant font-body-md">Ordered on March 01, 2024</p>
+<p class="text-on-surface font-bold mt-1">$85.00</p>
+</div>
+<button class="px-4 py-2 border border-outline rounded-lg text-label-md hover:bg-primary hover:text-white transition-all">Track Order</button>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant text-center">
+<button class="text-primary font-label-md hover:underline">View All Order History</button>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-stack-lg bg-secondary-container dark:bg-surface-container-highest flex flex-col items-center py-stack-lg px-margin-desktop gap-stack-md">
+<span class="font-headline-md text-headline-md text-primary">CraftRoots</span>
+<div class="flex flex-wrap justify-center gap-8 text-on-secondary-fixed-variant">
+<a class="hover:text-primary transition-colors font-body-md text-body-md" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors font-body-md text-body-md" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors font-body-md text-body-md" href="#">Shipping & Returns</a>
+<a class="hover:text-primary transition-colors font-body-md text-body-md" href="#">Sustainability Oath</a>
+</div>
+<p class="text-on-secondary-fixed-variant font-body-md opacity-70 text-center">© 2024 CraftRoots Artisan Marketplace. Crafted with intention.</p>
+</footer>
+<!-- Custom Micro-interactions -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hover effect for artisan circles
+            const artisanCircles = document.querySelectorAll('.group');
+            artisanCircles.forEach(circle => {
+                circle.addEventListener('mouseenter', () => {
+                    circle.querySelector('img').style.transform = 'scale(1.05)';
+                });
+                circle.addEventListener('mouseleave', () => {
+                    circle.querySelector('img').style.transform = 'scale(1)';
+                });
+            });
+
+            // Smooth tab switching (conceptual)
+            const navButtons = document.querySelectorAll('aside nav button');
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    navButtons.forEach(b => {
+                        b.classList.remove('bg-primary-container', 'text-on-primary-container', 'font-bold');
+                        b.classList.add('text-on-surface-variant', 'hover:bg-surface-container');
+                    });
+                    btn.classList.add('bg-primary-container', 'text-on-primary-container', 'font-bold');
+                    btn.classList.remove('text-on-surface-variant', 'hover:bg-surface-container');
+                });
+            });
+        });
+    </script>
+</body></html>

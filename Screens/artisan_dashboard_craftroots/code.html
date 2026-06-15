@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CraftRoots | Artisan Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-indicator {
+            position: absolute;
+            left: 0;
+            width: 4px;
+            height: 24px;
+            background-color: #3e5219;
+            border-radius: 0 4px 4px 0;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e5e2e1;
+            border-radius: 10px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(85, 107, 47, 0.05);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-lowest": "#ffffff",
+                      "primary-container": "#556b2f",
+                      "outline-variant": "#c5c8b8",
+                      "on-secondary-fixed-variant": "#4a473b",
+                      "tertiary-fixed-dim": "#e9c349",
+                      "secondary-fixed": "#e9e2d2",
+                      "on-error": "#ffffff",
+                      "surface-container-low": "#f6f3f2",
+                      "tertiary-container": "#cba72f",
+                      "on-primary": "#ffffff",
+                      "on-background": "#1c1b1b",
+                      "on-primary-container": "#d0eba1",
+                      "primary-fixed": "#d2eca2",
+                      "on-surface-variant": "#45483c",
+                      "inverse-primary": "#b6d088",
+                      "inverse-on-surface": "#f3f0ef",
+                      "outline": "#75796b",
+                      "surface-tint": "#50652a",
+                      "surface-container": "#f0eded",
+                      "secondary-container": "#e9e2d2",
+                      "error": "#ba1a1a",
+                      "on-error-container": "#93000a",
+                      "tertiary": "#735c00",
+                      "background": "#fcf9f8",
+                      "on-tertiary-fixed": "#241a00",
+                      "on-secondary-container": "#686457",
+                      "on-surface": "#1c1b1b",
+                      "surface-variant": "#e5e2e1",
+                      "surface-bright": "#fcf9f8",
+                      "surface": "#fcf9f8",
+                      "error-container": "#ffdad6",
+                      "primary": "#3e5219",
+                      "surface-container-high": "#eae7e7",
+                      "on-tertiary-container": "#4e3d00",
+                      "secondary": "#625e52",
+                      "primary-fixed-dim": "#b6d088",
+                      "on-primary-fixed": "#131f00",
+                      "on-primary-fixed-variant": "#394d14",
+                      "on-tertiary-fixed-variant": "#574500",
+                      "tertiary-fixed": "#ffe088",
+                      "surface-dim": "#dcd9d9",
+                      "surface-container-highest": "#e5e2e1",
+                      "secondary-fixed-dim": "#ccc6b7",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed": "#1e1c12",
+                      "inverse-surface": "#313030"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "12px",
+                      "xl": "24px",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-desktop": "64px",
+                      "unit": "8px",
+                      "stack-sm": "12px",
+                      "stack-md": "24px",
+                      "stack-lg": "48px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "headline-md": ["EB Garamond"],
+                      "label-sm": ["Inter"],
+                      "display-lg-mobile": ["EB Garamond"],
+                      "headline-lg": ["EB Garamond"],
+                      "headline-sm": ["EB Garamond"],
+                      "display-lg": ["EB Garamond"],
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "display-lg-mobile": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                      "headline-lg": ["40px", {"lineHeight": "48px", "fontWeight": "400"}],
+                      "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                      "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary/10 selection:text-primary overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- Sidebar Navigation -->
+<aside class="w-[280px] bg-surface-container-lowest flex flex-col border-r border-outline-variant/30 z-20">
+<div class="px-8 py-10">
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight">CraftRoots</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mt-1">Artisan Portal</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<!-- Dashboard Active -->
+<a class="group relative flex items-center px-4 py-3 bg-secondary-container rounded-lg text-primary transition-all duration-300" href="#">
+<div class="active-nav-indicator"></div>
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="group flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined mr-3">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="group flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined mr-3">shopping_cart</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="group flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined mr-3">payments</span>
+<span class="font-label-md text-label-md">Payments</span>
+</a>
+<a class="group flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="group flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined mr-3">chat_bubble</span>
+<span class="font-label-md text-label-md">Messages</span>
+</a>
+<a class="group flex items-center px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="p-6 mt-auto">
+<div class="flex items-center p-3 rounded-xl bg-surface-container-low">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-fixed shrink-0">
+<img alt="Elena Artisan" class="w-full h-full object-cover" data-alt="A professional and warm close-up portrait of Elena, a master artisan, in her naturally lit studio. She is wearing a linen apron and has a kind expression, reflecting high-end editorial photography. The background shows soft-focus shelves of handcrafted ceramic pots and weaving tools, bathed in soft morning light that creates a serene and authentic atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByhBbbAnAWd1dtq4cw3tH7GgF8EfRcYisW9GYu-oq8nrmgbeOHVU010YKSH38_zIqmDnsiZctdvnpauig8qqn7zBMFpXzzGXHts0SiSRHvuPGXhpYW2proZrAxQuR_U4xPx44XWLhSwecSN8bvLagHKVB4l9Q1eHXwcRX9Y6bsCiZg6F00cB7TXW5Rqqmt-_F-RLbxFEHmY4U3RaB4jMnxa09GYvFnqiTzKUpYwoJenWsxBctHf7U2DjDU7BZ6bBHA7HxfQGCZ_94"/>
+</div>
+<div class="ml-3 overflow-hidden">
+<p class="font-label-md text-label-md truncate">Elena Ricci</p>
+<p class="text-[12px] text-on-surface-variant truncate italic text-secondary">Master Weaver</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto custom-scrollbar relative">
+<header class="sticky top-0 z-10 px-margin-desktop py-8 bg-background/80 backdrop-blur-lg flex justify-between items-end">
+<div>
+<p class="text-secondary font-label-md text-label-md tracking-wider mb-2">MARCH 24, 2024</p>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Welcome back, Elena</h2>
+</div>
+<div class="flex gap-4">
+<button class="w-12 h-12 flex items-center justify-center rounded-full border border-outline-variant hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<button class="bg-primary text-on-primary px-6 py-3 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-primary-container transition-all shadow-sm">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        Add New Product
+                    </button>
+</div>
+</header>
+<div class="px-margin-desktop pb-stack-lg space-y-stack-lg">
+<!-- Quick Stats Cards -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="bg-surface-container-lowest p-stack-md rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-4">
+<span class="p-2 bg-tertiary-fixed rounded-lg">
+<span class="material-symbols-outlined text-on-tertiary-fixed">payments</span>
+</span>
+<span class="text-primary text-[12px] font-semibold">+12%</span>
+</div>
+<p class="text-on-surface-variant text-label-md font-label-md">Total Sales</p>
+<p class="font-headline-sm text-headline-sm mt-1 text-tertiary-fixed-variant" style="color: #D4AF37;">$14,280.00</p>
+</div>
+<div class="bg-surface-container-lowest p-stack-md rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-4">
+<span class="p-2 bg-secondary-fixed rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-fixed">shopping_bag</span>
+</span>
+<span class="text-on-surface-variant text-[12px] font-medium">Updated 2m ago</span>
+</div>
+<p class="text-on-surface-variant text-label-md font-label-md">Active Orders</p>
+<p class="font-headline-sm text-headline-sm mt-1">24</p>
+</div>
+<div class="bg-surface-container-lowest p-stack-md rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-4">
+<span class="p-2 bg-primary-fixed rounded-lg">
+<span class="material-symbols-outlined text-on-primary-fixed">inventory</span>
+</span>
+</div>
+<p class="text-on-surface-variant text-label-md font-label-md">Total Products</p>
+<p class="font-headline-sm text-headline-sm mt-1">118</p>
+</div>
+<div class="bg-surface-container-lowest p-stack-md rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-4">
+<span class="p-2 bg-surface-variant rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant">account_balance_wallet</span>
+</span>
+</div>
+<p class="text-on-surface-variant text-label-md font-label-md">Pending Payouts</p>
+<p class="font-headline-sm text-headline-sm mt-1">$2,140.50</p>
+</div>
+</section>
+<!-- Analytics & Shop Performance Row -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Revenue Chart -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/20 shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-headline-sm text-headline-sm">Monthly Revenue</h3>
+<p class="text-on-surface-variant text-label-md font-label-md">Performance overview for the current quarter</p>
+</div>
+<select class="bg-transparent border-none focus:ring-0 text-label-md font-label-md text-primary cursor-pointer">
+<option>Last 6 Months</option>
+<option>Last Year</option>
+</select>
+</div>
+<!-- Chart Placeholder - Simulated Sophisticated Line Chart -->
+<div class="relative h-[300px] w-full flex items-end justify-between px-2">
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="border-t border-outline-variant/10 w-full h-0"></div>
+<div class="border-t border-outline-variant/10 w-full h-0"></div>
+<div class="border-t border-outline-variant/10 w-full h-0"></div>
+<div class="border-t border-outline-variant/10 w-full h-0"></div>
+<div class="border-t border-outline-variant/10 w-full h-0"></div>
+</div>
+<!-- SVG Chart Visualization -->
+<svg class="absolute bottom-0 left-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 800 300">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#556B2F" stop-opacity="0.1"></stop>
+<stop offset="100%" stop-color="#556B2F" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Line -->
+<path d="M0,240 Q100,200 200,210 T400,120 T600,160 T800,40" fill="none" stroke="#556B2F" stroke-linecap="round" stroke-width="3"></path>
+<!-- Area Fill -->
+<path d="M0,240 Q100,200 200,210 T400,120 T600,160 T800,40 V300 H0 Z" fill="url(#chartGradient)"></path>
+<!-- Points -->
+<circle cx="400" cy="120" fill="#ffffff" r="5" stroke="#556B2F" stroke-width="2"></circle>
+</svg>
+<div class="text-[10px] text-on-surface-variant font-label-md uppercase tracking-widest pt-2">Oct</div>
+<div class="text-[10px] text-on-surface-variant font-label-md uppercase tracking-widest pt-2">Nov</div>
+<div class="text-[10px] text-on-surface-variant font-label-md uppercase tracking-widest pt-2">Dec</div>
+<div class="text-[10px] text-primary font-label-md uppercase tracking-widest pt-2 border-t-2 border-primary">Jan</div>
+<div class="text-[10px] text-on-surface-variant font-label-md uppercase tracking-widest pt-2">Feb</div>
+<div class="text-[10px] text-on-surface-variant font-label-md uppercase tracking-widest pt-2">Mar</div>
+</div>
+</div>
+<!-- Top Performing Crafts -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/20 shadow-sm flex flex-col">
+<h3 class="font-headline-sm text-headline-sm mb-6">Top Performing Crafts</h3>
+<div class="space-y-6 flex-1">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-lg overflow-hidden bg-surface-variant">
+<img alt="Linen Throw" class="w-full h-full object-cover" data-alt="A close-up of a luxurious, hand-woven linen throw blanket with intricate herringbone patterns. The fabric is a warm oat color, draped elegantly over a wooden chair. High-quality editorial style with focused textures and soft, atmospheric lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTBZS_9_lX3PRP4vW_qQ1ABEsEoIZlJvieRIe7KEoS7FTNuRTNF3JGS0hJCnTnXB3QtQVaufGIKYS3KZ0eSVzrBvZWUdMKLu-7KNlxp8jHLO_c3ic2XAAyI4Z9SgAVuyxU6JkHWjcmeYPF37_v2_jstSaj7sqI6o_2U1fvITDGo2YorjsiJcYzH--uJkheMGqHAU9ySXPogTtqucyDUBKPW3fQX6P-tbongTSj8UQzWQwH8TIoD9wnluSmVtICQvmR4Xdp-FI-7CM"/>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md">Heirloom Linen Throw</p>
+<p class="text-on-surface-variant text-[12px] italic">Sold 42 units this month</p>
+</div>
+<span class="text-primary font-semibold">$340</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-lg overflow-hidden bg-surface-variant">
+<img alt="Ceramic Vase" class="w-full h-full object-cover" data-alt="A minimalist, handcrafted ceramic vase with a textured matte white glaze. It stands on a reclaimed oak pedestal against a neutral-toned wall. The lighting is soft and directional, highlighting the organic curves and artisanal imperfections." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBKsBXaHa2mkTeWgIoRqKtQeF5ju60RwKrt3Ln-qzzLqftPr8u565o2KV0SHLso9A4Y48Ul6HvhKrSYaIvDtbbZTYpLJR9iCX4gmqfRmHFw6j66OIurs9CSqPpFBOBrUziSxy5JbjrSb37EPHpfYrD9OYbhZzE4TyP9QYdLktCpy83u3V2wycI7FIeZghJmFYRTO1n7UE5ohgTa-QwB6_kd6dUUDrys51IzFM_Ynxn-bWsrQ7twbffKrE9oaPLxfHxM-bA4ApK9WE"/>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md">Raw Earth Vessel</p>
+<p class="text-on-surface-variant text-[12px] italic">Sold 28 units this month</p>
+</div>
+<span class="text-primary font-semibold">$185</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-lg overflow-hidden bg-surface-variant">
+<img alt="Indigo Napkins" class="w-full h-full object-cover" data-alt="A set of hand-dyed deep indigo linen napkins tied together with a simple jute twine and a sprig of dried lavender. The deep blue hues are rich and varied, suggesting authentic craft processes. Modern lifestyle photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd0CJlVpKSytdvhznSVrSBMVZ2xVqgjiDtEQC1F3-51H1Xdg2wKsifSZo7ng7p_yHORCYQUkHatEDR_2RqCr7fLroLwJa3MeTdC49gSC8ZodECffigPf9LKBv1gm4TS6IlQmr6MuGbCzI_TcB5VhtBWfP3fZcWx7mlHhxFY_uTZQz7bj7gnpFGK_1TWqHvlPjV1q5ENqFS4GeanRib64-DkResM-7jnYzqlQe83f9G3l7divsv_2MrC22tqXFCjhu_uI9gyAwx0Gc"/>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md">Indigo Shibori Set</p>
+<p class="text-on-surface-variant text-[12px] italic">Sold 15 units this month</p>
+</div>
+<span class="text-primary font-semibold">$85</span>
+</div>
+</div>
+<button class="mt-8 text-primary font-label-md text-label-md flex items-center justify-center gap-2 hover:underline">
+                            View Full Inventory <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Recent Activity Table -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/20 shadow-sm overflow-hidden">
+<div class="px-8 py-6 border-b border-outline-variant/10 flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm">Recent Orders</h3>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-[11px]">Product</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-[11px]">Customer</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-[11px]">Date</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-[11px]">Status</th>
+<th class="px-8 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-[11px]">Price</th>
+<th class="px-8 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-variant shrink-0">
+<img alt="Rug" class="w-full h-full object-cover rounded" data-alt="Close-up detail of a hand-knotted wool rug with organic geometric patterns in earthy terracotta and sand colors. The texture of the wool is clearly visible. High-end product photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBslnN89SE7WJ0sbzmwSDKILp09ejfIgQJDngV69aHI47F0oWPfKwxyCfaxyBL6P0aR67DgXiAayuCyqshQk7RTuE0oRZv-Oo5Dps0kMxH-OZUCZan0kaZP3EWPjkfdl9FBKwJgmwGs6ATz9oprFiWnvtOJHIg6bnOfmqRMnA8cxQmcNJIJ0erC9X2mqHzCMPZFz_2bFEXzi6MhoLM2PGb3X0hf9-S8ihUwJ5wszu73c6RBccj_7C17aicB4eH5MWGUHSh864nVMSE"/>
+</div>
+<span class="font-label-md">Tulum Hand-Knotted Rug</span>
+</div>
+</td>
+<td class="px-8 py-5 text-on-surface-variant">Isabella Thorne</td>
+<td class="px-8 py-5 text-on-surface-variant">Mar 22, 2024</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-[12px] font-medium border border-primary/20">In Production</span>
+</td>
+<td class="px-8 py-5 font-semibold text-on-surface">$1,240</td>
+<td class="px-8 py-5 text-right">
+<button class="bg-surface-container-high px-4 py-2 rounded-lg text-label-md font-label-md hover:bg-primary hover:text-on-primary transition-all">Manage</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-variant shrink-0">
+<img alt="Wall Hanging" class="w-full h-full object-cover rounded" data-alt="A large-scale contemporary macramé wall hanging featuring intricate knots and long, flowing cotton fringe. It hangs on a minimalist white wall in a modern gallery setting. Soft natural light highlights the depth and craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoQzUsrn2fP98BHEyg5rAGyJkXuX8qmrg7lOFR7T8Sq13PX3HdNRUGQWrsbukEj99hgTSkAQFdxEaw8lAZQ_XN54sjJPcu6SOOtjf1Re34r_rSyy_Mk-ecfmbvJZjUC6-g2e4K4iFJu1sryPNXSriKpGd7F2hXxJXkt3neieh_xVd5YD3VXUKUDDPK8yt5QpNAPMY94FtSJtpu8k3lw9Wv3mpAgNlJbAW2T3P-D5PA2-VHRlDc6dAUqPOsxQPur5NmfZr_rSxPd5o"/>
+</div>
+<span class="font-label-md">Celestial Wall Hanging</span>
+</div>
+</td>
+<td class="px-8 py-5 text-on-surface-variant">Julian Vance</td>
+<td class="px-8 py-5 text-on-surface-variant">Mar 21, 2024</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-on-secondary-fixed-variant/10 text-on-secondary-fixed-variant rounded-full text-[12px] font-medium border border-on-secondary-fixed-variant/20">Shipped</span>
+</td>
+<td class="px-8 py-5 font-semibold text-on-surface">$560</td>
+<td class="px-8 py-5 text-right">
+<button class="bg-surface-container-high px-4 py-2 rounded-lg text-label-md font-label-md hover:bg-primary hover:text-on-primary transition-all">Manage</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-variant shrink-0">
+<img alt="Teapot" class="w-full h-full object-cover rounded" data-alt="A handcrafted charcoal-colored ceramic teapot with a unique, rough-textured finish and a bent-wood handle. It rests on a slate slab with a wisp of steam rising from the spout. Evocative, high-end artisanal still-life photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpvwq8iKeg5hFjfsEsMo8E_UCqyItXX3R-ubjO5BN2VdR9FZo0ydSExS0dKsz0gf8Kichu2-j7RJPQjs-2sUYs8m2utPava1qK93GZ-vE2_cfC9BVsnQhEVCeyVzjGsyyGwOV6H9wfdHttGjn4kjKLKTzU9BMAG6-rpASEe9qDvJJoGSTZQ0uyp8vX5gyyaus-qTb-nNI6jHBUf26AT5AQwxiPK1lCKn8-13OXtIus-GNLNUuTK8rBk57kHkh5cjmvIaxl3UpEGD0"/>
+</div>
+<span class="font-label-md">Smoked Clay Teapot</span>
+</div>
+</td>
+<td class="px-8 py-5 text-on-surface-variant">Clara Moss</td>
+<td class="px-8 py-5 text-on-surface-variant">Mar 20, 2024</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full text-[12px] font-medium border border-outline-variant/20">Pending</span>
+</td>
+<td class="px-8 py-5 font-semibold text-on-surface">$225</td>
+<td class="px-8 py-5 text-right">
+<button class="bg-surface-container-high px-4 py-2 rounded-lg text-label-md font-label-md hover:bg-primary hover:text-on-primary transition-all">Manage</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Quick Actions Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<button class="relative h-40 rounded-xl overflow-hidden group bg-primary-container p-8 text-left transition-transform active:scale-[0.98]">
+<div class="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors"></div>
+<div class="relative z-10 h-full flex flex-col justify-between">
+<span class="material-symbols-outlined text-on-primary-container text-[32px]">edit_note</span>
+<div>
+<p class="text-on-primary-container font-headline-sm text-headline-sm">Create Story</p>
+<p class="text-on-primary-container/70 text-label-sm">Share your process with buyers</p>
+</div>
+</div>
+</button>
+<button class="relative h-40 rounded-xl overflow-hidden group bg-tertiary-container p-8 text-left transition-transform active:scale-[0.98]">
+<div class="absolute inset-0 bg-tertiary/20 group-hover:bg-tertiary/10 transition-colors"></div>
+<div class="relative z-10 h-full flex flex-col justify-between">
+<span class="material-symbols-outlined text-on-tertiary-container text-[32px]">savings</span>
+<div>
+<p class="text-on-tertiary-container font-headline-sm text-headline-sm">Request Payout</p>
+<p class="text-on-tertiary-container/70 text-label-sm">Transfer earnings to bank</p>
+</div>
+</div>
+</button>
+<button class="relative h-40 rounded-xl border-2 border-dashed border-outline-variant group p-8 text-left hover:border-primary transition-all active:scale-[0.98]">
+<div class="h-full flex flex-col justify-between">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-[32px]">campaign</span>
+<div>
+<p class="text-on-surface font-headline-sm text-headline-sm">Boost Product</p>
+<p class="text-on-surface-variant text-label-sm">Feature your craft on the homepage</p>
+</div>
+</div>
+</button>
+</section>
+</div>
+<!-- Footer-style Credits for Artisan Portal -->
+<footer class="px-margin-desktop py-stack-md border-t border-outline-variant/10 text-on-surface-variant/60 flex justify-between items-center bg-surface-container-low/30">
+<p class="text-label-sm">© 2024 CraftRoots. Honoring the hand that makes.</p>
+<div class="flex gap-6">
+<a class="text-label-sm hover:text-primary" href="#">Artisan Terms</a>
+<a class="text-label-sm hover:text-primary" href="#">Support Portal</a>
+</div>
+</footer>
+</main>
+</div>
+<script>
+        // Simple micro-interactions
+        document.querySelectorAll('button, a').forEach(elem => {
+            elem.addEventListener('mousedown', () => {
+                elem.style.transform = 'scale(0.97)';
+            });
+            elem.addEventListener('mouseup', () => {
+                elem.style.transform = '';
+            });
+            elem.addEventListener('mouseleave', () => {
+                elem.style.transform = '';
+            });
+        });
+
+        // Add a subtle parallax effect to the charts and cards
+        const mainContent = document.querySelector('main');
+        mainContent.addEventListener('scroll', () => {
+            const scrolled = mainContent.scrollTop;
+            const stats = document.querySelectorAll('section > div');
+            stats.forEach((el, index) => {
+                const speed = 0.05 + (index * 0.02);
+                el.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        }, { passive: true });
+    </script>
+</body></html>
