@@ -32,4 +32,9 @@ export class AiController {
   async getConversation(@Request() req: any) {
     return this.aiService.getConversationHistory(req.user.id);
   }
+
+  @Post('describe')
+  async describe(@Body('title') title: string) {
+    return this.aiService.generateDescription(title);
+  }
 }

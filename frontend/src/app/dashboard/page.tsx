@@ -22,6 +22,17 @@ export default function Dashboard() {
   
   const [loading, setLoading] = useState(true);
 
+  // Artisan Profile form states
+  const [profile, setProfile] = useState<any>(null);
+  const [editProfileMode, setEditProfileMode] = useState(false);
+  const [bio, setBio] = useState('');
+  const [studioLocation, setStudioLocation] = useState('');
+  const [hasOrganization, setHasOrganization] = useState(false);
+  const [organizationName, setOrganizationName] = useState('');
+  const [incorporationNumber, setIncorporationNumber] = useState('');
+  const [gstNumber, setGstNumber] = useState('');
+  const [profileMessage, setProfileMessage] = useState('');
+
   // New product form states (for Artisan)
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -30,6 +41,8 @@ export default function Dashboard() {
   const [category, setCategory] = useState('Vases');
   const [craft, setCraft] = useState('Pottery');
   const [region, setRegion] = useState('Rajasthan');
+  const [customCraft, setCustomCraft] = useState('');
+  const [customRegion, setCustomRegion] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [productMessage, setProductMessage] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -55,14 +68,24 @@ export default function Dashboard() {
       }).then((res) => res.json());
 
       // Fetch artisan profile/products
-      const fetchProducts = fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products/artisans/${user.id}`)
-        .then((res) => res.json())
-        .then((profile) => profile.products || []);
+      const fetchProfile = fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products/artisans/${user.id}`)
+        .then((res) => res.json());
 
-      Promise.all([fetchOrders, fetchProducts])
-        .then(([orders, products]) => {
+      Promise.all([fetchOrders, fetchProfile])
+        .then(([orders, profileData]) => {
           if (Array.isArray(orders)) setArtisanOrders(orders);
-          if (Array.isArray(products)) setArtisanProducts(products);
+          if (profileData) {
+            setProfile(profileData);
+            if (Array.isArray(profileData.products)) {
+              setArtisanProducts(profileData.products);
+            }
+            setBio(profileData.bio || '');
+            setStudioLocation(profileData.studioLocation || '');
+            setHasOrganization(profileData.hasOrganization || false);
+            setOrganizationName(profileData.organizationName || '');
+            setIncorporationNumber(profileData.incorporationNumber || '');
+            setGstNumber(profileData.gstNumber || '');
+          }
           setLoading(false);
         })
         .catch(() => setLoading(false));
@@ -119,8 +142,8 @@ export default function Dashboard() {
           price: Number(price),
           stock: Number(stock),
           category,
-          craft,
-          region,
+          craft: craft === 'Other' ? customCraft : craft,
+          region: region === 'Other' ? customRegion : region,
           images: [imageUrl || 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c'],
         }),
       });
@@ -132,12 +155,51 @@ export default function Dashboard() {
         setDescription('');
         setPrice('');
         setImageUrl('');
+        setCustomCraft('');
+        setCustomRegion('');
+        setCraft('Pottery');
+        setRegion('Rajasthan');
         fetchDashboardData(); // Refresh product list
       } else {
         setProductMessage(data.message || 'Failed to list product.');
       }
     } catch (err) {
       setProductMessage('Network error listing product.');
+    }
+  };
+
+  const handleUpdateProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!token) return;
+    setProfileMessage('');
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products/profile/me`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          bio,
+          studioLocation,
+          hasOrganization,
+          organizationName: hasOrganization ? organizationName : null,
+          incorporationNumber: hasOrganization ? incorporationNumber : null,
+          gstNumber: hasOrganization ? gstNumber : null,
+        }),
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        setProfileMessage('Profile settings updated successfully!');
+        setEditProfileMode(false);
+        fetchDashboardData(); // Refresh profile details
+      } else {
+        setProfileMessage(data.message || 'Failed to update profile.');
+      }
+    } catch (err) {
+      setProfileMessage('Network error updating profile.');
     }
   };
 
@@ -513,166 +575,448 @@ export default function Dashboard() {
 
           </div>
 
-          {/* Right panel: Add New Offering Form */}
-          <aside className="lg:col-span-4 bg-secondary-container/20 p-6 border border-outline-variant/10 rounded-xl space-y-4">
-            <h3 className="font-display text-2xl font-light text-primary border-b border-outline-variant/30 pb-3">
-              List New Craft
-            </h3>
-
-            <form onSubmit={handleCreateProduct} className="space-y-4 font-sans text-xs">
-              <div className="space-y-1">
-                <label className="text-secondary font-semibold uppercase tracking-wider block">Product Title</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Ochre Horizon Vessel"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-secondary font-semibold uppercase tracking-wider block">Description</label>
-                <textarea
-                  required
-                  placeholder="The concept and material heritage behind this craft..."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={3}
-                  className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-secondary font-semibold uppercase tracking-wider block">Price ($)</label>
-                  <input
-                    type="number"
-                    required
-                    placeholder="340"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
-                  />
+          {/* Right panel: Profile & Add New Offering Form */}
+          <aside className="lg:col-span-4 space-y-8">
+            {/* Profile & Organization Details Card */}
+            {user?.role === 'ARTISAN' && !editProfileMode && (
+              <div className="bg-secondary-container/20 p-6 border border-outline-variant/10 rounded-xl space-y-4">
+                <div className="flex justify-between items-center border-b border-outline-variant/30 pb-3">
+                  <h3 className="font-display text-2xl font-light text-primary">
+                    Artisan Profile
+                  </h3>
+                  <button
+                    onClick={() => setEditProfileMode(true)}
+                    className="text-[10px] font-bold text-primary border border-primary/20 px-2 py-1 rounded hover:bg-primary/5 cursor-pointer uppercase tracking-wider"
+                  >
+                    Edit Profile
+                  </button>
                 </div>
-                <div className="space-y-1">
-                  <label className="text-secondary font-semibold uppercase tracking-wider block">Stock Qty</label>
-                  <input
-                    type="number"
-                    required
-                    placeholder="5"
-                    value={stock}
-                    onChange={(e) => setStock(e.target.value)}
-                    className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
-                  />
-                </div>
-              </div>
+                
+                <div className="space-y-3 font-sans text-xs">
+                  <div className="space-y-1">
+                    <span className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Biography</span>
+                    <p className="text-on-surface bg-white/50 p-2.5 rounded border border-outline-variant/10 min-h-[60px] italic whitespace-pre-wrap">
+                      {profile?.bio || "No biography provided yet."}
+                    </p>
+                  </div>
 
-              <div className="grid grid-cols-3 gap-2">
-                <div className="space-y-1">
-                  <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Category</label>
-                  <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none">
-                    <option>Vases</option>
-                    <option>Textiles</option>
-                    <option>Woodwork</option>
-                    <option>Metal Crafts</option>
-                  </select>
-                </div>
-                <div className="space-y-1">
-                  <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Craft</label>
-                  <select value={craft} onChange={(e) => setCraft(e.target.value)} className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none">
-                    <option>Pottery</option>
-                    <option>Textiles</option>
-                    <option>Woodwork</option>
-                    <option>Metal Crafts</option>
-                  </select>
-                </div>
-                <div className="space-y-1">
-                  <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Region</label>
-                  <select value={region} onChange={(e) => setRegion(e.target.value)} className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none">
-                    <option>Rajasthan</option>
-                    <option>Kashmir</option>
-                    <option>Gujarat</option>
-                    <option>West Bengal</option>
-                  </select>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <span className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Studio Location</span>
+                      <p className="text-on-surface font-medium">{profile?.studioLocation || "Not specified"}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Region & Craft</span>
+                      <p className="text-on-surface font-medium">{profile?.region} • {profile?.craft}</p>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-outline-variant/15 pt-3 space-y-2">
+                    <span className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Incorporation Status</span>
+                    {profile?.hasOrganization ? (
+                      <div className="space-y-2 bg-white/45 p-3 rounded border border-outline-variant/20">
+                        <div className="flex justify-between">
+                          <span className="text-secondary">Org Name:</span>
+                          <span className="font-medium text-on-surface">{profile?.organizationName}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-secondary">Inc. No:</span>
+                          <span className="font-medium text-on-surface">{profile?.incorporationNumber}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-secondary">GSTIN:</span>
+                          <span className="font-medium text-on-surface">{profile?.gstNumber || "Not Provided"}</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-secondary italic">Individual / Sole Artisan (No organization details registered)</p>
+                    )}
+                  </div>
                 </div>
               </div>
+            )}
 
-              <div className="space-y-2">
-                <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Product Image File</label>
-                <div className="flex items-center gap-3">
-                  <label className={`bg-primary/10 text-primary border border-primary/20 px-3 py-2 rounded text-xs uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary/15 transition-all flex items-center gap-1.5 ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                    <span className="material-symbols-outlined text-sm">{uploading ? 'progress_activity' : 'cloud_upload'}</span>
-                    {uploading ? 'Uploading...' : 'Choose File'}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      disabled={uploading}
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          setUploading(true);
-                          setProductMessage('Uploading image to S3...');
-                          const formData = new FormData();
-                          formData.append('file', file);
-                          
-                          try {
-                            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/upload`, {
-                              method: 'POST',
-                              headers: {
-                                Authorization: `Bearer ${token}`,
-                              },
-                              body: formData,
-                            });
-                            const data = await res.json();
-                            if (res.ok && data.url) {
-                              setImageUrl(data.url);
-                              setProductMessage('Image uploaded successfully.');
-                            } else {
-                              setProductMessage(data.message || 'Image upload failed.');
-                            }
-                          } catch (err) {
-                            setProductMessage('Network error uploading image.');
-                          } finally {
-                            setUploading(false);
-                          }
-                        }
-                      }}
+            {/* Profile Editing Form */}
+            {user?.role === 'ARTISAN' && editProfileMode && (
+              <form onSubmit={handleUpdateProfile} className="bg-secondary-container/20 p-6 border border-outline-variant/10 rounded-xl space-y-4">
+                <div className="flex justify-between items-center border-b border-outline-variant/30 pb-3">
+                  <h3 className="font-display text-2xl font-light text-primary">
+                    Edit Profile
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditProfileMode(false);
+                      // Reset states
+                      if (profile) {
+                        setBio(profile.bio || '');
+                        setStudioLocation(profile.studioLocation || '');
+                        setHasOrganization(profile.hasOrganization || false);
+                        setOrganizationName(profile.organizationName || '');
+                        setIncorporationNumber(profile.incorporationNumber || '');
+                        setGstNumber(profile.gstNumber || '');
+                      }
+                      setProfileMessage('');
+                    }}
+                    className="text-[10px] font-bold text-red-600 border border-red-200 px-2 py-1 rounded hover:bg-red-50 cursor-pointer uppercase tracking-wider"
+                  >
+                    Cancel
+                  </button>
+                </div>
+
+                <div className="space-y-4 font-sans text-xs">
+                  <div className="space-y-1">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block">Biography</label>
+                    <textarea
+                      required
+                      value={bio}
+                      onChange={(e) => setBio(e.target.value)}
+                      placeholder="Share your heritage, craft technique, and story..."
+                      rows={3}
+                      className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
                     />
-                  </label>
-                  {imageUrl && (
-                    <div className="w-10 h-10 rounded border border-outline-variant/30 overflow-hidden relative bg-secondary-container/10">
-                      <img src={imageUrl} alt="Upload preview" className="object-cover w-full h-full" />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block">Studio Location</label>
+                    <input
+                      type="text"
+                      value={studioLocation}
+                      onChange={(e) => setStudioLocation(e.target.value)}
+                      placeholder="e.g. Jaipur, Rajasthan"
+                      className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-2 py-1">
+                    <input
+                      type="checkbox"
+                      id="hasOrganization"
+                      checked={hasOrganization}
+                      onChange={(e) => setHasOrganization(e.target.checked)}
+                      className="w-4 h-4 text-primary border-outline-variant rounded focus:ring-0 focus:ring-offset-0"
+                    />
+                    <label htmlFor="hasOrganization" className="text-secondary font-semibold uppercase tracking-wider select-none cursor-pointer">
+                      Operate under Registered Organization
+                    </label>
+                  </div>
+
+                  {hasOrganization && (
+                    <div className="space-y-3 border-l-2 border-primary/20 pl-3 pt-1">
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Organization Name</label>
+                        <input
+                          type="text"
+                          required={hasOrganization}
+                          value={organizationName}
+                          onChange={(e) => setOrganizationName(e.target.value)}
+                          placeholder="e.g. Jaipur Clayworks Ltd."
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Incorporation Number</label>
+                        <input
+                          type="text"
+                          required={hasOrganization}
+                          value={incorporationNumber}
+                          onChange={(e) => setIncorporationNumber(e.target.value)}
+                          placeholder="e.g. U12345RJ2026PTC012345"
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">GST Number</label>
+                        <input
+                          type="text"
+                          required={hasOrganization}
+                          value={gstNumber}
+                          onChange={(e) => setGstNumber(e.target.value)}
+                          placeholder="e.g. 08AAPCS1234F1Z1"
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
                     </div>
                   )}
+
+                  <button
+                    type="submit"
+                    className="w-full bg-primary text-white py-3 rounded text-xs uppercase tracking-widest font-semibold hover:opacity-95 transition-all cursor-pointer"
+                  >
+                    Save Profile Settings
+                  </button>
+
+                  {profileMessage && (
+                    <p className="text-xs text-primary font-medium mt-2">{profileMessage}</p>
+                  )}
                 </div>
-              </div>
+              </form>
+            )}
 
-              <div className="space-y-1">
-                <label className="text-secondary font-semibold uppercase tracking-wider block">Or Product Image URL</label>
-                <input
-                  type="text"
-                  placeholder="https://example.com/image.jpg"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
-                />
-              </div>
+            {/* List New Craft Form */}
+            <div className="bg-secondary-container/20 p-6 border border-outline-variant/10 rounded-xl space-y-4">
+              <h3 className="font-display text-2xl font-light text-primary border-b border-outline-variant/30 pb-3">
+                List New Craft
+              </h3>
 
-              <button
-                type="submit"
-                disabled={uploading}
-                className="w-full bg-primary text-white py-3 rounded text-xs uppercase tracking-widest font-semibold hover:opacity-95 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                List Offering
-              </button>
+              <form onSubmit={handleCreateProduct} className="space-y-4 font-sans text-xs">
+                <div className="space-y-1">
+                  <label className="text-secondary font-semibold uppercase tracking-wider block">Product Title</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Ochre Horizon Vessel"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                  />
+                </div>
 
-              {productMessage && (
-                <p className="text-xs text-primary font-medium mt-2">{productMessage}</p>
-              )}
-            </form>
+                <div className="space-y-1">
+                  <div className="flex justify-between items-center">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block">Description</label>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        if (!title) {
+                          setProductMessage('Please fill in the Product Title first.');
+                          return;
+                        }
+                        setProductMessage('Generating AI description...');
+                        try {
+                          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/ai/describe`, {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({ title }),
+                          });
+                          const data = await res.json();
+                          if (res.ok && data.description) {
+                            setDescription(data.description);
+                            setProductMessage('Description generated successfully.');
+                          } else {
+                            setProductMessage(data.message || 'Failed to generate description.');
+                          }
+                        } catch (err) {
+                          setProductMessage('Error generating AI description.');
+                        }
+                      }}
+                      className="text-[10px] font-bold text-primary hover:opacity-85 flex items-center gap-0.5 cursor-pointer uppercase tracking-wider"
+                    >
+                      <span>✨ Magic Description</span>
+                    </button>
+                  </div>
+                  <textarea
+                    required
+                    placeholder="The concept and material heritage behind this craft..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={3}
+                    className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block">Price ($)</label>
+                    <input
+                      type="number"
+                      required
+                      placeholder="340"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block">Stock Qty</label>
+                    <input
+                      type="number"
+                      required
+                      placeholder="5"
+                      value={stock}
+                      onChange={(e) => setStock(e.target.value)}
+                      className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="space-y-1">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Category</label>
+                    <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none">
+                      <option>Vases</option>
+                      <option>Textiles</option>
+                      <option>Woodwork</option>
+                      <option>Metal Crafts</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Craft</label>
+                    <select value={craft} onChange={(e) => setCraft(e.target.value)} className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none">
+                      <option>Pottery</option>
+                      <option>Textiles & Weaving</option>
+                      <option>Embroidery & Needlework</option>
+                      <option>Woodwork & Carving</option>
+                      <option>Metalwork & Filigree</option>
+                      <option>Jewelry Making</option>
+                      <option>Leathercraft</option>
+                      <option>Miniature Painting</option>
+                      <option>Stone Carving</option>
+                      <option>Glass Art & Blowing</option>
+                      <option>Toy Making & Puppetry</option>
+                      <option>Bamboo & Cane Craft</option>
+                      <option>Terracotta Art</option>
+                      <option>Blue Pottery</option>
+                      <option>Block Printing</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Region</label>
+                    <select value={region} onChange={(e) => setRegion(e.target.value)} className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none">
+                      <option>Andhra Pradesh</option>
+                      <option>Arunachal Pradesh</option>
+                      <option>Assam</option>
+                      <option>Bihar</option>
+                      <option>Chhattisgarh</option>
+                      <option>Goa</option>
+                      <option>Gujarat</option>
+                      <option>Haryana</option>
+                      <option>Himachal Pradesh</option>
+                      <option>Jammu & Kashmir</option>
+                      <option>Jharkhand</option>
+                      <option>Karnataka</option>
+                      <option>Kerala</option>
+                      <option>Madhya Pradesh</option>
+                      <option>Maharashtra</option>
+                      <option>Manipur</option>
+                      <option>Meghalaya</option>
+                      <option>Mizoram</option>
+                      <option>Nagaland</option>
+                      <option>Odisha</option>
+                      <option>Punjab</option>
+                      <option>Rajasthan</option>
+                      <option>Sikkim</option>
+                      <option>Tamil Nadu</option>
+                      <option>Telangana</option>
+                      <option>Tripura</option>
+                      <option>Uttar Pradesh</option>
+                      <option>Uttarakhand</option>
+                      <option>West Bengal</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                {(craft === 'Other' || region === 'Other') && (
+                  <div className="grid grid-cols-2 gap-4 mt-2">
+                    {craft === 'Other' && (
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Custom Craft Name</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Clay sculpting"
+                          value={customCraft}
+                          onChange={(e) => setCustomCraft(e.target.value)}
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                    )}
+                    {region === 'Other' && (
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Custom Region Name</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Ladakh"
+                          value={customRegion}
+                          onChange={(e) => setCustomRegion(e.target.value)}
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Product Image File</label>
+                  <div className="flex items-center gap-3">
+                    <label className={`bg-primary/10 text-primary border border-primary/20 px-3 py-2 rounded text-xs uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary/15 transition-all flex items-center gap-1.5 ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                      <span className="material-symbols-outlined text-sm">{uploading ? 'progress_activity' : 'cloud_upload'}</span>
+                      {uploading ? 'Uploading...' : 'Choose File'}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        disabled={uploading}
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            setUploading(true);
+                            setProductMessage('Uploading image to S3...');
+                            const formData = new FormData();
+                            formData.append('file', file);
+                            
+                            try {
+                              const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/upload`, {
+                                method: 'POST',
+                                headers: {
+                                  Authorization: `Bearer ${token}`,
+                                },
+                                body: formData,
+                              });
+                              const data = await res.json();
+                              if (res.ok && data.url) {
+                                setImageUrl(data.url);
+                                setProductMessage('Image uploaded successfully.');
+                              } else {
+                                setProductMessage(data.message || 'Image upload failed.');
+                              }
+                            } catch (err) {
+                              setProductMessage('Network error uploading image.');
+                            } finally {
+                              setUploading(false);
+                            }
+                          }
+                        }}
+                      />
+                    </label>
+                    {imageUrl && (
+                      <div className="w-10 h-10 rounded border border-outline-variant/30 overflow-hidden relative bg-secondary-container/10">
+                        <img src={imageUrl} alt="Upload preview" className="object-cover w-full h-full" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-secondary font-semibold uppercase tracking-wider block">Or Product Image URL</label>
+                  <input
+                    type="text"
+                    placeholder="https://example.com/image.jpg"
+                    value={imageUrl}
+                    onChange={(e) => setImageUrl(e.target.value)}
+                    className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={uploading}
+                  className="w-full bg-primary text-white py-3 rounded text-xs uppercase tracking-widest font-semibold hover:opacity-95 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  List Offering
+                </button>
+
+                {productMessage && (
+                  <p className="text-xs text-primary font-medium mt-2">{productMessage}</p>
+                )}
+              </form>
+            </div>
           </aside>
         </div>
       )}

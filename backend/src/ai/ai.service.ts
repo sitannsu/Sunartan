@@ -276,4 +276,84 @@ export class AiService {
 
     return conversation;
   }
+
+  async generateDescription(title: string) {
+    const geminiKey = process.env.GEMINI_API_KEY;
+    const openaiKey = process.env.OPENAI_API_KEY;
+    let generated = '';
+
+    if (geminiKey) {
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [
+                {
+                  parts: [
+                    {
+                      text: `Write a sophisticated, elegant, luxury-brand product description (about 2-3 sentences, Aesop-inspired) for a handmade craft item titled: "${title}". Do not use markdown styling. Just output the description text directly.`,
+                    },
+                  ],
+                },
+              ],
+            }),
+          },
+        );
+        const data = await response.json();
+        generated = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      } catch (e) {
+        console.warn('generateDescription: Gemini API failed.');
+      }
+    }
+
+    if (!generated && openaiKey) {
+      try {
+        const response = await fetch(
+          'https://api.openai.com/v1/chat/completions',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${openaiKey}`,
+            },
+            body: JSON.stringify({
+              model: 'gpt-4o-mini',
+              messages: [
+                {
+                  role: 'system',
+                  content: 'You are a writer for a premium luxury artisan brand. Write short, sophisticated, minimal product descriptions.',
+                },
+                {
+                  role: 'user',
+                  content: `Write a product description (2-3 sentences) for: "${title}".`,
+                },
+              ],
+            }),
+          },
+        );
+        const data = await response.json();
+        generated = data.choices?.[0]?.message?.content || '';
+      } catch (e) {
+        console.warn('generateDescription: OpenAI API failed.');
+      }
+    }
+
+    if (!generated) {
+      const titleLower = title.toLowerCase();
+      if (titleLower.includes('vase') || titleLower.includes('ceramic') || titleLower.includes('pot')) {
+        generated = `Hand-thrown with tactile precision, this vessel celebrates the grounding simplicity of earth and fire. Its mineral-rich glaze catches the light with subtle complexity, offering a quiet focal point of quiet, understated luxury.`;
+      } else if (titleLower.includes('rug') || titleLower.includes('carpet') || titleLower.includes('textile') || titleLower.includes('wool') || titleLower.includes('woven')) {
+        generated = `Woven with generational expertise, this textile combines organic wool fibers with natural dyes to create an underfoot tactile experience. Its subtle geometric variations tell a story of slow, intentional artistry.`;
+      } else if (titleLower.includes('wood') || titleLower.includes('box') || titleLower.includes('carved')) {
+        generated = `Crafted from seasoned timber and finished with natural beeswax, this functional piece highlights the fine grain and warm hues of native wood. A minimal silhouette designed to age gracefully over years of quiet utility.`;
+      } else {
+        generated = `A study in quiet luxury, this handmade creation bridges heritage techniques and modern minimal aesthetics. Designed with slow, intentional design principles, it serves as a tactile testament to the weight of artisan craftsmanship.`;
+      }
+    }
+
+    return { description: generated.trim() };
+  }
 }
