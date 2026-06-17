@@ -36,6 +36,10 @@ export class CreateProductDto {
   @IsString()
   category: string;
 
+  @IsOptional()
+  @IsString()
+  subcategory?: string;
+
   @IsNotEmpty()
   @IsString()
   region: string;
@@ -43,6 +47,10 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsString()
   craft: string;
+
+  @IsOptional()
+  @IsString()
+  videoUrl?: string;
 }
 
 export class CreateReviewDto {
@@ -65,6 +73,10 @@ export class ProductQueryDto {
   @IsOptional()
   @IsString()
   category?: string;
+
+  @IsOptional()
+  @IsString()
+  subcategory?: string;
 
   @IsOptional()
   @IsString()

@@ -105,9 +105,11 @@ model Product {
   stock            Int             @default(10)
   images           String[]        // Array of URLs
   category         String          // e.g. "Vases", "Stoles", "Baskets"
+  subcategory      String?
   region           String          // e.g. "Rajasthan", "Kashmir"
   craft            String          // e.g. "Pottery", "Textiles"
   rating           Float           @default(5.0)
+  videoUrl         String?
   artisanId        String
   artisan          ArtisanProfile  @relation(fields: [artisanId], references: [id], onDelete: Cascade)
   meiliIndexed     Boolean         @default(false)
