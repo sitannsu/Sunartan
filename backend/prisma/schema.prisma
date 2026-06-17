@@ -57,6 +57,29 @@ model ArtisanProfile {
   bannerUrl      String?
   rating         Float        @default(5.0)
   isVerified     Boolean      @default(false)
+  
+  // New Registration fields
+  contactNumber  String?
+  companyName    String?
+  fullAddress    String?
+  city           String?
+  country        String?
+  zone           String?
+  postcode       String?
+  storeDescription String?    @db.Text
+  storeAbout     String?      @db.Text
+  metaDescription String?
+  metaKeywords   String?
+  shippingPolicy String?      @db.Text
+  returnPolicy   String?      @db.Text
+  taxNumber      String?
+  shippingCharges Float?      @default(0.0)
+  logoUrl        String?
+  payoutType     String?      // "PAYPAL" or "BANK"
+  paypalEmail    String?
+  bankBranch     String?
+  bankSwiftCode  String?
+
   hasOrganization     Boolean      @default(false)
   organizationName    String?
   incorporationNumber String?
@@ -71,6 +94,7 @@ model ArtisanProfile {
   // Relations
   products       Product[]
   collections    Collection[]
+  kycDocuments   KycDocument[]
 }
 
 model Product {
@@ -180,4 +204,19 @@ model Review {
   rating    Int
   comment   String   @db.Text
   createdAt DateTime @default(now())
+}
+
+model KycDocument {
+  id               String         @id @default(uuid())
+  artisanProfileId String
+  artisanProfile   ArtisanProfile @relation(fields: [artisanProfileId], references: [id], onDelete: Cascade)
+  documentType     String         // e.g. "NATIONAL_ID", "BANK_STATEMENT", "TAX_REGISTRATION", "OTHER"
+  fileUrl          String?
+  fileName         String?
+  status           String         @default("REQUESTED") // REQUESTED, PENDING, APPROVED, REJECTED
+  adminNote        String?
+  requestedAt      DateTime       @default(now())
+  reviewedAt       DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 }

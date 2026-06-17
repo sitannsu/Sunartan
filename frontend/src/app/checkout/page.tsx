@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuthStore, useCartStore } from '@/store';
+import { useAuthStore, useCartStore, formatPrice } from '@/store';
 import { motion } from 'framer-motion';
 
 export default function Checkout() {
   const router = useRouter();
   const { user, token } = useAuthStore();
-  const { items, getTotalAmount, clearCart } = useCartStore();
+  const { items, getTotalAmount, clearCart, currency } = useCartStore();
   
   const [shippingAddress, setShippingAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<'STRIPE' | 'RAZORPAY' | 'MOCK'>('MOCK');
@@ -219,7 +219,7 @@ export default function Checkout() {
                   <p className="text-[10px] text-secondary mt-0.5">Qty: {item.quantity}</p>
                 </div>
                 <span className="font-display font-medium text-sm text-primary">
-                  ${item.price * item.quantity}
+                  {formatPrice(item.price * item.quantity, currency)}
                 </span>
               </div>
             ))}
@@ -232,7 +232,7 @@ export default function Checkout() {
             </div>
             <div className="flex justify-between font-display text-xl font-bold border-t border-outline-variant/10 pt-4">
               <span>Total Price</span>
-              <span className="text-primary">${total}</span>
+              <span className="text-primary">{formatPrice(total, currency)}</span>
             </div>
           </div>
         </div>

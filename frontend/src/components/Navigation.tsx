@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { useAuthStore, useCartStore } from '@/store';
+import { useAuthStore, useCartStore, CURRENCIES } from '@/store';
 
 export default function Navigation() {
   const router = useRouter();
@@ -11,6 +11,8 @@ export default function Navigation() {
   
   const { user, logout } = useAuthStore();
   const cartItems = useCartStore((state) => state.items);
+  const currency = useCartStore((state) => state.currency);
+  const setCurrency = useCartStore((state) => state.setCurrency);
   const [cartCount, setCartCount] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -70,6 +72,21 @@ export default function Navigation() {
 
         {/* User States & Cart Actions */}
         <div className="flex items-center space-x-6">
+          {/* Currency selector */}
+          <div className="relative">
+            <select
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+              className="bg-transparent border border-outline-variant/30 text-on-surface-variant text-[10px] font-semibold tracking-wider uppercase px-2 py-1.5 rounded outline-none focus:border-primary cursor-pointer hover:bg-secondary-container/10 transition-all font-sans"
+            >
+              {CURRENCIES.map((c) => (
+                <option key={c.code} value={c.code} className="bg-background text-on-surface text-[10px]">
+                  {c.symbol} {c.code}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Shopping Cart Link */}
           <Link href="/cart" className="relative text-on-surface-variant hover:text-primary transition-all active:scale-95 flex items-center">
             <span className="material-symbols-outlined text-2xl">shopping_bag</span>
@@ -114,6 +131,22 @@ export default function Navigation() {
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-background border-t border-outline-variant/20 px-margin-mobile py-6 flex flex-col space-y-4 animate-in fade-in slide-in-from-top-4 duration-300">
+          {/* Currency selector for Mobile */}
+          <div className="py-2 border-b border-outline-variant/10 flex justify-between items-center">
+            <span className="font-semibold text-xs uppercase tracking-wider text-secondary">Currency</span>
+            <select
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+              className="bg-transparent border border-outline-variant/30 text-on-surface-variant text-[11px] font-semibold tracking-wider uppercase px-2 py-1.5 rounded outline-none focus:border-primary cursor-pointer hover:bg-secondary-container/10 transition-all font-sans"
+            >
+              {CURRENCIES.map((c) => (
+                <option key={c.code} value={c.code} className="bg-background text-on-surface text-[11px]">
+                  {c.symbol} {c.code} ({c.name})
+                </option>
+              ))}
+            </select>
+          </div>
+
           <Link
             onClick={() => setMobileMenuOpen(false)}
             href="/shop"

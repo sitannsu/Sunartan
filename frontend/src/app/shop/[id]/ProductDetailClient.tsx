@@ -4,12 +4,13 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuthStore, useCartStore } from '@/store';
+import { useAuthStore, useCartStore, formatPrice } from '@/store';
 import { motion } from 'framer-motion';
 
 export default function ProductDetailClient({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const addItem = useCartStore((state) => state.addItem);
+  const currency = useCartStore((state) => state.currency);
   const { user, token } = useAuthStore();
   
   const [unwrappedParams, setUnwrappedParams] = useState<{ id: string } | null>(null);
@@ -23,7 +24,15 @@ export default function ProductDetailClient({ params }: { params: Promise<{ id: 
 
   useEffect(() => {
     params.then((res) => {
-      setUnwrappedParams(res);
+      let productId = res.id;
+      if (productId === 'placeholder' && typeof window !== 'undefined') {
+        const parts = window.location.pathname.split('/');
+        const lastPart = parts[parts.length - 1];
+        if (lastPart && lastPart !== 'placeholder') {
+          productId = lastPart;
+        }
+      }
+      setUnwrappedParams({ id: productId });
     });
   }, [params]);
 
@@ -142,7 +151,7 @@ export default function ProductDetailClient({ params }: { params: Promise<{ id: 
           </div>
 
           <div className="border-y border-outline-variant/30 py-4">
-            <span className="font-display text-3xl font-medium text-primary">${product.price}</span>
+             <span className="font-display text-3xl font-medium text-primary">{formatPrice(product.price, currency)}</span>
             <p className="text-xs text-secondary mt-1">Free global shipping, secure checkout options.</p>
           </div>
 

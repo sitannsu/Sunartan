@@ -4,10 +4,11 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { useCartStore } from '@/store';
+import { useCartStore, formatPrice } from '@/store';
 
 export default function Home() {
   const addItem = useCartStore((state) => state.addItem);
+  const currency = useCartStore((state) => state.currency);
   const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
@@ -298,7 +299,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="flex justify-between items-center mt-6 pt-4 border-t border-outline-variant/10">
-                  <span className="text-lg font-medium text-on-surface font-display">${product.price}</span>
+                  <span className="text-lg font-medium text-on-surface font-display">{formatPrice(product.price, currency)}</span>
                   <button
                     onClick={() => addItem(product)}
                     className="text-primary font-bold text-xs uppercase tracking-widest flex items-center hover:text-secondary cursor-pointer border border-primary/20 px-3 py-1.5 rounded-lg hover:border-primary transition-all"

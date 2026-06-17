@@ -3,12 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useCartStore, formatPrice } from '@/store';
 import { motion } from 'framer-motion';
 
 export default function Dashboard() {
   const router = useRouter();
   const { user, token } = useAuthStore();
+  const currency = useCartStore((state) => state.currency);
   
   // Dynamic datasets depending on role
   const [customerOrders, setCustomerOrders] = useState<any[]>([]);
@@ -37,6 +38,45 @@ export default function Dashboard() {
   const [bankAccountNumber, setBankAccountNumber] = useState('');
   const [bankIfsc, setBankIfsc] = useState('');
   const [profileMessage, setProfileMessage] = useState('');
+
+  // New Artisan Fields
+  const [contactNumber, setContactNumber] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [fullAddress, setFullAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
+  const [zone, setZone] = useState('');
+  const [postcode, setPostcode] = useState('');
+  const [storeDescription, setStoreDescription] = useState('');
+  const [storeAbout, setStoreAbout] = useState('');
+  const [metaDescription, setMetaDescription] = useState('');
+  const [metaKeywords, setMetaKeywords] = useState('');
+  const [shippingPolicy, setShippingPolicy] = useState('');
+  const [returnPolicy, setReturnPolicy] = useState('');
+  const [taxNumber, setTaxNumber] = useState('');
+  const [shippingCharges, setShippingCharges] = useState('0');
+  const [logoUrl, setLogoUrl] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState('');
+  const [bannerUrl, setBannerUrl] = useState('');
+  const [payoutType, setPayoutType] = useState('BANK');
+  const [paypalEmail, setPaypalEmail] = useState('');
+  const [bankBranch, setBankBranch] = useState('');
+  const [bankSwiftCode, setBankSwiftCode] = useState('');
+
+  // KYC Workspace States
+  const [kycDocuments, setKycDocuments] = useState<any[]>([]);
+  const [kycDocType, setKycDocType] = useState('NATIONAL_ID');
+  const [kycFileUrl, setKycFileUrl] = useState('');
+  const [kycFileName, setKycFileName] = useState('');
+  const [kycUploading, setKycUploading] = useState(false);
+  const [kycMessage, setKycMessage] = useState('');
+
+  // Admin KYC Workspace States
+  const [adminKycDocuments, setAdminKycDocuments] = useState<any[]>([]);
+  const [kycRequestArtisanId, setKycRequestArtisanId] = useState('');
+  const [kycRequestDocType, setKycRequestDocType] = useState('NATIONAL_ID');
+  const [kycReviewNote, setKycReviewNote] = useState('');
+  const [kycReviewMessage, setKycReviewMessage] = useState('');
 
   // New product form states (for Artisan)
   const [title, setTitle] = useState('');
@@ -76,9 +116,15 @@ export default function Dashboard() {
       const fetchProfile = fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/products/artisans/${user.id}`)
         .then((res) => res.json());
 
-      Promise.all([fetchOrders, fetchProfile])
-        .then(([orders, profileData]) => {
+      // Fetch artisan KYC docs
+      const fetchKyc = fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/kyc/my`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }).then((res) => res.json());
+
+      Promise.all([fetchOrders, fetchProfile, fetchKyc])
+        .then(([orders, profileData, kycData]) => {
           if (Array.isArray(orders)) setArtisanOrders(orders);
+          if (Array.isArray(kycData)) setKycDocuments(kycData);
           if (profileData) {
             setProfile(profileData);
             if (Array.isArray(profileData.products)) {
@@ -94,6 +140,28 @@ export default function Dashboard() {
             setBankName(profileData.bankName || '');
             setBankAccountNumber(profileData.bankAccountNumber || '');
             setBankIfsc(profileData.bankIfsc || '');
+            setContactNumber(profileData.contactNumber || '');
+            setCompanyName(profileData.companyName || '');
+            setFullAddress(profileData.fullAddress || '');
+            setCity(profileData.city || '');
+            setCountry(profileData.country || '');
+            setZone(profileData.zone || '');
+            setPostcode(profileData.postcode || '');
+            setStoreDescription(profileData.storeDescription || '');
+            setStoreAbout(profileData.storeAbout || '');
+            setMetaDescription(profileData.metaDescription || '');
+            setMetaKeywords(profileData.metaKeywords || '');
+            setShippingPolicy(profileData.shippingPolicy || '');
+            setReturnPolicy(profileData.returnPolicy || '');
+            setTaxNumber(profileData.taxNumber || '');
+            setShippingCharges(String(profileData.shippingCharges || '0'));
+            setLogoUrl(profileData.logoUrl || '');
+            setAvatarUrl(profileData.avatarUrl || '');
+            setBannerUrl(profileData.bannerUrl || '');
+            setPayoutType(profileData.payoutType || 'BANK');
+            setPaypalEmail(profileData.paypalEmail || '');
+            setBankBranch(profileData.bankBranch || '');
+            setBankSwiftCode(profileData.bankSwiftCode || '');
           }
           setLoading(false);
         })
@@ -112,11 +180,22 @@ export default function Dashboard() {
         headers: { Authorization: `Bearer ${token}` },
       }).then((res) => res.json());
 
-      Promise.all([fetchProducts, fetchArtisans, fetchOrders])
-        .then(([productsList, artisansList, ordersList]) => {
+      // Fetch all KYC documents
+      const fetchAdminKyc = fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/kyc/all`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }).then((res) => res.json());
+
+      Promise.all([fetchProducts, fetchArtisans, fetchOrders, fetchAdminKyc])
+        .then(([productsList, artisansList, ordersList, kycList]) => {
           if (Array.isArray(productsList)) setAdminProducts(productsList);
-          if (Array.isArray(artisansList)) setAdminArtisans(artisansList);
+          if (Array.isArray(artisansList)) {
+            setAdminArtisans(artisansList);
+            if (artisansList.length > 0) {
+              setKycRequestArtisanId(artisansList[0].id);
+            }
+          }
           if (Array.isArray(ordersList)) setAdminOrders(ordersList);
+          if (Array.isArray(kycList)) setAdminKycDocuments(kycList);
           setLoading(false);
         })
         .catch(() => setLoading(false));
@@ -205,6 +284,28 @@ export default function Dashboard() {
           bankName,
           bankAccountNumber,
           bankIfsc,
+          contactNumber,
+          companyName,
+          fullAddress,
+          city,
+          country,
+          zone,
+          postcode,
+          storeDescription,
+          storeAbout,
+          metaDescription,
+          metaKeywords,
+          shippingPolicy,
+          returnPolicy,
+          taxNumber,
+          shippingCharges: Number(shippingCharges),
+          logoUrl,
+          avatarUrl,
+          bannerUrl,
+          payoutType,
+          paypalEmail: payoutType === 'PAYPAL' ? paypalEmail : null,
+          bankBranch: payoutType === 'BANK' ? bankBranch : null,
+          bankSwiftCode: payoutType === 'BANK' ? bankSwiftCode : null,
         }),
       });
       const data = await response.json();
@@ -218,6 +319,103 @@ export default function Dashboard() {
       }
     } catch (err) {
       setProfileMessage('Network error updating profile.');
+    }
+  };
+
+  const handleSubmitKycDocument = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!token) return;
+    setKycMessage('');
+    if (!kycFileUrl) {
+      setKycMessage('Please upload a document file first.');
+      return;
+    }
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/kyc/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          documentType: kycDocType,
+          fileUrl: kycFileUrl,
+          fileName: kycFileName || 'kyc_document',
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setKycMessage('KYC Document submitted successfully!');
+        setKycFileUrl('');
+        setKycFileName('');
+        fetchDashboardData();
+      } else {
+        setKycMessage(data.message || 'Failed to submit KYC document.');
+      }
+    } catch (err) {
+      setKycMessage('Error submitting KYC document.');
+    }
+  };
+
+  const handleRequestKycDocument = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!token) return;
+    setKycReviewMessage('');
+    if (!kycRequestArtisanId) {
+      setKycReviewMessage('Please select an artisan first.');
+      return;
+    }
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/kyc/request`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          artisanProfileId: kycRequestArtisanId,
+          documentType: kycRequestDocType,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setKycReviewMessage('KYC document request sent successfully!');
+        fetchDashboardData();
+      } else {
+        setKycReviewMessage(data.message || 'Failed to request document.');
+      }
+    } catch (err) {
+      setKycReviewMessage('Error sending KYC request.');
+    }
+  };
+
+  const handleReviewKycDocument = async (documentId: string, status: 'APPROVED' | 'REJECTED') => {
+    if (!token) return;
+    setKycReviewMessage('');
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/kyc/${documentId}/status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          status,
+          adminNote: kycReviewNote,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setKycReviewMessage(`Document ${status.toLowerCase()} successfully!`);
+        setKycReviewNote('');
+        fetchDashboardData();
+      } else {
+        setKycReviewMessage(data.message || 'Failed to update document status.');
+      }
+    } catch (err) {
+      setKycReviewMessage('Error updating document status.');
     }
   };
 
@@ -334,14 +532,14 @@ export default function Dashboard() {
                             <p className="text-[10px] text-secondary">Craft Technique: {item.product.craft}</p>
                           </div>
                         </div>
-                        <span className="font-medium font-display text-base text-primary">${item.price * item.quantity}</span>
+                        <span className="font-medium font-display text-base text-primary">{formatPrice(item.price * item.quantity, currency)}</span>
                       </div>
                     ))}
                   </div>
 
                   <div className="flex justify-between pt-4 border-t border-outline-variant/10 font-sans text-xs">
                     <span className="text-secondary">Shipping to: <i>{order.shippingAddress}</i></span>
-                    <span className="text-lg font-bold font-display text-primary">Total: ${order.totalAmount}</span>
+                    <span className="text-lg font-bold font-display text-primary">Total: {formatPrice(order.totalAmount, currency)}</span>
                   </div>
                 </div>
               ))}
@@ -364,7 +562,7 @@ export default function Dashboard() {
                   <div className="bg-white border border-outline-variant/20 p-6 rounded-xl luxury-shadow space-y-2">
                     <span className="text-[10px] font-bold text-secondary uppercase tracking-widest block">Total Earnings</span>
                     <span className="text-3xl font-display text-primary font-semibold">
-                      ${artisanOrders.reduce((sum, o) => sum + o.totalAmount, 0)}
+                      {formatPrice(artisanOrders.reduce((sum, o) => sum + o.totalAmount, 0), currency)}
                     </span>
                   </div>
                   <div className="bg-white border border-outline-variant/20 p-6 rounded-xl luxury-shadow space-y-2">
@@ -396,7 +594,7 @@ export default function Dashboard() {
                             </div>
                             <div>
                               <h4 className="text-sm font-semibold line-clamp-1">{prod.title}</h4>
-                              <p className="text-[10px] text-secondary">Price: ${prod.price} • Stock: {prod.stock}</p>
+                              <p className="text-[10px] text-secondary">Price: {formatPrice(prod.price, currency)} • Stock: {prod.stock}</p>
                             </div>
                           </div>
                           <Link href={`/shop/${prod.id}`} className="text-[10px] font-bold uppercase tracking-widest text-primary border border-primary/20 px-2 py-1 rounded">
@@ -440,7 +638,7 @@ export default function Dashboard() {
                             {ord.items?.map((item: any) => (
                               <div key={item.id} className="flex justify-between items-center text-secondary">
                                 <span>{item.product.title} (x{item.quantity})</span>
-                                <span className="font-medium text-on-surface">${item.price * item.quantity}</span>
+                                <span className="font-medium text-on-surface">{formatPrice(item.price * item.quantity, currency)}</span>
                               </div>
                             ))}
                           </div>
@@ -448,6 +646,149 @@ export default function Dashboard() {
                       ))}
                     </div>
                   )}
+                  {/* Artisan KYC Verification Workspace */}
+                  <div className="space-y-6 border-t border-outline-variant/10 pt-8">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h2 className="font-display text-3xl font-light text-on-surface">Ongoing KYC Verification</h2>
+                        <p className="text-xs text-secondary mt-1">Submit required documents to verify your bank details and identity.</p>
+                      </div>
+                      {profile?.isVerified ? (
+                        <span className="bg-primary-container/30 text-primary text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[14px]">verified</span> Profile Verified
+                        </span>
+                      ) : (
+                        <span className="bg-secondary-container/50 text-secondary text-xs font-semibold px-3 py-1 rounded-full">
+                          Pending Profile Verification
+                        </span>
+                      )}
+                    </div>
+
+                    {/* KYC Upload Box */}
+                    <div className="bg-white border border-outline-variant/20 rounded-xl p-6 luxury-shadow space-y-4">
+                      <h3 className="font-display text-lg font-light text-primary">Submit KYC Document</h3>
+                      <form onSubmit={handleSubmitKycDocument} className="space-y-4 font-sans text-xs">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="space-y-1">
+                            <label className="text-secondary font-semibold uppercase tracking-wider block">Document Type</label>
+                            <select
+                              value={kycDocType}
+                              onChange={(e) => setKycDocType(e.target.value)}
+                              className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none animate-none"
+                            >
+                              <option value="NATIONAL_ID">National Identity Proof (ID Card/Passport)</option>
+                              <option value="BANK_STATEMENT">Bank Statement / Canceled Cheque</option>
+                              <option value="TAX_REGISTRATION">Tax Registration Certificate</option>
+                              <option value="BUSINESS_REGISTRATION">Business Incorporation Certificate</option>
+                              <option value="OTHER">Other Proof</option>
+                            </select>
+                          </div>
+                          <div className="space-y-1">
+                            <label className="text-secondary font-semibold uppercase tracking-wider block">Document File (PDF, PNG, JPG)</label>
+                            <div className="flex items-center gap-3">
+                              <label className={`bg-primary/10 text-primary border border-primary/20 px-3 py-2 rounded text-[10px] uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary/15 transition-all flex items-center gap-1.5 ${kycUploading ? 'opacity-50' : ''}`}>
+                                <span className="material-symbols-outlined text-sm">{kycUploading ? 'progress_activity' : 'cloud_upload'}</span>
+                                {kycUploading ? 'Uploading...' : 'Choose File'}
+                                <input
+                                  type="file"
+                                  accept="image/*,application/pdf"
+                                  className="hidden"
+                                  disabled={kycUploading}
+                                  onChange={async (e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      setKycUploading(true);
+                                      setKycMessage('Uploading document to secure vault...');
+                                      const formData = new FormData();
+                                      formData.append('file', file);
+                                      try {
+                                        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/upload`, {
+                                          method: 'POST',
+                                          headers: { Authorization: `Bearer ${token}` },
+                                          body: formData,
+                                        });
+                                        const data = await res.json();
+                                        if (res.ok && data.url) {
+                                          setKycFileUrl(data.url);
+                                          setKycFileName(file.name);
+                                          setKycMessage('Document uploaded. Ready to submit.');
+                                        } else {
+                                          setKycMessage(data.message || 'File upload failed.');
+                                        }
+                                      } catch (err) {
+                                        setKycMessage('Network error uploading file.');
+                                      } finally {
+                                        setKycUploading(false);
+                                      }
+                                    }
+                                  }}
+                                />
+                              </label>
+                              {kycFileName && (
+                                <span className="text-xs text-secondary font-medium line-clamp-1">{kycFileName}</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        <button
+                          type="submit"
+                          disabled={kycUploading || !kycFileUrl}
+                          className="w-full bg-primary text-white py-2.5 rounded font-semibold uppercase tracking-widest text-[10px] hover:opacity-95 disabled:opacity-50 cursor-pointer"
+                        >
+                          Submit Document for Verification
+                        </button>
+
+                        {kycMessage && (
+                          <p className="text-xs text-primary font-medium mt-2">{kycMessage}</p>
+                        )}
+                      </form>
+                    </div>
+
+                    {/* List of KYC Documents */}
+                    <div className="space-y-3">
+                      <h3 className="font-display text-lg font-light text-primary">Verification Status Checklist</h3>
+                      {kycDocuments.length === 0 ? (
+                        <p className="text-xs text-secondary italic">No document verification submissions found.</p>
+                      ) : (
+                        <div className="space-y-3">
+                          {kycDocuments.map((doc) => (
+                            <div key={doc.id} className="bg-white border border-outline-variant/20 rounded-xl p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 font-sans text-xs">
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className="font-semibold text-on-surface uppercase">{doc.documentType.replace('_', ' ')}</span>
+                                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                                    doc.status === 'APPROVED' ? 'bg-green-100 text-green-700' :
+                                    doc.status === 'REJECTED' ? 'bg-red-100 text-red-700' :
+                                    doc.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' :
+                                    'bg-gray-100 text-gray-700'
+                                  }`}>
+                                    {doc.status}
+                                  </span>
+                                </div>
+                                <p className="text-[10px] text-secondary mt-1">Requested/Submitted: {new Date(doc.createdAt).toLocaleDateString()}</p>
+                                {doc.adminNote && (
+                                  <p className="text-xs text-red-600 bg-red-50 p-2.5 rounded border border-red-100 mt-2 font-medium">
+                                    <b>Gaatha Feedback:</b> {doc.adminNote}
+                                  </p>
+                                )}
+                              </div>
+                              {doc.fileUrl && (
+                                <a
+                                  href={doc.fileUrl}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="text-[10px] font-bold uppercase tracking-widest text-primary border border-primary/20 px-3 py-1.5 rounded hover:bg-primary/5 cursor-pointer"
+                                >
+                                  View File
+                                </a>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </>
             )}
@@ -460,7 +801,7 @@ export default function Dashboard() {
                   <div className="bg-white border border-outline-variant/20 p-6 rounded-xl luxury-shadow space-y-2">
                     <span className="text-[10px] font-bold text-secondary uppercase tracking-widest block">Total Sales Volume</span>
                     <span className="text-3xl font-display text-primary font-semibold">
-                      ${adminOrders.reduce((sum, o) => sum + o.totalAmount, 0)}
+                      {formatPrice(adminOrders.reduce((sum, o) => sum + o.totalAmount, 0), currency)}
                     </span>
                   </div>
                   <div className="bg-white border border-outline-variant/20 p-6 rounded-xl luxury-shadow space-y-2">
@@ -518,6 +859,158 @@ export default function Dashboard() {
                   )}
                 </div>
 
+                {/* Admin KYC Document Workspace */}
+                <div className="space-y-6 border-t border-outline-variant/10 pt-8">
+                  <div>
+                    <h2 className="font-display text-3xl font-light text-on-surface">Ongoing KYC Review Center</h2>
+                    <p className="text-xs text-secondary mt-1">Manage ongoing document requests and review submissions from artisans.</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                    {/* Left: Request Form */}
+                    <div className="md:col-span-4 bg-white border border-outline-variant/20 rounded-xl p-5 luxury-shadow space-y-4">
+                      <h3 className="font-display text-lg font-light text-primary border-b border-outline-variant/10 pb-2">Request Document</h3>
+                      <form onSubmit={handleRequestKycDocument} className="space-y-3 font-sans text-xs">
+                        <div className="space-y-1">
+                          <label className="text-secondary font-semibold uppercase tracking-wider block">Select Artisan</label>
+                          <select
+                            value={kycRequestArtisanId}
+                            onChange={(e) => setKycRequestArtisanId(e.target.value)}
+                            className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                          >
+                            <option value="">-- Choose Artisan --</option>
+                            {adminArtisans.map((artisan) => (
+                              <option key={artisan.id} value={artisan.id}>
+                                {artisan.user?.name} ({artisan.region})
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-secondary font-semibold uppercase tracking-wider block">Document Type</label>
+                          <select
+                            value={kycRequestDocType}
+                            onChange={(e) => setKycRequestDocType(e.target.value)}
+                            className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                          >
+                            <option value="NATIONAL_ID">National Identity Proof (ID/Passport)</option>
+                            <option value="BANK_STATEMENT">Bank Statement / Canceled Cheque</option>
+                            <option value="TAX_REGISTRATION">Tax Registration Certificate</option>
+                            <option value="BUSINESS_REGISTRATION">Business Incorporation Certificate</option>
+                            <option value="OTHER">Other Verification Document</option>
+                          </select>
+                        </div>
+
+                        <button
+                          type="submit"
+                          className="w-full bg-primary text-white py-2 rounded font-semibold uppercase tracking-widest text-[10px] hover:opacity-95 cursor-pointer"
+                        >
+                          Send Request
+                        </button>
+
+                        {kycReviewMessage && (
+                          <p className="text-xs text-primary font-medium mt-1">{kycReviewMessage}</p>
+                        )}
+                      </form>
+                    </div>
+
+                    {/* Right: Review Queue */}
+                    <div className="md:col-span-8 space-y-4">
+                      <h3 className="font-display text-lg font-light text-primary">KYC Document Submissions</h3>
+                      {adminKycDocuments.length === 0 ? (
+                        <p className="text-xs text-secondary italic bg-secondary-container/10 p-5 rounded-xl border border-dashed text-center">
+                          No KYC document records found in the system.
+                        </p>
+                      ) : (
+                        <div className="space-y-4">
+                          {adminKycDocuments.map((doc) => (
+                            <div key={doc.id} className="bg-white border border-outline-variant/20 rounded-xl p-5 luxury-shadow space-y-4 font-sans text-xs">
+                              <div className="flex justify-between items-start pb-2 border-b border-outline-variant/10">
+                                <div>
+                                  <h4 className="font-semibold text-sm text-on-surface uppercase">
+                                    {doc.documentType.replace('_', ' ')}
+                                  </h4>
+                                  <p className="text-[10px] text-secondary mt-0.5">
+                                    Artisan: <b>{doc.artisanProfile?.user?.name}</b> ({doc.artisanProfile?.user?.email})
+                                  </p>
+                                </div>
+                                <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold ${
+                                  doc.status === 'APPROVED' ? 'bg-green-100 text-green-700' :
+                                  doc.status === 'REJECTED' ? 'bg-red-100 text-red-700' :
+                                  doc.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' :
+                                  'bg-gray-100 text-gray-700'
+                                }`}>
+                                  {doc.status}
+                                </span>
+                              </div>
+
+                              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                                <div>
+                                  <p className="text-[10px] text-secondary">
+                                    Requested: {new Date(doc.requestedAt).toLocaleDateString()}
+                                    {doc.reviewedAt && ` • Reviewed: ${new Date(doc.reviewedAt).toLocaleDateString()}`}
+                                  </p>
+                                  {doc.fileName && (
+                                    <p className="text-[10px] text-on-surface mt-1">
+                                      File Name: <span className="font-mono">{doc.fileName}</span>
+                                    </p>
+                                  )}
+                                  {doc.adminNote && (
+                                    <p className="text-xs text-secondary italic bg-secondary-container/20 p-2 rounded border mt-2">
+                                      <b>Previous Note:</b> {doc.adminNote}
+                                    </p>
+                                  )}
+                                </div>
+
+                                {doc.fileUrl && (
+                                  <a
+                                    href={doc.fileUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-[10px] font-bold uppercase tracking-widest text-primary border border-primary/20 px-3 py-1.5 rounded hover:bg-primary/5 cursor-pointer whitespace-nowrap"
+                                  >
+                                    Review Document
+                                  </a>
+                                )}
+                              </div>
+
+                              {doc.status === 'PENDING' && (
+                                <div className="space-y-2 border-t border-outline-variant/10 pt-3">
+                                  <label className="text-[10px] uppercase tracking-widest text-secondary font-semibold block">
+                                    Review Note / Rejection Reason
+                                  </label>
+                                  <textarea
+                                    placeholder="Provide feedback note for approval or reasons for rejection/clarification..."
+                                    value={kycReviewNote}
+                                    onChange={(e) => setKycReviewNote(e.target.value)}
+                                    rows={2}
+                                    className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                                  />
+                                  <div className="flex gap-3 pt-1">
+                                    <button
+                                      onClick={() => handleReviewKycDocument(doc.id, 'APPROVED')}
+                                      className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded text-[10px] uppercase tracking-widest cursor-pointer transition-colors"
+                                    >
+                                      Approve & Verify
+                                    </button>
+                                    <button
+                                      onClick={() => handleReviewKycDocument(doc.id, 'REJECTED')}
+                                      className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded text-[10px] uppercase tracking-widest cursor-pointer transition-colors"
+                                    >
+                                      Reject / Question Document
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
                 {/* Global Orders */}
                 <div className="space-y-4">
                   <h2 className="font-display text-3xl font-light text-on-surface">Global Platform Acquisitions</h2>
@@ -549,7 +1042,7 @@ export default function Dashboard() {
                             {ord.items?.map((item: any) => (
                               <div key={item.id} className="flex justify-between items-center text-secondary">
                                 <span>{item.product.title} (x{item.quantity})</span>
-                                <span className="font-medium text-on-surface">${item.price * item.quantity}</span>
+                                <span className="font-medium text-on-surface">{formatPrice(item.price * item.quantity, currency)}</span>
                               </div>
                             ))}
                           </div>
@@ -574,7 +1067,7 @@ export default function Dashboard() {
                             </div>
                             <div>
                               <h4 className="text-sm font-semibold line-clamp-1">{prod.title}</h4>
-                              <p className="text-[10px] text-secondary">Price: ${prod.price} • Stock: {prod.stock}</p>
+                              <p className="text-[10px] text-secondary">Price: {formatPrice(prod.price, currency)} • Stock: {prod.stock}</p>
                             </div>
                           </div>
                           <button
@@ -611,6 +1104,19 @@ export default function Dashboard() {
                 </div>
                 
                 <div className="space-y-3 font-sans text-xs">
+                  {/* Images */}
+                  <div className="flex gap-4 items-center">
+                    {profile?.logoUrl && (
+                      <div className="w-12 h-12 rounded border border-outline-variant/30 overflow-hidden relative bg-white">
+                        <img src={profile.logoUrl} alt="Store logo" className="object-cover w-full h-full" />
+                      </div>
+                    )}
+                    <div>
+                      <span className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Contact Number</span>
+                      <p className="text-on-surface font-medium">{profile?.contactNumber || "Not specified"}</p>
+                    </div>
+                  </div>
+
                   <div className="space-y-1">
                     <span className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Biography</span>
                     <p className="text-on-surface bg-white/50 p-2.5 rounded border border-outline-variant/10 min-h-[60px] italic whitespace-pre-wrap">
@@ -626,6 +1132,38 @@ export default function Dashboard() {
                     <div className="space-y-1">
                       <span className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Region & Craft</span>
                       <p className="text-on-surface font-medium">{profile?.region} • {profile?.craft}</p>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-outline-variant/15 pt-3 space-y-2">
+                    <span className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Store Address & Location</span>
+                    <div className="bg-white/45 p-3 rounded border border-outline-variant/20 space-y-1 text-on-surface font-medium">
+                      <p>{profile?.companyName || "No Company Name"}</p>
+                      <p>{profile?.fullAddress || "No address"}</p>
+                      <p>{profile?.city}, {profile?.zone}, {profile?.postcode}</p>
+                      <p className="uppercase text-[9px] text-secondary">Country: {profile?.country}</p>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-outline-variant/15 pt-3 space-y-2">
+                    <span className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Policies & SEO</span>
+                    <div className="bg-white/45 p-3 rounded border border-outline-variant/20 space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-secondary">Tax ID:</span>
+                        <span className="font-medium text-on-surface">{profile?.taxNumber || "Not Provided"}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-secondary">Shipping Charge:</span>
+                        <span className="font-medium text-on-surface">${profile?.shippingCharges}</span>
+                      </div>
+                      <div className="space-y-1 border-t border-outline-variant/10 pt-1">
+                        <span className="text-secondary text-[10px] block">Shipping Policy:</span>
+                        <p className="text-on-surface italic">{profile?.shippingPolicy || "Not specified"}</p>
+                      </div>
+                      <div className="space-y-1">
+                        <span className="text-secondary text-[10px] block">Return Policy:</span>
+                        <p className="text-on-surface italic">{profile?.returnPolicy || "Not specified"}</p>
+                      </div>
                     </div>
                   </div>
 
@@ -652,8 +1190,13 @@ export default function Dashboard() {
                   </div>
 
                   <div className="border-t border-outline-variant/15 pt-3 space-y-2">
-                    <span className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Bank Account Details</span>
-                    {profile?.bankAccountNumber ? (
+                    <span className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Payout Preferences ({profile?.payoutType || 'BANK'})</span>
+                    {profile?.payoutType === 'PAYPAL' ? (
+                      <div className="bg-white/45 p-3 rounded border border-outline-variant/20 flex justify-between">
+                        <span className="text-secondary">PayPal Email:</span>
+                        <span className="font-medium text-on-surface">{profile?.paypalEmail}</span>
+                      </div>
+                    ) : profile?.bankAccountNumber ? (
                       <div className="space-y-2 bg-white/45 p-3 rounded border border-outline-variant/20">
                         <div className="flex justify-between">
                           <span className="text-secondary">Holder Name:</span>
@@ -662,6 +1205,14 @@ export default function Dashboard() {
                         <div className="flex justify-between">
                           <span className="text-secondary">Bank Name:</span>
                           <span className="font-medium text-on-surface">{profile?.bankName}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-secondary">Branch:</span>
+                          <span className="font-medium text-on-surface">{profile?.bankBranch}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-secondary">SWIFT:</span>
+                          <span className="font-medium text-on-surface">{profile?.bankSwiftCode || "Not provided"}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-secondary">Account No:</span>
@@ -673,7 +1224,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                     ) : (
-                      <p className="text-secondary italic">No bank details registered</p>
+                      <p className="text-secondary italic">No payout details registered</p>
                     )}
                   </div>
                 </div>
@@ -703,6 +1254,28 @@ export default function Dashboard() {
                         setBankName(profile.bankName || '');
                         setBankAccountNumber(profile.bankAccountNumber || '');
                         setBankIfsc(profile.bankIfsc || '');
+                        setContactNumber(profile.contactNumber || '');
+                        setCompanyName(profile.companyName || '');
+                        setFullAddress(profile.fullAddress || '');
+                        setCity(profile.city || '');
+                        setCountry(profile.country || '');
+                        setZone(profile.zone || '');
+                        setPostcode(profile.postcode || '');
+                        setStoreDescription(profile.storeDescription || '');
+                        setStoreAbout(profile.storeAbout || '');
+                        setMetaDescription(profile.metaDescription || '');
+                        setMetaKeywords(profile.metaKeywords || '');
+                        setShippingPolicy(profile.shippingPolicy || '');
+                        setReturnPolicy(profile.returnPolicy || '');
+                        setTaxNumber(profile.taxNumber || '');
+                        setShippingCharges(String(profile.shippingCharges || '0'));
+                        setLogoUrl(profile.logoUrl || '');
+                        setAvatarUrl(profile.avatarUrl || '');
+                        setBannerUrl(profile.bannerUrl || '');
+                        setPayoutType(profile.payoutType || 'BANK');
+                        setPaypalEmail(profile.paypalEmail || '');
+                        setBankBranch(profile.bankBranch || '');
+                        setBankSwiftCode(profile.bankSwiftCode || '');
                       }
                       setProfileMessage('');
                     }}
@@ -713,6 +1286,31 @@ export default function Dashboard() {
                 </div>
 
                 <div className="space-y-4 font-sans text-xs">
+                  {/* Account & Contact */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-secondary font-semibold uppercase tracking-wider block">Contact Number</label>
+                      <input
+                        type="text"
+                        required
+                        value={contactNumber}
+                        onChange={(e) => setContactNumber(e.target.value)}
+                        placeholder="e.g. +91 98765 43210"
+                        className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-secondary font-semibold uppercase tracking-wider block">Studio Location</label>
+                      <input
+                        type="text"
+                        value={studioLocation}
+                        onChange={(e) => setStudioLocation(e.target.value)}
+                        placeholder="e.g. Jaipur, Rajasthan"
+                        className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                      />
+                    </div>
+                  </div>
+
                   <div className="space-y-1">
                     <label className="text-secondary font-semibold uppercase tracking-wider block">Biography</label>
                     <textarea
@@ -725,18 +1323,267 @@ export default function Dashboard() {
                     />
                   </div>
 
-                  <div className="space-y-1">
-                    <label className="text-secondary font-semibold uppercase tracking-wider block">Studio Location</label>
-                    <input
-                      type="text"
-                      value={studioLocation}
-                      onChange={(e) => setStudioLocation(e.target.value)}
-                      placeholder="e.g. Jaipur, Rajasthan"
-                      className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
-                    />
+                  {/* Store Address & Identity */}
+                  <div className="border-t border-outline-variant/15 pt-3 space-y-3">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Store Profile & Address</label>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">Company / Store Name</label>
+                        <input
+                          type="text"
+                          required
+                          value={companyName}
+                          onChange={(e) => setCompanyName(e.target.value)}
+                          placeholder="e.g. Rameshwar Lal Pottery"
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">Full Address</label>
+                        <input
+                          type="text"
+                          required
+                          value={fullAddress}
+                          onChange={(e) => setFullAddress(e.target.value)}
+                          placeholder="45 Craftsmans Lane"
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">City</label>
+                        <input
+                          type="text"
+                          required
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                          placeholder="Jaipur"
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">State / Zone</label>
+                        <input
+                          type="text"
+                          required
+                          value={zone}
+                          onChange={(e) => setZone(e.target.value)}
+                          placeholder="Rajasthan"
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">ZIP / Postcode</label>
+                        <input
+                          type="text"
+                          required
+                          value={postcode}
+                          onChange={(e) => setPostcode(e.target.value)}
+                          placeholder="302001"
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-secondary font-semibold block text-[9px] uppercase">Country</label>
+                      <input
+                        type="text"
+                        required
+                        value={country}
+                        onChange={(e) => setCountry(e.target.value)}
+                        placeholder="India"
+                        className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                      />
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-2 py-1">
+                  {/* Policies & SEO */}
+                  <div className="border-t border-outline-variant/15 pt-3 space-y-3">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Policies, SEO & Descriptions</label>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">Tax Number / ID</label>
+                        <input
+                          type="text"
+                          required
+                          value={taxNumber}
+                          onChange={(e) => setTaxNumber(e.target.value)}
+                          placeholder="TAX-123456"
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">Shipping Charges ($ USD)</label>
+                        <input
+                          type="number"
+                          required
+                          value={shippingCharges}
+                          onChange={(e) => setShippingCharges(e.target.value)}
+                          placeholder="15"
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-secondary font-semibold block text-[9px] uppercase">Store short description</label>
+                      <input
+                        type="text"
+                        required
+                        value={storeDescription}
+                        onChange={(e) => setStoreDescription(e.target.value)}
+                        placeholder="Handcrafted ceramics representing ancestral design..."
+                        className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-secondary font-semibold block text-[9px] uppercase">Detailed About store</label>
+                      <textarea
+                        required
+                        value={storeAbout}
+                        onChange={(e) => setStoreAbout(e.target.value)}
+                        placeholder="Detail the complete heritage, vision and processes of your studio..."
+                        rows={2}
+                        className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">Meta Description (SEO)</label>
+                        <input
+                          type="text"
+                          value={metaDescription}
+                          onChange={(e) => setMetaDescription(e.target.value)}
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">Meta Keywords (SEO)</label>
+                        <input
+                          type="text"
+                          value={metaKeywords}
+                          onChange={(e) => setMetaKeywords(e.target.value)}
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">Shipping Policy</label>
+                        <textarea
+                          required
+                          value={shippingPolicy}
+                          onChange={(e) => setShippingPolicy(e.target.value)}
+                          rows={2}
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">Return Policy</label>
+                        <textarea
+                          required
+                          value={returnPolicy}
+                          onChange={(e) => setReturnPolicy(e.target.value)}
+                          rows={2}
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* S3 Media Uploads */}
+                  <div className="border-t border-outline-variant/15 pt-3 space-y-3">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Store Media Assets</label>
+                    
+                    {/* Logo Upload */}
+                    <div className="space-y-2">
+                      <label className="text-secondary font-semibold block text-[9px] uppercase">Store Logo Image</label>
+                      <div className="flex items-center gap-3">
+                        <label className={`bg-primary/10 text-primary border border-primary/20 px-3 py-1.5 rounded text-[10px] uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary/15 transition-all flex items-center gap-1.5 ${uploading ? 'opacity-50' : ''}`}>
+                          <span className="material-symbols-outlined text-sm">cloud_upload</span>
+                          Upload Logo
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            disabled={uploading}
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                setUploading(true);
+                                const formData = new FormData();
+                                formData.append('file', file);
+                                try {
+                                  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/upload`, {
+                                    method: 'POST',
+                                    headers: { Authorization: `Bearer ${token}` },
+                                    body: formData,
+                                  });
+                                  const data = await res.json();
+                                  if (res.ok && data.url) setLogoUrl(data.url);
+                                } catch (err) { console.error(err); }
+                                finally { setUploading(false); }
+                              }
+                            }}
+                          />
+                        </label>
+                        {logoUrl && (
+                          <div className="w-8 h-8 rounded border overflow-hidden bg-white">
+                            <img src={logoUrl} className="object-cover w-full h-full" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Banner Upload */}
+                    <div className="space-y-2">
+                      <label className="text-secondary font-semibold block text-[9px] uppercase">Store Banner Image</label>
+                      <div className="flex items-center gap-3">
+                        <label className={`bg-primary/10 text-primary border border-primary/20 px-3 py-1.5 rounded text-[10px] uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary/15 transition-all flex items-center gap-1.5 ${uploading ? 'opacity-50' : ''}`}>
+                          <span className="material-symbols-outlined text-sm">cloud_upload</span>
+                          Upload Banner
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            disabled={uploading}
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                setUploading(true);
+                                const formData = new FormData();
+                                formData.append('file', file);
+                                try {
+                                  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/upload`, {
+                                    method: 'POST',
+                                    headers: { Authorization: `Bearer ${token}` },
+                                    body: formData,
+                                  });
+                                  const data = await res.json();
+                                  if (res.ok && data.url) setBannerUrl(data.url);
+                                } catch (err) { console.error(err); }
+                                finally { setUploading(false); }
+                              }
+                            }}
+                          />
+                        </label>
+                        {bannerUrl && (
+                          <div className="w-16 h-8 rounded border overflow-hidden bg-white">
+                            <img src={bannerUrl} className="object-cover w-full h-full" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Organization info (existing checkbox/fields) */}
+                  <div className="flex items-center gap-2 py-1 border-t border-outline-variant/15 pt-3">
                     <input
                       type="checkbox"
                       id="hasOrganization"
@@ -787,52 +1634,114 @@ export default function Dashboard() {
                     </div>
                   )}
 
+                  {/* Payout Details Toggle */}
                   <div className="border-t border-outline-variant/15 pt-3 space-y-3">
-                    <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Bank Account Details</label>
-                    <div className="space-y-3">
-                      <div className="space-y-1">
-                        <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Account Holder Name</label>
+                    <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Payout Details Preferences</label>
+                    <div className="flex gap-4">
+                      <label className="flex items-center gap-2 cursor-pointer">
                         <input
-                          type="text"
-                          value={bankAccountName}
-                          onChange={(e) => setBankAccountName(e.target.value)}
-                          placeholder="e.g. Rameshwar Lal"
-                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                          type="radio"
+                          checked={payoutType === 'BANK'}
+                          onChange={() => setPayoutType('BANK')}
+                          className="text-primary"
                         />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Bank Name</label>
+                        <span>Bank Transfer Details</span>
+                      </label>
+                      <label className="flex items-center gap-2 cursor-pointer">
                         <input
-                          type="text"
-                          value={bankName}
-                          onChange={(e) => setBankName(e.target.value)}
-                          placeholder="e.g. State Bank of India"
-                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                          type="radio"
+                          checked={payoutType === 'PAYPAL'}
+                          onChange={() => setPayoutType('PAYPAL')}
+                          className="text-primary"
                         />
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-1">
-                          <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Account Number</label>
-                          <input
-                            type="text"
-                            value={bankAccountNumber}
-                            onChange={(e) => setBankAccountNumber(e.target.value)}
-                            placeholder="e.g. 100200300400"
-                            className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
-                          />
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">IFSC Code</label>
-                          <input
-                            type="text"
-                            value={bankIfsc}
-                            onChange={(e) => setBankIfsc(e.target.value)}
-                            placeholder="e.g. SBIN0001234"
-                            className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
-                          />
-                        </div>
-                      </div>
+                        <span>PayPal Account</span>
+                      </label>
                     </div>
+
+                    {payoutType === 'PAYPAL' ? (
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">PayPal Email Address</label>
+                        <input
+                          type="email"
+                          required
+                          value={paypalEmail}
+                          onChange={(e) => setPaypalEmail(e.target.value)}
+                          placeholder="paypal@myartisanstudio.com"
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Account Holder Name</label>
+                            <input
+                              type="text"
+                              value={bankAccountName}
+                              onChange={(e) => setBankAccountName(e.target.value)}
+                              placeholder="e.g. Rameshwar Lal"
+                              className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Bank Name</label>
+                            <input
+                              type="text"
+                              value={bankName}
+                              onChange={(e) => setBankName(e.target.value)}
+                              placeholder="e.g. State Bank of India"
+                              className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-3">
+                          <div className="space-y-1 col-span-2">
+                            <label className="text-[10px] uppercase tracking-widest text-secondary font-semibold">Branch Name</label>
+                            <input
+                              type="text"
+                              value={bankBranch}
+                              onChange={(e) => setBankBranch(e.target.value)}
+                              placeholder="Jaipur Main Branch"
+                              className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="text-[10px] uppercase tracking-widest text-secondary font-semibold">SWIFT Code</label>
+                            <input
+                              type="text"
+                              value={bankSwiftCode}
+                              onChange={(e) => setBankSwiftCode(e.target.value)}
+                              placeholder="SBININBBXXX"
+                              className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-1">
+                            <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Account Number</label>
+                            <input
+                              type="text"
+                              value={bankAccountNumber}
+                              onChange={(e) => setBankAccountNumber(e.target.value)}
+                              placeholder="e.g. 100200300400"
+                              className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">IFSC Code</label>
+                            <input
+                              type="text"
+                              value={bankIfsc}
+                              onChange={(e) => setBankIfsc(e.target.value)}
+                              placeholder="e.g. SBIN0001234"
+                              className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <button
@@ -916,7 +1825,7 @@ export default function Dashboard() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-secondary font-semibold uppercase tracking-wider block">Price ($)</label>
+                    <label className="text-secondary font-semibold uppercase tracking-wider block">Price (USD Base)</label>
                     <input
                       type="number"
                       required

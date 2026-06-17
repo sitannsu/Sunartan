@@ -3,12 +3,13 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useAuthStore, useCartStore } from '@/store';
+import { useAuthStore, useCartStore, formatPrice } from '@/store';
 import { motion } from 'framer-motion';
 
 export default function Studio() {
   const { token } = useAuthStore();
   const addItem = useCartStore((state) => state.addItem);
+  const currency = useCartStore((state) => state.currency);
   
   const [theme, setTheme] = useState('');
   const [loading, setLoading] = useState(false);
@@ -164,7 +165,7 @@ export default function Studio() {
                     </div>
 
                     <div className="flex justify-between items-center mt-4 pt-3 border-t border-outline-variant/10">
-                      <span className="font-display font-medium text-lg text-primary">${product.price}</span>
+                      <span className="font-display font-medium text-lg text-primary">{formatPrice(product.price, currency)}</span>
                       <div className="flex gap-2">
                         <Link
                           href={`/shop/${product.id}`}

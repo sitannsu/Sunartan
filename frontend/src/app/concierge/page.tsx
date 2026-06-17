@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useAuthStore, useCartStore } from '@/store';
+import { useAuthStore, useCartStore, formatPrice } from '@/store';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Message {
@@ -19,6 +19,7 @@ export default function Concierge() {
   const router = useRouter();
   const { user, token } = useAuthStore();
   const addItem = useCartStore((state) => state.addItem);
+  const currency = useCartStore((state) => state.currency);
   
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -320,7 +321,7 @@ export default function Concierge() {
                     </div>
 
                     <div className="flex justify-between items-center mt-4 pt-3 border-t border-outline-variant/10">
-                      <span className="font-display font-medium text-lg text-primary">${item.price}</span>
+                      <span className="font-display font-medium text-lg text-primary">{formatPrice(item.price, currency)}</span>
                       <div className="flex gap-2">
                         <Link
                           href={`/shop/${item.id}`}

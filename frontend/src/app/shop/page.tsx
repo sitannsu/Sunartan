@@ -4,13 +4,14 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useCartStore } from '@/store';
+import { useCartStore, formatPrice } from '@/store';
 import { motion } from 'framer-motion';
 
 function ShopCatalog() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const addItem = useCartStore((state) => state.addItem);
+  const currency = useCartStore((state) => state.currency);
 
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -226,7 +227,7 @@ function ShopCatalog() {
                   </div>
 
                   <div className="flex justify-between items-center mt-4 pt-3 border-t border-outline-variant/10">
-                    <span className="font-display text-lg font-medium">${product.price}</span>
+                    <span className="font-display text-lg font-medium">{formatPrice(product.price, currency)}</span>
                     <button
                       onClick={() => addItem(product)}
                       className="bg-primary/5 hover:bg-primary text-primary hover:text-white px-3 py-1.5 rounded-lg text-[10px] uppercase tracking-widest font-semibold flex items-center transition-all cursor-pointer border border-primary/10"

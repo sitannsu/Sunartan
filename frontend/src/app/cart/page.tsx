@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useCartStore } from '@/store';
+import { useCartStore, formatPrice } from '@/store';
 import { motion } from 'framer-motion';
 
 export default function Cart() {
-  const { items, removeItem, updateQuantity, getTotalAmount } = useCartStore();
+  const { items, removeItem, updateQuantity, getTotalAmount, currency } = useCartStore();
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function Cart() {
                   <Link href={`/shop/${item.id}`} className="font-display text-lg text-on-surface font-semibold hover:text-primary transition-colors">
                     {item.title}
                   </Link>
-                  <p className="text-sm font-medium text-primary">${item.price}</p>
+                  <p className="text-sm font-medium text-primary">{formatPrice(item.price, currency)}</p>
                 </div>
               </div>
 
@@ -89,7 +89,7 @@ export default function Cart() {
 
                 {/* Subtotal */}
                 <span className="font-display font-medium text-lg text-on-surface w-20 text-right">
-                  ${item.price * item.quantity}
+                  {formatPrice(item.price * item.quantity, currency)}
                 </span>
 
                 {/* Remove item button */}
@@ -113,7 +113,7 @@ export default function Cart() {
           <div className="space-y-4 font-sans text-sm">
             <div className="flex justify-between text-secondary">
               <span>Subtotal</span>
-              <span className="font-medium text-on-surface">${total}</span>
+              <span className="font-medium text-on-surface">{formatPrice(total, currency)}</span>
             </div>
             <div className="flex justify-between text-secondary">
               <span>Shipping</span>
@@ -121,7 +121,7 @@ export default function Cart() {
             </div>
             <div className="border-t border-outline-variant/20 pt-4 flex justify-between font-display text-xl font-bold">
               <span className="text-on-surface">Total</span>
-              <span className="text-primary">${total}</span>
+              <span className="text-primary">{formatPrice(total, currency)}</span>
             </div>
           </div>
 
