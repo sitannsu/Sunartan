@@ -43,7 +43,7 @@ export default function Dashboard() {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('5');
-  const [category, setCategory] = useState('Vases');
+  const [category, setCategory] = useState('Women');
   const [craft, setCraft] = useState('Pottery');
   const [region, setRegion] = useState('Rajasthan');
   const [customCraft, setCustomCraft] = useState('');
@@ -943,10 +943,17 @@ export default function Dashboard() {
                   <div className="space-y-1">
                     <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Category</label>
                     <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none">
-                      <option>Vases</option>
-                      <option>Textiles</option>
-                      <option>Woodwork</option>
-                      <option>Metal Crafts</option>
+                      <option>Women</option>
+                      <option>Men</option>
+                      <option>Kids</option>
+                      <option>Jewellery</option>
+                      <option>Accessory & Footwear</option>
+                      <option>Home Textiles</option>
+                      <option>Home Decor</option>
+                      <option>Dining & Kitchen</option>
+                      <option>Furniture</option>
+                      <option>Gifting</option>
+                      <option>More to Love</option>
                     </select>
                   </div>
                   <div className="space-y-1">

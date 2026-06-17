@@ -21,7 +21,19 @@ function ShopCatalog() {
   const [selectedRegion, setSelectedRegion] = useState(searchParams.get('region') || '');
   const [selectedCraft, setSelectedCraft] = useState(searchParams.get('craft') || '');
   
-  const categories = ['Vases', 'Textiles', 'Woodwork', 'Metal Crafts', 'Gift Boxes'];
+  const categories = [
+    'Women',
+    'Men',
+    'Kids',
+    'Jewellery',
+    'Accessory & Footwear',
+    'Home Textiles',
+    'Home Decor',
+    'Dining & Kitchen',
+    'Furniture',
+    'Gifting',
+    'More to Love'
+  ];
   const regions = ['Rajasthan', 'Kashmir', 'Gujarat', 'West Bengal', 'Carpathians'];
   const crafts = ['Pottery', 'Textiles', 'Woodwork', 'Metal Crafts'];
 
