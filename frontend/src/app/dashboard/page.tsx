@@ -171,13 +171,16 @@ export default function Dashboard() {
   const [region, setRegion] = useState('Rajasthan');
   const [customCraft, setCustomCraft] = useState('');
   const [customRegion, setCustomRegion] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
+  const [uploadedImages, setUploadedImages] = useState<{
+    url: string;
+    file: File | null;
+    isBlurry: boolean;
+    isEnhancing?: boolean;
+    enhanceStatus?: string;
+  }[]>([]);
+  const [manualUrl, setManualUrl] = useState('');
   const [productMessage, setProductMessage] = useState('');
   const [uploading, setUploading] = useState(false);
-  const [isBlurry, setIsBlurry] = useState(false);
-  const [isEnhancing, setIsEnhancing] = useState(false);
-  const [enhanceStatus, setEnhanceStatus] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
   const [videoUploading, setVideoUploading] = useState(false);
 
@@ -306,81 +309,102 @@ export default function Dashboard() {
     fetchDashboardData();
   }, [token, user, mounted]);
 
-  const detectBlurryImage = (url: string, file?: File | null) => {
-    if (!url && !file) return;
-    const img = new Image();
-    const objectUrl = file ? URL.createObjectURL(file) : null;
-    if (!objectUrl) {
-      img.crossOrigin = 'anonymous';
-    }
-    img.onload = () => {
-      try {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-          if (objectUrl) URL.revokeObjectURL(objectUrl);
-          return;
-        }
-        canvas.width = 64;
-        canvas.height = 64;
-        ctx.drawImage(img, 0, 0, 64, 64);
-        
-        const imgData = ctx.getImageData(0, 0, 64, 64);
-        const data = imgData.data;
-        
-        let sum = 0;
-        let sumSq = 0;
-        const count = 62 * 62;
-        
-        for (let y = 1; y < 63; y++) {
-          for (let x = 1; x < 63; x++) {
-            const idx = (y * 64 + x) * 4;
-            const gray = (data[idx] + data[idx+1] + data[idx+2]) / 3;
-            
-            const up = (data[idx - 256] + data[idx - 256 + 1] + data[idx - 256 + 2]) / 3;
-            const down = (data[idx + 256] + data[idx + 256 + 1] + data[idx + 256 + 2]) / 3;
-            const left = (data[idx - 4] + data[idx - 4 + 1] + data[idx - 4 + 2]) / 3;
-            const right = (data[idx + 4] + data[idx + 4 + 1] + data[idx + 4 + 2]) / 3;
-            
-            const laplacian = 4 * gray - up - down - left - right;
-            sum += laplacian;
-            sumSq += laplacian * laplacian;
-          }
-        }
-        
-        const mean = sum / count;
-        const variance = (sumSq / count) - (mean * mean);
-        setIsBlurry(variance < 5.0); // Sensitive threshold for blurred images
-      } catch (e) {
-        console.warn('Could not run blur detection due to CORS or Canvas restrictions:', e);
-        setIsBlurry(false);
-      } finally {
-        if (objectUrl) URL.revokeObjectURL(objectUrl);
+  const checkImageBlurry = (url: string, file?: File | null): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if (!url && !file) {
+        resolve(false);
+        return;
       }
-    };
-    img.onerror = () => {
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
-    };
-    img.src = objectUrl || url;
+      const img = new Image();
+      const objectUrl = file ? URL.createObjectURL(file) : null;
+      if (!objectUrl) {
+        img.crossOrigin = 'anonymous';
+      }
+      img.onload = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            if (objectUrl) URL.revokeObjectURL(objectUrl);
+            resolve(false);
+            return;
+          }
+          canvas.width = 64;
+          canvas.height = 64;
+          ctx.drawImage(img, 0, 0, 64, 64);
+          
+          const imgData = ctx.getImageData(0, 0, 64, 64);
+          const data = imgData.data;
+          
+          let sum = 0;
+          let sumSq = 0;
+          const count = 62 * 62;
+          
+          for (let y = 1; y < 63; y++) {
+            for (let x = 1; x < 63; x++) {
+              const idx = (y * 64 + x) * 4;
+              const gray = (data[idx] + data[idx+1] + data[idx+2]) / 3;
+              
+              const up = (data[idx - 256] + data[idx - 256 + 1] + data[idx - 256 + 2]) / 3;
+              const down = (data[idx + 256] + data[idx + 256 + 1] + data[idx + 256 + 2]) / 3;
+              const left = (data[idx - 4] + data[idx - 4 + 1] + data[idx - 4 + 2]) / 3;
+              const right = (data[idx + 4] + data[idx + 4 + 1] + data[idx + 4 + 2]) / 3;
+              
+              const laplacian = 4 * gray - up - down - left - right;
+              sum += laplacian;
+              sumSq += laplacian * laplacian;
+            }
+          }
+          
+          const mean = sum / count;
+          const variance = (sumSq / count) - (mean * mean);
+          resolve(variance < 5.0);
+        } catch (e) {
+          console.warn('Could not run blur detection:', e);
+          resolve(false);
+        } finally {
+          if (objectUrl) URL.revokeObjectURL(objectUrl);
+        }
+      };
+      img.onerror = () => {
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
+        resolve(false);
+      };
+      img.src = objectUrl || url;
+    });
   };
 
-  const enhanceImageWithAI = async () => {
-    if (!imageUrl) return;
-    setIsEnhancing(true);
-    setEnhanceStatus('Initializing AI models...');
+  const enhanceImageWithAI = async (index: number) => {
+    const targetImage = uploadedImages[index];
+    if (!targetImage) return;
+
+    setUploadedImages((prev) =>
+      prev.map((img, idx) =>
+        idx === index
+          ? { ...img, isEnhancing: true, enhanceStatus: 'Initializing AI...' }
+          : img
+      )
+    );
     
-    // Simulate step-by-step progress
+    const setStatus = (statusText: string) => {
+      setUploadedImages((prev) =>
+        prev.map((img, idx) =>
+          idx === index ? { ...img, enhanceStatus: statusText } : img
+        )
+      );
+    };
+
     const timers: NodeJS.Timeout[] = [];
-    timers.push(setTimeout(() => setEnhanceStatus('Reconstructing image edges...'), 800));
-    timers.push(setTimeout(() => setEnhanceStatus('Upscaling resolution (2x)...'), 1600));
-    timers.push(setTimeout(() => setEnhanceStatus('Sharpening textures & patterns...'), 2400));
-    timers.push(setTimeout(() => setEnhanceStatus('Boosting color vibrancy...'), 3200));
-    timers.push(setTimeout(() => setEnhanceStatus('Uploading enhanced asset to S3...'), 4000));
+    timers.push(setTimeout(() => setStatus('Reconstructing edges...'), 800));
+    timers.push(setTimeout(() => setStatus('Upscaling 2x...'), 1600));
+    timers.push(setTimeout(() => setStatus('Sharpening details...'), 2400));
+    timers.push(setTimeout(() => setStatus('Color boosting...'), 3200));
+    timers.push(setTimeout(() => setStatus('Saving to S3...'), 4000));
     
     const clearTimers = () => timers.forEach(clearTimeout);
 
     const img = new Image();
-    const objectUrl = selectedImageFile ? URL.createObjectURL(selectedImageFile) : null;
+    const objectUrl = targetImage.file ? URL.createObjectURL(targetImage.file) : null;
     if (!objectUrl) {
       img.crossOrigin = 'anonymous';
     }
@@ -391,7 +415,11 @@ export default function Dashboard() {
         const ctx = canvas.getContext('2d');
         if (!ctx) {
           clearTimers();
-          setIsEnhancing(false);
+          setUploadedImages((prev) =>
+            prev.map((img, idx) =>
+              idx === index ? { ...img, isEnhancing: false } : img
+            )
+          );
           if (objectUrl) URL.revokeObjectURL(objectUrl);
           return;
         }
@@ -474,7 +502,11 @@ export default function Dashboard() {
         canvas.toBlob(async (blob) => {
           if (!blob) {
             clearTimers();
-            setIsEnhancing(false);
+            setUploadedImages((prev) =>
+              prev.map((img, idx) =>
+                idx === index ? { ...img, isEnhancing: false } : img
+              )
+            );
             if (objectUrl) URL.revokeObjectURL(objectUrl);
             return;
           }
@@ -492,18 +524,36 @@ export default function Dashboard() {
             });
             const responseData = await res.json();
             if (res.ok && responseData.url) {
-               setImageUrl(responseData.url);
-               setIsBlurry(false);
+               setUploadedImages((prev) =>
+                 prev.map((img, idx) =>
+                   idx === index
+                     ? {
+                         url: responseData.url,
+                         file: new File([blob], 'enhanced_product_image.jpg', { type: 'image/jpeg' }),
+                         isBlurry: false,
+                         isEnhancing: false
+                       }
+                     : img
+                 )
+               );
                setProductMessage('AI Image Enhancement Complete!');
-               setSelectedImageFile(new File([blob], 'enhanced_product_image.jpg', { type: 'image/jpeg' }));
             } else {
                setProductMessage('AI upload failed. Enhancement reverted.');
+               setUploadedImages((prev) =>
+                 prev.map((img, idx) =>
+                   idx === index ? { ...img, isEnhancing: false } : img
+                 )
+               );
             }
           } catch (err) {
             setProductMessage('Network error saving enhanced image.');
+            setUploadedImages((prev) =>
+              prev.map((img, idx) =>
+                idx === index ? { ...img, isEnhancing: false } : img
+              )
+            );
           } finally {
             clearTimers();
-            setIsEnhancing(false);
             if (objectUrl) URL.revokeObjectURL(objectUrl);
           }
         }, 'image/jpeg', 0.92);
@@ -511,20 +561,28 @@ export default function Dashboard() {
         console.error(err);
         setProductMessage('AI processing failed.');
         clearTimers();
-        setIsEnhancing(false);
+        setUploadedImages((prev) =>
+          prev.map((img, idx) =>
+            idx === index ? { ...img, isEnhancing: false } : img
+          )
+        );
         if (objectUrl) URL.revokeObjectURL(objectUrl);
       }
     };
     
     img.onerror = () => {
       console.error('AI Image Enhancer failed to load image source.');
-      setProductMessage('AI Enhancer error: Could not load image source (possibly CORS block).');
+      setProductMessage('AI Enhancer error: Could not load image source.');
       clearTimers();
-      setIsEnhancing(false);
+      setUploadedImages((prev) =>
+        prev.map((img, idx) =>
+          idx === index ? { ...img, isEnhancing: false } : img
+        )
+      );
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
     
-    img.src = objectUrl || imageUrl;
+    img.src = objectUrl || targetImage.url;
   };
 
   const handleCreateProduct = async (e: React.FormEvent) => {
@@ -548,7 +606,9 @@ export default function Dashboard() {
           subcategory,
           craft: craft === 'Other' ? customCraft : craft,
           region: region === 'Other' ? customRegion : region,
-          images: [imageUrl || 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c'],
+          images: uploadedImages.map(img => img.url).length > 0 
+            ? uploadedImages.map(img => img.url) 
+            : ['https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c'],
           videoUrl: videoUrl || null,
         }),
       });
@@ -559,7 +619,7 @@ export default function Dashboard() {
         setTitle('');
         setDescription('');
         setPrice('');
-        setImageUrl('');
+        setUploadedImages([]);
         setVideoUrl('');
         setCustomCraft('');
         setCustomRegion('');
@@ -1800,7 +1860,7 @@ export default function Dashboard() {
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-secondary font-semibold block text-[9px] uppercase">Shipping Charges ($ USD)</label>
+                        <label className="text-secondary font-semibold block text-[9px] uppercase">Shipping Charges ({currency})</label>
                         <input
                           type="number"
                           required
@@ -2209,7 +2269,7 @@ export default function Dashboard() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-secondary font-semibold uppercase tracking-wider block">Price (USD Base)</label>
+                    <label className="text-secondary font-semibold uppercase tracking-wider block">Price ({currency} Base)</label>
                     <input
                       type="number"
                       required
@@ -2363,110 +2423,147 @@ export default function Dashboard() {
                 )}
 
                 <div className="space-y-2">
-                  <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Product Image File</label>
+                  <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Product Image Files</label>
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center gap-3">
-                      <label className={`bg-primary/10 text-primary border border-primary/20 px-3 py-2 rounded text-xs uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary/15 transition-all flex items-center gap-1.5 ${uploading || isEnhancing ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                      <label className={`bg-primary/10 text-primary border border-primary/20 px-3 py-2 rounded text-xs uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary/15 transition-all flex items-center gap-1.5 ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
                         <span className="material-symbols-outlined text-sm">{uploading ? 'progress_activity' : 'cloud_upload'}</span>
-                        {uploading ? 'Uploading...' : 'Choose File'}
+                        {uploading ? 'Uploading...' : 'Choose Files'}
                         <input
                           type="file"
                           accept="image/*"
+                          multiple
                           className="hidden"
-                          disabled={uploading || isEnhancing}
+                          disabled={uploading}
                           onChange={async (e) => {
-                            const file = e.target.files?.[0];
-                            if (file) {
-                              setSelectedImageFile(file);
+                            const files = e.target.files;
+                            if (files && files.length > 0) {
                               setUploading(true);
-                              setIsBlurry(false);
-                              setProductMessage('Uploading image to S3...');
-                              const formData = new FormData();
-                              formData.append('file', file);
+                              setProductMessage(`Uploading ${files.length} image(s)...`);
                               
-                              try {
-                                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/upload`, {
-                                  method: 'POST',
-                                  headers: {
-                                    Authorization: `Bearer ${token}`,
-                                  },
-                                  body: formData,
-                                });
-                                const data = await res.json();
-                                if (res.ok && data.url) {
-                                  setImageUrl(data.url);
-                                  setProductMessage('Image uploaded successfully.');
-                                  detectBlurryImage(data.url, file);
-                                } else {
-                                  setProductMessage(data.message || 'Image upload failed.');
+                              const newUploads: { url: string; file: File; isBlurry: boolean }[] = [];
+                              for (let i = 0; i < files.length; i++) {
+                                const file = files[i];
+                                const formData = new FormData();
+                                formData.append('file', file);
+                                
+                                try {
+                                  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/upload`, {
+                                    method: 'POST',
+                                    headers: {
+                                      Authorization: `Bearer ${token}`,
+                                    },
+                                    body: formData,
+                                  });
+                                  const data = await res.json();
+                                  if (res.ok && data.url) {
+                                    const isBlurry = await checkImageBlurry(data.url, file);
+                                    newUploads.push({
+                                      url: data.url,
+                                      file: file,
+                                      isBlurry: isBlurry,
+                                    });
+                                  }
+                                } catch (err) {
+                                  console.error('Error uploading file index:', i, err);
                                 }
-                              } catch (err) {
-                                setProductMessage('Network error uploading image.');
-                              } finally {
-                                setUploading(false);
                               }
+                              
+                              if (newUploads.length > 0) {
+                                setUploadedImages((prev) => [...prev, ...newUploads]);
+                                setProductMessage(`Successfully uploaded ${newUploads.length} image(s).`);
+                              } else {
+                                setProductMessage('Failed to upload image(s).');
+                              }
+                              setUploading(false);
                             }
                           }}
                         />
                       </label>
-                      {imageUrl && (
-                        <div className="relative w-16 h-16 rounded-lg border border-outline-variant/30 overflow-hidden bg-secondary-container/10 luxury-shadow">
-                          <img src={imageUrl} alt="Upload preview" className="object-cover w-full h-full" />
-                          {isEnhancing && (
-                            <div className="absolute inset-0 bg-primary/10 flex flex-col justify-end">
-                              <div className="absolute top-0 w-full h-0.5 bg-accent shadow-[0_0_8px_#ffd700] animate-scan"></div>
-                              <div className="bg-black/85 text-white text-[8px] uppercase tracking-normal text-center py-0.5 font-bold">
-                                Enhancing...
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
                     </div>
 
-                    {/* Image Enhancer Actions - Always Available when imageUrl is set */}
-                    {imageUrl && !isEnhancing && (
-                      <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 space-y-2 text-xs text-primary flex flex-col animate-in fade-in duration-300">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-1.5 font-medium">
-                            <span className="material-symbols-outlined text-[15px]">magic_button</span>
-                            <span className="font-semibold uppercase tracking-wider text-[10px]">AI Image Enhancer</span>
+                    {/* Preview Grid */}
+                    {uploadedImages.length > 0 && (
+                      <div className="flex flex-wrap gap-3 mt-1">
+                        {uploadedImages.map((img, index) => (
+                          <div key={index} className="relative w-16 h-16 rounded-lg border border-outline-variant/30 overflow-hidden bg-secondary-container/10 luxury-shadow group">
+                            <img src={img.url} alt={`Upload preview ${index + 1}`} className="object-cover w-full h-full" />
+                            
+                            {/* Delete Button */}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setUploadedImages((prev) => prev.filter((_, idx) => idx !== index));
+                              }}
+                              className="absolute top-0.5 right-0.5 bg-black/60 hover:bg-black/85 text-white rounded-full p-0.5 border-none cursor-pointer flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                              title="Remove image"
+                            >
+                              <span className="material-symbols-outlined text-[10px]">close</span>
+                            </button>
+
+                            {/* Blurry Badge */}
+                            {img.isBlurry && !img.isEnhancing && (
+                              <div className="absolute bottom-0.5 left-0.5 right-0.5 bg-amber-500/90 text-white font-bold text-[6px] uppercase tracking-wide text-center py-0.5 rounded shadow flex items-center justify-center gap-0.5">
+                                <span className="material-symbols-outlined text-[7px]">warning</span> Blurry
+                              </div>
+                            )}
+
+                            {/* Scanning Animation */}
+                            {img.isEnhancing && (
+                              <div className="absolute inset-0 bg-primary/10 flex flex-col justify-end">
+                                <div className="absolute top-0 w-full h-0.5 bg-accent shadow-[0_0_8px_#ffd700] animate-scan"></div>
+                                <div className="bg-black/85 text-white text-[7px] uppercase tracking-normal text-center py-0.5 font-bold leading-none">
+                                  Enhancing...
+                                </div>
+                              </div>
+                            )}
                           </div>
-                          {isBlurry && (
-                            <span className="bg-amber-500/20 text-amber-800 text-[8px] font-bold uppercase tracking-wider px-2 py-0.5 rounded flex items-center gap-0.5">
-                              <span className="material-symbols-outlined text-[10px]">warning</span> Blurry
-                            </span>
-                          )}
-                        </div>
-                        
-                        {isBlurry ? (
-                          <p className="text-[10px] leading-relaxed text-secondary">
-                            Our analysis indicates this photo has low contrast or detail. Enhance it automatically for high-resolution clarity.
-                          </p>
-                        ) : (
-                          <p className="text-[10px] leading-relaxed text-secondary">
-                            Sharpen edges, boost colors, and double the resolution of your product photo using AI super-resolution.
-                          </p>
-                        )}
-                        
-                        <button
-                          type="button"
-                          onClick={enhanceImageWithAI}
-                          className="bg-primary hover:bg-primary/95 text-white font-bold uppercase tracking-widest text-[9px] py-1.5 px-3 rounded-lg transition-all flex items-center justify-center gap-1.5 w-fit cursor-pointer border-none"
-                        >
-                          <span className="material-symbols-outlined text-[12px] animate-pulse">blur_off</span>
-                          Enhance Photo Now
-                        </button>
+                        ))}
                       </div>
                     )}
 
-                    {/* Enhancer Status Display */}
-                    {isEnhancing && (
-                      <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 space-y-2 text-xs text-primary flex flex-col items-center text-center animate-in fade-in duration-300">
-                        <span className="material-symbols-outlined text-sm animate-spin">progress_activity</span>
-                        <div>
-                          <p className="font-semibold text-[10px] uppercase tracking-wider">{enhanceStatus}</p>
-                          <p className="text-[9px] text-secondary mt-0.5">Running super-resolution convolution filters...</p>
+                    {/* Image Enhancer Panel */}
+                    {uploadedImages.length > 0 && (
+                      <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 space-y-2 text-xs text-primary flex flex-col animate-in fade-in duration-300">
+                        <div className="flex items-center gap-1.5 font-medium">
+                          <span className="material-symbols-outlined text-[15px]">magic_button</span>
+                          <span className="font-semibold uppercase tracking-wider text-[10px]">AI Image Enhancer</span>
+                        </div>
+                        
+                        <p className="text-[10px] leading-relaxed text-secondary">
+                          Boost clarity, sharpen textures, and upscale resolution of your product images.
+                        </p>
+                        
+                        <div className="flex flex-col gap-1.5 max-h-40 overflow-y-auto pr-1">
+                          {uploadedImages.map((img, index) => (
+                            <div key={index} className="flex items-center justify-between bg-white border border-outline-variant/30 rounded-lg p-1.5">
+                              <div className="flex items-center gap-2">
+                                <img src={img.url} className="w-8 h-8 rounded object-cover" />
+                                <div className="text-[9px]">
+                                  <span className="font-semibold block text-secondary">Photo #{index + 1}</span>
+                                  {img.isBlurry ? (
+                                    <span className="text-amber-800 bg-amber-500/10 px-1 py-0.5 rounded font-bold uppercase tracking-wider inline-flex items-center gap-0.5">
+                                      <span className="material-symbols-outlined text-[9px]">warning</span> Blurry
+                                    </span>
+                                  ) : (
+                                    <span className="text-emerald-800 bg-emerald-500/10 px-1 py-0.5 rounded font-bold uppercase tracking-wider inline-flex items-center gap-0.5">
+                                      <span className="material-symbols-outlined text-[9px]">check_circle</span> Sharp
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              
+                              <button
+                                type="button"
+                                disabled={img.isEnhancing}
+                                onClick={() => enhanceImageWithAI(index)}
+                                className="bg-primary hover:bg-primary/95 text-white font-bold uppercase tracking-widest text-[8px] py-1 px-2 rounded transition-all flex items-center gap-1 cursor-pointer border-none disabled:opacity-50 disabled:cursor-not-allowed"
+                              >
+                                <span className="material-symbols-outlined text-[10px]">{img.isEnhancing ? 'sync' : 'blur_off'}</span>
+                                {img.isEnhancing ? img.enhanceStatus || 'Enhancing' : 'Enhance'}
+                              </button>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
@@ -2486,18 +2583,30 @@ export default function Dashboard() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-secondary font-semibold uppercase tracking-wider block">Or Product Image URL</label>
-                  <input
-                    type="text"
-                    placeholder="https://example.com/image.jpg"
-                    value={imageUrl}
-                    onChange={(e) => {
-                      setImageUrl(e.target.value);
-                      setSelectedImageFile(null);
-                      detectBlurryImage(e.target.value, null);
-                    }}
-                    className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
-                  />
+                  <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Or Product Image URL</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="https://example.com/image.jpg"
+                      value={manualUrl}
+                      onChange={(e) => setManualUrl(e.target.value)}
+                      className="flex-1 p-2.5 border border-outline-variant rounded bg-white outline-none text-xs"
+                    />
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        if (!manualUrl) return;
+                        setProductMessage('Validating remote image...');
+                        const isBlurry = await checkImageBlurry(manualUrl, null);
+                        setUploadedImages((prev) => [...prev, { url: manualUrl, file: null, isBlurry }]);
+                        setManualUrl('');
+                        setProductMessage('Added remote image URL.');
+                      }}
+                      className="bg-primary/10 text-primary border border-primary/20 px-3 py-2 rounded text-xs uppercase tracking-widest font-semibold hover:bg-primary/15 transition-all cursor-pointer border-solid"
+                    >
+                      Add URL
+                    </button>
+                  </div>
                 </div>
 
                 {/* Product Video File Upload Field */}

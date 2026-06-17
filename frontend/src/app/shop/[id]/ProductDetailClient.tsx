@@ -17,6 +17,7 @@ export default function ProductDetailClient({ params }: { params: Promise<{ id: 
   const [product, setProduct] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeMedia, setActiveMedia] = useState<'image' | 'video'>('image');
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   
   // Review form state
   const [rating, setRating] = useState(5);
@@ -104,7 +105,7 @@ export default function ProductDetailClient({ params }: { params: Promise<{ id: 
     );
   }
 
-  const mainImage = product.images?.[0] || 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c';
+  const mainImage = product.images?.[selectedImageIndex] || 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c';
 
   return (
     <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-8 space-y-16">
@@ -138,6 +139,29 @@ export default function ProductDetailClient({ params }: { params: Promise<{ id: 
               />
             )}
           </motion.div>
+
+          {/* Thumbnails row */}
+          {product.images && product.images.length > 1 && (
+            <div className="flex gap-2.5 mt-4 justify-center overflow-x-auto py-1">
+              {product.images.map((imgUrl: string, idx: number) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => {
+                    setSelectedImageIndex(idx);
+                    setActiveMedia('image');
+                  }}
+                  className={`relative w-12 h-14 rounded-lg overflow-hidden border transition-all cursor-pointer ${
+                    activeMedia === 'image' && selectedImageIndex === idx
+                      ? 'border-primary ring-2 ring-primary/20 scale-105'
+                      : 'border-outline-variant/30 opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  <img src={imgUrl} className="w-full h-full object-cover" alt={`Preview ${idx + 1}`} />
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Media Selector */}
           {product.videoUrl && (
