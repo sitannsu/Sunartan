@@ -61,6 +61,10 @@ model ArtisanProfile {
   organizationName    String?
   incorporationNumber String?
   gstNumber           String?
+  bankAccountName     String?
+  bankName            String?
+  bankAccountNumber   String?
+  bankIfsc            String?
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 

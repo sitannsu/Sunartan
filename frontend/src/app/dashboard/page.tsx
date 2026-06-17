@@ -23,6 +23,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   // Artisan Profile form states
+  const [mounted, setMounted] = useState(false);
   const [profile, setProfile] = useState<any>(null);
   const [editProfileMode, setEditProfileMode] = useState(false);
   const [bio, setBio] = useState('');
@@ -31,6 +32,10 @@ export default function Dashboard() {
   const [organizationName, setOrganizationName] = useState('');
   const [incorporationNumber, setIncorporationNumber] = useState('');
   const [gstNumber, setGstNumber] = useState('');
+  const [bankAccountName, setBankAccountName] = useState('');
+  const [bankName, setBankName] = useState('');
+  const [bankAccountNumber, setBankAccountNumber] = useState('');
+  const [bankIfsc, setBankIfsc] = useState('');
   const [profileMessage, setProfileMessage] = useState('');
 
   // New product form states (for Artisan)
@@ -85,6 +90,10 @@ export default function Dashboard() {
             setOrganizationName(profileData.organizationName || '');
             setIncorporationNumber(profileData.incorporationNumber || '');
             setGstNumber(profileData.gstNumber || '');
+            setBankAccountName(profileData.bankAccountName || '');
+            setBankName(profileData.bankName || '');
+            setBankAccountNumber(profileData.bankAccountNumber || '');
+            setBankIfsc(profileData.bankIfsc || '');
           }
           setLoading(false);
         })
@@ -117,12 +126,17 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     if (!token) {
       router.push('/auth');
       return;
     }
     fetchDashboardData();
-  }, [token, user]);
+  }, [token, user, mounted]);
 
   const handleCreateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -187,6 +201,10 @@ export default function Dashboard() {
           organizationName: hasOrganization ? organizationName : null,
           incorporationNumber: hasOrganization ? incorporationNumber : null,
           gstNumber: hasOrganization ? gstNumber : null,
+          bankAccountName,
+          bankName,
+          bankAccountNumber,
+          bankIfsc,
         }),
       });
       const data = await response.json();
@@ -632,6 +650,32 @@ export default function Dashboard() {
                       <p className="text-secondary italic">Individual / Sole Artisan (No organization details registered)</p>
                     )}
                   </div>
+
+                  <div className="border-t border-outline-variant/15 pt-3 space-y-2">
+                    <span className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Bank Account Details</span>
+                    {profile?.bankAccountNumber ? (
+                      <div className="space-y-2 bg-white/45 p-3 rounded border border-outline-variant/20">
+                        <div className="flex justify-between">
+                          <span className="text-secondary">Holder Name:</span>
+                          <span className="font-medium text-on-surface">{profile?.bankAccountName}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-secondary">Bank Name:</span>
+                          <span className="font-medium text-on-surface">{profile?.bankName}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-secondary">Account No:</span>
+                          <span className="font-medium text-on-surface">{profile?.bankAccountNumber}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-secondary">IFSC Code:</span>
+                          <span className="font-medium text-on-surface">{profile?.bankIfsc}</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-secondary italic">No bank details registered</p>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
@@ -655,6 +699,10 @@ export default function Dashboard() {
                         setOrganizationName(profile.organizationName || '');
                         setIncorporationNumber(profile.incorporationNumber || '');
                         setGstNumber(profile.gstNumber || '');
+                        setBankAccountName(profile.bankAccountName || '');
+                        setBankName(profile.bankName || '');
+                        setBankAccountNumber(profile.bankAccountNumber || '');
+                        setBankIfsc(profile.bankIfsc || '');
                       }
                       setProfileMessage('');
                     }}
@@ -738,6 +786,54 @@ export default function Dashboard() {
                       </div>
                     </div>
                   )}
+
+                  <div className="border-t border-outline-variant/15 pt-3 space-y-3">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Bank Account Details</label>
+                    <div className="space-y-3">
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Account Holder Name</label>
+                        <input
+                          type="text"
+                          value={bankAccountName}
+                          onChange={(e) => setBankAccountName(e.target.value)}
+                          placeholder="e.g. Rameshwar Lal"
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Bank Name</label>
+                        <input
+                          type="text"
+                          value={bankName}
+                          onChange={(e) => setBankName(e.target.value)}
+                          placeholder="e.g. State Bank of India"
+                          className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Account Number</label>
+                          <input
+                            type="text"
+                            value={bankAccountNumber}
+                            onChange={(e) => setBankAccountNumber(e.target.value)}
+                            placeholder="e.g. 100200300400"
+                            className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">IFSC Code</label>
+                          <input
+                            type="text"
+                            value={bankIfsc}
+                            onChange={(e) => setBankIfsc(e.target.value)}
+                            placeholder="e.g. SBIN0001234"
+                            className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   <button
                     type="submit"
