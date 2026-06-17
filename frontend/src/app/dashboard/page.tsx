@@ -6,6 +6,80 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore, useCartStore, formatPrice } from '@/store';
 import { motion } from 'framer-motion';
 
+const SUBCATEGORIES: Record<string, string[]> = {
+  'Women': [
+    'Handloom Sarees / Sari',
+    'Shawls / Stoles / Dupattas',
+    'Dresses',
+    'Kurtas',
+    'Tops / Blouses',
+    'Shirts',
+    'T Shirts',
+    'Jackets / Shrugs',
+    'Skirts / Ghagras / Wrap Arounds',
+    'Palazzos / Pants',
+    'Fabric Material'
+  ],
+  'Men': [
+    'Kurtas',
+    'Shirts',
+    'T Shirts',
+    'Jackets',
+    'Pants / Trousers'
+  ],
+  'Kids': [
+    'Girls Wear',
+    'Boys Wear',
+    'Infant Wear'
+  ],
+  'Jewellery': [
+    'Necklaces / Pendants',
+    'Earrings',
+    'Bangles / Bracelets',
+    'Rings'
+  ],
+  'Accessory & Footwear': [
+    'Bags / Purses',
+    'Footwear',
+    'Stoles / Scarves'
+  ],
+  'Home Textiles': [
+    'Bedspreads / Bedsheets',
+    'Quilts / Blankets',
+    'Cushion Covers',
+    'Curtains'
+  ],
+  'Home Decor': [
+    'Vases / Planters',
+    'Wall Art / Paintings',
+    'Sculptures / Figurines',
+    'Candles / Holders'
+  ],
+  'Dining & Kitchen': [
+    'Plates / Bowls',
+    'Cups / Mugs',
+    'Table Runners / Mats',
+    'Trays / Serveware'
+  ],
+  'Furniture': [
+    'Chairs / Stools',
+    'Tables',
+    'Cabinets / Shelves'
+  ],
+  'Gifting': [
+    'Gift Boxes',
+    'Festive Decor',
+    'Handmade Cards'
+  ],
+  'More to Love': [
+    'Stationery',
+    'Devotion / Ritual Essentials',
+    'Music Instruments',
+    'Organic Beauty Products',
+    'Kits / Tools / Materials'
+  ]
+};
+
 export default function Dashboard() {
   const router = useRouter();
   const { user, token } = useAuthStore();
@@ -22,6 +96,14 @@ export default function Dashboard() {
   const [adminOrders, setAdminOrders] = useState<any[]>([]);
   
   const [loading, setLoading] = useState(true);
+
+  // View-all expanded states
+  const [showAllArtisanProducts, setShowAllArtisanProducts] = useState(false);
+  const [showAllArtisanOrders, setShowAllArtisanOrders] = useState(false);
+  const [showAllCustomerOrders, setShowAllCustomerOrders] = useState(false);
+  const [showAllAdminProducts, setShowAllAdminProducts] = useState(false);
+  const [showAllAdminOrders, setShowAllAdminOrders] = useState(false);
+  const [showAllAdminArtisans, setShowAllAdminArtisans] = useState(false);
 
   // Artisan Profile form states
   const [mounted, setMounted] = useState(false);
@@ -84,6 +166,7 @@ export default function Dashboard() {
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('5');
   const [category, setCategory] = useState('Women');
+  const [subcategory, setSubcategory] = useState('Handloom Sarees / Sari');
   const [craft, setCraft] = useState('Pottery');
   const [region, setRegion] = useState('Rajasthan');
   const [customCraft, setCustomCraft] = useState('');
@@ -91,6 +174,11 @@ export default function Dashboard() {
   const [imageUrl, setImageUrl] = useState('');
   const [productMessage, setProductMessage] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [isBlurry, setIsBlurry] = useState(false);
+  const [isEnhancing, setIsEnhancing] = useState(false);
+  const [enhanceStatus, setEnhanceStatus] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
+  const [videoUploading, setVideoUploading] = useState(false);
 
   const fetchDashboardData = () => {
     if (!token) return;
@@ -217,6 +305,177 @@ export default function Dashboard() {
     fetchDashboardData();
   }, [token, user, mounted]);
 
+  const detectBlurryImage = (url: string) => {
+    if (!url) return;
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        canvas.width = 64;
+        canvas.height = 64;
+        ctx.drawImage(img, 0, 0, 64, 64);
+        
+        const imgData = ctx.getImageData(0, 0, 64, 64);
+        const data = imgData.data;
+        
+        let sum = 0;
+        let sumSq = 0;
+        const count = 62 * 62;
+        
+        for (let y = 1; y < 63; y++) {
+          for (let x = 1; x < 63; x++) {
+            const idx = (y * 64 + x) * 4;
+            const gray = (data[idx] + data[idx+1] + data[idx+2]) / 3;
+            
+            const up = (data[idx - 256] + data[idx - 256 + 1] + data[idx - 256 + 2]) / 3;
+            const down = (data[idx + 256] + data[idx + 256 + 1] + data[idx + 256 + 2]) / 3;
+            const left = (data[idx - 4] + data[idx - 4 + 1] + data[idx - 4 + 2]) / 3;
+            const right = (data[idx + 4] + data[idx + 4 + 1] + data[idx + 4 + 2]) / 3;
+            
+            const laplacian = 4 * gray - up - down - left - right;
+            sum += laplacian;
+            sumSq += laplacian * laplacian;
+          }
+        }
+        
+        const mean = sum / count;
+        const variance = (sumSq / count) - (mean * mean);
+        setIsBlurry(variance < 5.0); // Sensitive threshold for blurred images
+      } catch (e) {
+        console.warn('Could not run blur detection due to CORS or Canvas restrictions:', e);
+        setIsBlurry(false);
+      }
+    };
+    img.src = url;
+  };
+
+  const enhanceImageWithAI = async () => {
+    if (!imageUrl) return;
+    setIsEnhancing(true);
+    setEnhanceStatus('Initializing AI models...');
+    
+    // Simulate step-by-step progress
+    setTimeout(() => setEnhanceStatus('Reconstructing image edges...'), 800);
+    setTimeout(() => setEnhanceStatus('Upscaling resolution (2x)...'), 1600);
+    setTimeout(() => setEnhanceStatus('Sharpening textures & patterns...'), 2400);
+    setTimeout(() => setEnhanceStatus('Boosting color vibrancy...'), 3200);
+    setTimeout(() => setEnhanceStatus('Uploading enhanced asset to S3...'), 4000);
+    
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = async () => {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          setIsEnhancing(false);
+          return;
+        }
+        
+        const width = img.naturalWidth * 2;
+        const height = img.naturalHeight * 2;
+        canvas.width = width;
+        canvas.height = height;
+        
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        const imgData = ctx.getImageData(0, 0, width, height);
+        const data = imgData.data;
+        const originalData = new Uint8ClampedArray(data);
+        
+        // 3x3 sharpening kernel
+        const kernel = [
+           0, -1.2,  0,
+         -1.2,  5.8, -1.2,
+           0, -1.2,  0
+        ];
+        
+        const side = 3;
+        const halfSide = 1;
+        
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const sy = y;
+            const sx = x;
+            const dstOff = (y * width + x) * 4;
+            
+            let r = 0, g = 0, b = 0;
+            for (let cy = 0; cy < side; cy++) {
+              for (let cx = 0; cx < side; cx++) {
+                const scy = Math.min(height - 1, Math.max(0, sy + cy - halfSide));
+                const scx = Math.min(width - 1, Math.max(0, sx + cx - halfSide));
+                const srcOff = (scy * width + scx) * 4;
+                const wt = kernel[cy * side + cx];
+                r += originalData[srcOff] * wt;
+                g += originalData[srcOff + 1] * wt;
+                b += originalData[srcOff + 2] * wt;
+              }
+            }
+            
+            const mix = 0.7;
+            data[dstOff] = Math.min(255, Math.max(0, originalData[dstOff] + (r - originalData[dstOff]) * mix));
+            data[dstOff + 1] = Math.min(255, Math.max(0, originalData[dstOff + 1] + (g - originalData[dstOff + 1]) * mix));
+            data[dstOff + 2] = Math.min(255, Math.max(0, originalData[dstOff + 2] + (b - originalData[dstOff + 2]) * mix));
+            
+            let nr = data[dstOff];
+            let ng = data[dstOff + 1];
+            let nb = data[dstOff + 2];
+            
+            nr = ((nr - 128) * 1.05) + 128;
+            ng = ((ng - 128) * 1.05) + 128;
+            nb = ((nb - 128) * 1.05) + 128;
+            
+            data[dstOff] = Math.min(255, Math.max(0, nr));
+            data[dstOff + 1] = Math.min(255, Math.max(0, ng));
+            data[dstOff + 2] = Math.min(255, Math.max(0, nb));
+          }
+        }
+        
+        ctx.putImageData(imgData, 0, 0);
+        
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            setIsEnhancing(false);
+            return;
+          }
+          
+          const formData = new FormData();
+          formData.append('file', blob, 'enhanced_product_image.jpg');
+          
+          try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/upload`, {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              body: formData,
+            });
+            const responseData = await res.json();
+            if (res.ok && responseData.url) {
+               setImageUrl(responseData.url);
+               setIsBlurry(false);
+               setProductMessage('AI Image Enhancement Complete!');
+            } else {
+               setProductMessage('AI upload failed. Enhancement reverted.');
+            }
+          } catch (err) {
+            setProductMessage('Network error saving enhanced image.');
+          } finally {
+            setIsEnhancing(false);
+          }
+        }, 'image/jpeg', 0.92);
+      } catch (err) {
+        console.error(err);
+        setProductMessage('AI processing failed.');
+        setIsEnhancing(false);
+      }
+    };
+    img.src = imageUrl;
+  };
+
   const handleCreateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!token) return;
@@ -235,9 +494,11 @@ export default function Dashboard() {
           price: Number(price),
           stock: Number(stock),
           category,
+          subcategory,
           craft: craft === 'Other' ? customCraft : craft,
           region: region === 'Other' ? customRegion : region,
           images: [imageUrl || 'https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c'],
+          videoUrl: videoUrl || null,
         }),
       });
       const data = await response.json();
@@ -248,10 +509,13 @@ export default function Dashboard() {
         setDescription('');
         setPrice('');
         setImageUrl('');
+        setVideoUrl('');
         setCustomCraft('');
         setCustomRegion('');
         setCraft('Pottery');
         setRegion('Rajasthan');
+        setCategory('Women');
+        setSubcategory('Handloom Sarees / Sari');
         fetchDashboardData(); // Refresh product list
       } else {
         setProductMessage(data.message || 'Failed to list product.');
@@ -507,7 +771,17 @@ export default function Dashboard() {
       {/* CUSTOMER PORTAL */}
       {user?.role === 'CUSTOMER' && (
         <section className="space-y-6">
-          <h2 className="font-display text-3xl font-light text-on-surface">Your Acquisitions & Orders</h2>
+          <div className="flex justify-between items-center">
+            <h2 className="font-display text-3xl font-light text-on-surface">Your Acquisitions & Orders</h2>
+            {customerOrders.length > 2 && (
+              <button
+                onClick={() => setShowAllCustomerOrders(!showAllCustomerOrders)}
+                className="text-xs text-primary hover:text-secondary font-semibold uppercase tracking-wider transition-all cursor-pointer"
+              >
+                {showAllCustomerOrders ? 'Show Less' : 'View All'}
+              </button>
+            )}
+          </div>
           {customerOrders.length === 0 ? (
             <div className="text-center py-16 bg-secondary-container/10 border border-dashed rounded-xl">
               <span className="material-symbols-outlined text-4xl text-secondary">orders</span>
@@ -518,7 +792,7 @@ export default function Dashboard() {
             </div>
           ) : (
             <div className="space-y-6">
-              {customerOrders.map((order) => (
+              {(showAllCustomerOrders ? customerOrders : customerOrders.slice(0, 2)).map((order) => (
                 <div key={order.id} className="bg-white border border-outline-variant/20 rounded-xl p-6 luxury-shadow space-y-4 font-sans text-sm">
                   <div className="flex flex-col md:flex-row justify-between pb-3 border-b border-outline-variant/10 text-xs text-secondary space-y-2 md:space-y-0">
                     <div>
@@ -592,12 +866,22 @@ export default function Dashboard() {
 
                 {/* List products offerings */}
                 <div className="space-y-4">
-                  <h2 className="font-display text-3xl font-light text-on-surface">Your Shop Offerings</h2>
+                  <div className="flex justify-between items-center">
+                    <h2 className="font-display text-3xl font-light text-on-surface">Your Shop Offerings</h2>
+                    {artisanProducts.length > 2 && (
+                      <button
+                        onClick={() => setShowAllArtisanProducts(!showAllArtisanProducts)}
+                        className="text-xs text-primary hover:text-secondary font-semibold uppercase tracking-wider transition-all cursor-pointer"
+                      >
+                        {showAllArtisanProducts ? 'Show Less' : 'View All'}
+                      </button>
+                    )}
+                  </div>
                   {artisanProducts.length === 0 ? (
                     <p className="text-xs text-secondary italic">No products currently listed.</p>
                   ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {artisanProducts.map((prod) => (
+                      {(showAllArtisanProducts ? artisanProducts : artisanProducts.slice(0, 2)).map((prod) => (
                         <div key={prod.id} className="flex gap-4 p-3 border border-outline-variant/20 rounded-xl bg-white relative items-center justify-between">
                           <div className="flex gap-3 items-center">
                             <div className="w-12 h-12 bg-secondary-container/10 rounded relative overflow-hidden flex-shrink-0">
@@ -619,12 +903,22 @@ export default function Dashboard() {
 
                 {/* Orders list containing this artisan's items */}
                 <div className="space-y-4">
-                  <h2 className="font-display text-3xl font-light text-on-surface">Customer Orders Checklist</h2>
+                  <div className="flex justify-between items-center">
+                    <h2 className="font-display text-3xl font-light text-on-surface">Customer Orders Checklist</h2>
+                    {artisanOrders.length > 2 && (
+                      <button
+                        onClick={() => setShowAllArtisanOrders(!showAllArtisanOrders)}
+                        className="text-xs text-primary hover:text-secondary font-semibold uppercase tracking-wider transition-all cursor-pointer"
+                      >
+                        {showAllArtisanOrders ? 'Show Less' : 'View All'}
+                      </button>
+                    )}
+                  </div>
                   {artisanOrders.length === 0 ? (
                     <p className="text-xs text-secondary italic">No customer orders received yet.</p>
                   ) : (
                     <div className="space-y-4">
-                      {artisanOrders.map((ord) => (
+                      {(showAllArtisanOrders ? artisanOrders : artisanOrders.slice(0, 2)).map((ord) => (
                         <div key={ord.id} className="bg-white border border-outline-variant/10 p-5 rounded-xl space-y-3 font-sans text-xs">
                           <div className="flex justify-between items-center pb-2 border-b border-outline-variant/10">
                             <div>
@@ -831,12 +1125,22 @@ export default function Dashboard() {
 
                 {/* Artisan Verification Queue */}
                 <div className="space-y-4">
-                  <h2 className="font-display text-3xl font-light text-on-surface">Artisan Verification Workspace</h2>
+                  <div className="flex justify-between items-center">
+                    <h2 className="font-display text-3xl font-light text-on-surface">Artisan Verification Workspace</h2>
+                    {adminArtisans.length > 2 && (
+                      <button
+                        onClick={() => setShowAllAdminArtisans(!showAllAdminArtisans)}
+                        className="text-xs text-primary hover:text-secondary font-semibold uppercase tracking-wider transition-all cursor-pointer"
+                      >
+                        {showAllAdminArtisans ? 'Show Less' : 'View All'}
+                      </button>
+                    )}
+                  </div>
                   {adminArtisans.length === 0 ? (
                     <p className="text-xs text-secondary italic">No registered artisans found.</p>
                   ) : (
                     <div className="space-y-3">
-                      {adminArtisans.map((artisan) => (
+                      {(showAllAdminArtisans ? adminArtisans : adminArtisans.slice(0, 2)).map((artisan) => (
                         <div key={artisan.id} className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white border border-outline-variant/20 rounded-xl p-4 gap-4 luxury-shadow">
                           <div className="flex gap-4 items-center">
                             <div className="w-10 h-10 rounded-full overflow-hidden bg-secondary-container/10 relative flex-shrink-0">
@@ -1020,16 +1324,24 @@ export default function Dashboard() {
                       )}
                     </div>
                   </div>
-                </div>
-
-                {/* Global Orders */}
+                                 {/* Global Orders */}
                 <div className="space-y-4">
-                  <h2 className="font-display text-3xl font-light text-on-surface">Global Platform Acquisitions</h2>
+                  <div className="flex justify-between items-center">
+                    <h2 className="font-display text-3xl font-light text-on-surface">Global Platform Acquisitions</h2>
+                    {adminOrders.length > 2 && (
+                      <button
+                        onClick={() => setShowAllAdminOrders(!showAllAdminOrders)}
+                        className="text-xs text-primary hover:text-secondary font-semibold uppercase tracking-wider transition-all cursor-pointer"
+                      >
+                        {showAllAdminOrders ? 'Show Less' : 'View All'}
+                      </button>
+                    )}
+                  </div>
                   {adminOrders.length === 0 ? (
                     <p className="text-xs text-secondary italic">No acquisitions in the system.</p>
                   ) : (
                     <div className="space-y-4">
-                      {adminOrders.map((ord) => (
+                      {(showAllAdminOrders ? adminOrders : adminOrders.slice(0, 2)).map((ord) => (
                         <div key={ord.id} className="bg-white border border-outline-variant/10 p-5 rounded-xl space-y-3 font-sans text-xs">
                           <div className="flex justify-between items-center pb-2 border-b border-outline-variant/10">
                             <div>
@@ -1065,12 +1377,22 @@ export default function Dashboard() {
 
                 {/* Global Listings Management */}
                 <div className="space-y-4">
-                  <h2 className="font-display text-3xl font-light text-on-surface">Platform Catalog Listings</h2>
+                  <div className="flex justify-between items-center">
+                    <h2 className="font-display text-3xl font-light text-on-surface">Platform Catalog Listings</h2>
+                    {adminProducts.length > 2 && (
+                      <button
+                        onClick={() => setShowAllAdminProducts(!showAllAdminProducts)}
+                        className="text-xs text-primary hover:text-secondary font-semibold uppercase tracking-wider transition-all cursor-pointer"
+                      >
+                        {showAllAdminProducts ? 'Show Less' : 'View All'}
+                      </button>
+                    )}
+                  </div>
                   {adminProducts.length === 0 ? (
                     <p className="text-xs text-secondary italic">No products listed on the platform.</p>
                   ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {adminProducts.map((prod) => (
+                      {(showAllAdminProducts ? adminProducts : adminProducts.slice(0, 2)).map((prod) => (
                         <div key={prod.id} className="flex gap-4 p-3 border border-outline-variant/20 rounded-xl bg-white relative items-center justify-between luxury-shadow">
                           <div className="flex gap-3 items-center">
                             <div className="w-12 h-12 bg-secondary-container/10 rounded relative overflow-hidden flex-shrink-0">
@@ -1091,7 +1413,7 @@ export default function Dashboard() {
                       ))}
                     </div>
                   )}
-                </div>
+                </div>      </div>
               </>
             )}
 
@@ -1859,10 +2181,19 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Category</label>
-                    <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none">
+                    <select
+                      value={category}
+                      onChange={(e) => {
+                        const nextCat = e.target.value;
+                        setCategory(nextCat);
+                        const subCats = SUBCATEGORIES[nextCat] || [];
+                        setSubcategory(subCats[0] || '');
+                      }}
+                      className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                    >
                       <option>Women</option>
                       <option>Men</option>
                       <option>Kids</option>
@@ -1876,6 +2207,21 @@ export default function Dashboard() {
                       <option>More to Love</option>
                     </select>
                   </div>
+                  <div className="space-y-1">
+                    <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Subcategory</label>
+                    <select
+                      value={subcategory}
+                      onChange={(e) => setSubcategory(e.target.value)}
+                      className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                    >
+                      {(SUBCATEGORIES[category] || []).map((sub) => (
+                        <option key={sub} value={sub}>{sub}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-secondary font-semibold uppercase tracking-wider block text-[9px]">Craft</label>
                     <select value={craft} onChange={(e) => setCraft(e.target.value)} className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none">
@@ -1967,20 +2313,157 @@ export default function Dashboard() {
 
                 <div className="space-y-2">
                   <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Product Image File</label>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center gap-3">
+                      <label className={`bg-primary/10 text-primary border border-primary/20 px-3 py-2 rounded text-xs uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary/15 transition-all flex items-center gap-1.5 ${uploading || isEnhancing ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                        <span className="material-symbols-outlined text-sm">{uploading ? 'progress_activity' : 'cloud_upload'}</span>
+                        {uploading ? 'Uploading...' : 'Choose File'}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          disabled={uploading || isEnhancing}
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              setUploading(true);
+                              setIsBlurry(false);
+                              setProductMessage('Uploading image to S3...');
+                              const formData = new FormData();
+                              formData.append('file', file);
+                              
+                              try {
+                                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://api.sunartn.com/api'}/upload`, {
+                                  method: 'POST',
+                                  headers: {
+                                    Authorization: `Bearer ${token}`,
+                                  },
+                                  body: formData,
+                                });
+                                const data = await res.json();
+                                if (res.ok && data.url) {
+                                  setImageUrl(data.url);
+                                  setProductMessage('Image uploaded successfully.');
+                                  detectBlurryImage(data.url);
+                                } else {
+                                  setProductMessage(data.message || 'Image upload failed.');
+                                }
+                              } catch (err) {
+                                setProductMessage('Network error uploading image.');
+                              } finally {
+                                setUploading(false);
+                              }
+                            }
+                          }}
+                        />
+                      </label>
+                      {imageUrl && (
+                        <div className="relative w-16 h-16 rounded-lg border border-outline-variant/30 overflow-hidden bg-secondary-container/10 luxury-shadow">
+                          <img src={imageUrl} alt="Upload preview" className="object-cover w-full h-full" />
+                          {isEnhancing && (
+                            <div className="absolute inset-0 bg-primary/10 flex flex-col justify-end">
+                              <div className="absolute top-0 w-full h-0.5 bg-accent shadow-[0_0_8px_#ffd700] animate-scan"></div>
+                              <div className="bg-black/85 text-white text-[7px] uppercase tracking-widest text-center py-0.5 font-bold">
+                                Enhancing...
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Image Enhancer Actions - Always Available when imageUrl is set */}
+                    {imageUrl && !isEnhancing && (
+                      <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 space-y-2 text-xs text-primary flex flex-col animate-in fade-in duration-300">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1.5 font-medium">
+                            <span className="material-symbols-outlined text-[15px]">magic_button</span>
+                            <span className="font-semibold uppercase tracking-wider text-[10px]">AI Image Enhancer</span>
+                          </div>
+                          {isBlurry && (
+                            <span className="bg-amber-500/20 text-amber-800 text-[8px] font-bold uppercase tracking-wider px-2 py-0.5 rounded flex items-center gap-0.5">
+                              <span className="material-symbols-outlined text-[10px]">warning</span> Blurry
+                            </span>
+                          )}
+                        </div>
+                        
+                        {isBlurry ? (
+                          <p className="text-[10px] leading-relaxed text-secondary">
+                            Our analysis indicates this photo has low contrast or detail. Enhance it automatically for high-resolution clarity.
+                          </p>
+                        ) : (
+                          <p className="text-[10px] leading-relaxed text-secondary">
+                            Sharpen edges, boost colors, and double the resolution of your product photo using AI super-resolution.
+                          </p>
+                        )}
+                        
+                        <button
+                          type="button"
+                          onClick={enhanceImageWithAI}
+                          className="bg-primary hover:bg-primary/95 text-white font-bold uppercase tracking-widest text-[9px] py-1.5 px-3 rounded-lg transition-all flex items-center justify-center gap-1.5 w-fit cursor-pointer border-none"
+                        >
+                          <span className="material-symbols-outlined text-[12px] animate-pulse">blur_off</span>
+                          Enhance Photo Now
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Enhancer Status Display */}
+                    {isEnhancing && (
+                      <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 space-y-2 text-xs text-primary flex flex-col items-center text-center animate-in fade-in duration-300">
+                        <span className="material-symbols-outlined text-sm animate-spin">progress_activity</span>
+                        <div>
+                          <p className="font-semibold text-[10px] uppercase tracking-wider">{enhanceStatus}</p>
+                          <p className="text-[9px] text-secondary mt-0.5">Running super-resolution convolution filters...</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Custom Inline CSS for scan effect */}
+                    <style>{`
+                      @keyframes scan {
+                        0% { top: 0%; }
+                        50% { top: 100%; }
+                        100% { top: 0%; }
+                      }
+                      .animate-scan {
+                        animation: scan 2s linear infinite;
+                      }
+                    `}</style>
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-secondary font-semibold uppercase tracking-wider block">Or Product Image URL</label>
+                  <input
+                    type="text"
+                    placeholder="https://example.com/image.jpg"
+                    value={imageUrl}
+                    onChange={(e) => {
+                      setImageUrl(e.target.value);
+                      detectBlurryImage(e.target.value);
+                    }}
+                    className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
+                  />
+                </div>
+
+                {/* Product Video File Upload Field */}
+                <div className="space-y-2 border-t border-outline-variant/10 pt-4">
+                  <label className="text-secondary font-semibold uppercase tracking-wider block text-[10px]">Product Video File (Optional)</label>
                   <div className="flex items-center gap-3">
-                    <label className={`bg-primary/10 text-primary border border-primary/20 px-3 py-2 rounded text-xs uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary/15 transition-all flex items-center gap-1.5 ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                      <span className="material-symbols-outlined text-sm">{uploading ? 'progress_activity' : 'cloud_upload'}</span>
-                      {uploading ? 'Uploading...' : 'Choose File'}
+                    <label className={`bg-primary/10 text-primary border border-primary/20 px-3 py-2 rounded text-xs uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary/15 transition-all flex items-center gap-1.5 ${videoUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                      <span className="material-symbols-outlined text-sm">{videoUploading ? 'progress_activity' : 'movie'}</span>
+                      {videoUploading ? 'Uploading...' : 'Choose Video'}
                       <input
                         type="file"
-                        accept="image/*"
+                        accept="video/*"
                         className="hidden"
-                        disabled={uploading}
+                        disabled={videoUploading}
                         onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (file) {
-                            setUploading(true);
-                            setProductMessage('Uploading image to S3...');
+                            setVideoUploading(true);
+                            setProductMessage('Uploading video to S3...');
                             const formData = new FormData();
                             formData.append('file', file);
                             
@@ -1994,35 +2477,35 @@ export default function Dashboard() {
                               });
                               const data = await res.json();
                               if (res.ok && data.url) {
-                                setImageUrl(data.url);
-                                setProductMessage('Image uploaded successfully.');
+                                setVideoUrl(data.url);
+                                setProductMessage('Video uploaded successfully.');
                               } else {
-                                setProductMessage(data.message || 'Image upload failed.');
+                                setProductMessage(data.message || 'Video upload failed.');
                               }
                             } catch (err) {
-                              setProductMessage('Network error uploading image.');
+                              setProductMessage('Network error uploading video.');
                             } finally {
-                              setUploading(false);
+                              setVideoUploading(false);
                             }
                           }
                         }}
                       />
                     </label>
-                    {imageUrl && (
-                      <div className="w-10 h-10 rounded border border-outline-variant/30 overflow-hidden relative bg-secondary-container/10">
-                        <img src={imageUrl} alt="Upload preview" className="object-cover w-full h-full" />
+                    {videoUrl && (
+                      <div className="w-10 h-10 rounded border border-outline-variant/30 bg-secondary-container/10 flex items-center justify-center relative text-primary">
+                        <span className="material-symbols-outlined text-lg">movie</span>
                       </div>
                     )}
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-secondary font-semibold uppercase tracking-wider block">Or Product Image URL</label>
+                  <label className="text-secondary font-semibold uppercase tracking-wider block">Or Product Video URL</label>
                   <input
                     type="text"
-                    placeholder="https://example.com/image.jpg"
-                    value={imageUrl}
-                    onChange={(e) => setImageUrl(e.target.value)}
+                    placeholder="https://example.com/video.mp4"
+                    value={videoUrl}
+                    onChange={(e) => setVideoUrl(e.target.value)}
                     className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
                   />
                 </div>

@@ -16,6 +16,7 @@ export default function ProductDetailClient({ params }: { params: Promise<{ id: 
   const [unwrappedParams, setUnwrappedParams] = useState<{ id: string } | null>(null);
   const [product, setProduct] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activeMedia, setActiveMedia] = useState<'image' | 'video'>('image');
   
   // Review form state
   const [rating, setRating] = useState(5);
@@ -115,17 +116,56 @@ export default function ProductDetailClient({ params }: { params: Promise<{ id: 
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="relative aspect-[4/5] rounded-xl overflow-hidden luxury-shadow bg-secondary-container/10"
+            className="relative aspect-[4/5] rounded-xl overflow-hidden luxury-shadow bg-secondary-container/10 flex items-center justify-center"
           >
-            <Image
-              alt={product.title}
-              fill
-              unoptimized
-              className="object-cover"
-              src={mainImage}
-              priority
-            />
+            {activeMedia === 'image' || !product.videoUrl ? (
+              <Image
+                alt={product.title}
+                fill
+                unoptimized
+                className="object-cover"
+                src={mainImage}
+                priority
+              />
+            ) : (
+              <video
+                src={product.videoUrl}
+                controls
+                autoPlay
+                loop
+                muted
+                className="w-full h-full object-cover"
+              />
+            )}
           </motion.div>
+
+          {/* Media Selector */}
+          {product.videoUrl && (
+            <div className="flex gap-3 mt-4 justify-center">
+              <button
+                type="button"
+                onClick={() => setActiveMedia('image')}
+                className={`px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest border transition-all cursor-pointer ${
+                  activeMedia === 'image'
+                    ? 'bg-primary text-white border-primary'
+                    : 'border-outline-variant/30 text-secondary hover:bg-secondary-container/10'
+                }`}
+              >
+                Photo
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveMedia('video')}
+                className={`px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest border transition-all cursor-pointer ${
+                  activeMedia === 'video'
+                    ? 'bg-primary text-white border-primary'
+                    : 'border-outline-variant/30 text-secondary hover:bg-secondary-container/10'
+                }`}
+              >
+                Video
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Text descriptions */}
