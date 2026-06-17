@@ -491,6 +491,17 @@ export default function Dashboard() {
           <h1 className="font-display text-4xl mt-1 font-light text-on-surface">Welcome Back, {user?.name}</h1>
           <p className="text-xs text-secondary mt-1 font-sans">Role Account: {user?.role}</p>
         </div>
+        {user?.role === 'ARTISAN' && (
+          <button
+            onClick={() => {
+              document.getElementById('list-new-craft-section')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="bg-primary text-white px-5 py-2.5 rounded-lg text-xs uppercase tracking-widest font-semibold flex items-center gap-1.5 cursor-pointer hover:opacity-90 transition-all mt-4 md:mt-0"
+          >
+            <span className="material-symbols-outlined text-sm">add</span>
+            List New Craft
+          </button>
+        )}
       </div>
 
       {/* CUSTOMER PORTAL */}
@@ -1759,7 +1770,7 @@ export default function Dashboard() {
             )}
 
             {/* List New Craft Form */}
-            <div className="bg-secondary-container/20 p-6 border border-outline-variant/10 rounded-xl space-y-4">
+            <div id="list-new-craft-section" className="bg-secondary-container/20 p-6 border border-outline-variant/10 rounded-xl space-y-4">
               <h3 className="font-display text-2xl font-light text-primary border-b border-outline-variant/30 pb-3">
                 List New Craft
               </h3>
