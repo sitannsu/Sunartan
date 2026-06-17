@@ -172,6 +172,7 @@ export default function Dashboard() {
   const [customCraft, setCustomCraft] = useState('');
   const [customRegion, setCustomRegion] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [productMessage, setProductMessage] = useState('');
   const [uploading, setUploading] = useState(false);
   const [isBlurry, setIsBlurry] = useState(false);
@@ -305,15 +306,21 @@ export default function Dashboard() {
     fetchDashboardData();
   }, [token, user, mounted]);
 
-  const detectBlurryImage = (url: string) => {
-    if (!url) return;
+  const detectBlurryImage = (url: string, file?: File | null) => {
+    if (!url && !file) return;
     const img = new Image();
-    img.crossOrigin = 'anonymous';
+    const objectUrl = file ? URL.createObjectURL(file) : null;
+    if (!objectUrl) {
+      img.crossOrigin = 'anonymous';
+    }
     img.onload = () => {
       try {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        if (!ctx) return;
+        if (!ctx) {
+          if (objectUrl) URL.revokeObjectURL(objectUrl);
+          return;
+        }
         canvas.width = 64;
         canvas.height = 64;
         ctx.drawImage(img, 0, 0, 64, 64);
@@ -347,9 +354,14 @@ export default function Dashboard() {
       } catch (e) {
         console.warn('Could not run blur detection due to CORS or Canvas restrictions:', e);
         setIsBlurry(false);
+      } finally {
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
       }
     };
-    img.src = url;
+    img.onerror = () => {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+    img.src = objectUrl || url;
   };
 
   const enhanceImageWithAI = async () => {
@@ -358,20 +370,29 @@ export default function Dashboard() {
     setEnhanceStatus('Initializing AI models...');
     
     // Simulate step-by-step progress
-    setTimeout(() => setEnhanceStatus('Reconstructing image edges...'), 800);
-    setTimeout(() => setEnhanceStatus('Upscaling resolution (2x)...'), 1600);
-    setTimeout(() => setEnhanceStatus('Sharpening textures & patterns...'), 2400);
-    setTimeout(() => setEnhanceStatus('Boosting color vibrancy...'), 3200);
-    setTimeout(() => setEnhanceStatus('Uploading enhanced asset to S3...'), 4000);
+    const timers: NodeJS.Timeout[] = [];
+    timers.push(setTimeout(() => setEnhanceStatus('Reconstructing image edges...'), 800));
+    timers.push(setTimeout(() => setEnhanceStatus('Upscaling resolution (2x)...'), 1600));
+    timers.push(setTimeout(() => setEnhanceStatus('Sharpening textures & patterns...'), 2400));
+    timers.push(setTimeout(() => setEnhanceStatus('Boosting color vibrancy...'), 3200));
+    timers.push(setTimeout(() => setEnhanceStatus('Uploading enhanced asset to S3...'), 4000));
     
+    const clearTimers = () => timers.forEach(clearTimeout);
+
     const img = new Image();
-    img.crossOrigin = 'anonymous';
+    const objectUrl = selectedImageFile ? URL.createObjectURL(selectedImageFile) : null;
+    if (!objectUrl) {
+      img.crossOrigin = 'anonymous';
+    }
+    
     img.onload = async () => {
       try {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         if (!ctx) {
+          clearTimers();
           setIsEnhancing(false);
+          if (objectUrl) URL.revokeObjectURL(objectUrl);
           return;
         }
         
@@ -452,7 +473,9 @@ export default function Dashboard() {
         
         canvas.toBlob(async (blob) => {
           if (!blob) {
+            clearTimers();
             setIsEnhancing(false);
+            if (objectUrl) URL.revokeObjectURL(objectUrl);
             return;
           }
           
@@ -472,22 +495,36 @@ export default function Dashboard() {
                setImageUrl(responseData.url);
                setIsBlurry(false);
                setProductMessage('AI Image Enhancement Complete!');
+               setSelectedImageFile(new File([blob], 'enhanced_product_image.jpg', { type: 'image/jpeg' }));
             } else {
                setProductMessage('AI upload failed. Enhancement reverted.');
             }
           } catch (err) {
             setProductMessage('Network error saving enhanced image.');
           } finally {
+            clearTimers();
             setIsEnhancing(false);
+            if (objectUrl) URL.revokeObjectURL(objectUrl);
           }
         }, 'image/jpeg', 0.92);
       } catch (err) {
         console.error(err);
         setProductMessage('AI processing failed.');
+        clearTimers();
         setIsEnhancing(false);
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
       }
     };
-    img.src = imageUrl;
+    
+    img.onerror = () => {
+      console.error('AI Image Enhancer failed to load image source.');
+      setProductMessage('AI Enhancer error: Could not load image source (possibly CORS block).');
+      clearTimers();
+      setIsEnhancing(false);
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+    
+    img.src = objectUrl || imageUrl;
   };
 
   const handleCreateProduct = async (e: React.FormEvent) => {
@@ -2340,6 +2377,7 @@ export default function Dashboard() {
                           onChange={async (e) => {
                             const file = e.target.files?.[0];
                             if (file) {
+                              setSelectedImageFile(file);
                               setUploading(true);
                               setIsBlurry(false);
                               setProductMessage('Uploading image to S3...');
@@ -2358,7 +2396,7 @@ export default function Dashboard() {
                                 if (res.ok && data.url) {
                                   setImageUrl(data.url);
                                   setProductMessage('Image uploaded successfully.');
-                                  detectBlurryImage(data.url);
+                                  detectBlurryImage(data.url, file);
                                 } else {
                                   setProductMessage(data.message || 'Image upload failed.');
                                 }
@@ -2455,7 +2493,8 @@ export default function Dashboard() {
                     value={imageUrl}
                     onChange={(e) => {
                       setImageUrl(e.target.value);
-                      detectBlurryImage(e.target.value);
+                      setSelectedImageFile(null);
+                      detectBlurryImage(e.target.value, null);
                     }}
                     className="w-full p-2.5 border border-outline-variant rounded bg-white outline-none"
                   />
