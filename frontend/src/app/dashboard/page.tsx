@@ -375,8 +375,25 @@ export default function Dashboard() {
           return;
         }
         
-        const width = img.naturalWidth * 2;
-        const height = img.naturalHeight * 2;
+        let scale = 2;
+        if (img.naturalWidth > 1200 || img.naturalHeight > 1200) {
+          scale = 1;
+        } else if (img.naturalWidth > 800 || img.naturalHeight > 800) {
+          scale = 1.5;
+        }
+        
+        let width = img.naturalWidth * scale;
+        let height = img.naturalHeight * scale;
+        const maxDim = 1600;
+        if (width > maxDim || height > maxDim) {
+          const ratio = Math.min(maxDim / width, maxDim / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        } else {
+          width = Math.round(width);
+          height = Math.round(height);
+        }
+        
         canvas.width = width;
         canvas.height = height;
         
@@ -386,51 +403,48 @@ export default function Dashboard() {
         const data = imgData.data;
         const originalData = new Uint8ClampedArray(data);
         
-        // 3x3 sharpening kernel
-        const kernel = [
-           0, -1.2,  0,
-         -1.2,  5.8, -1.2,
-           0, -1.2,  0
-        ];
-        
-        const side = 3;
-        const halfSide = 1;
+        const centerWt = 5.8;
+        const edgeWt = -1.2;
         
         for (let y = 0; y < height; y++) {
+          const yOff = y * width;
+          const prevYOff = (y > 0 ? y - 1 : 0) * width;
+          const nextYOff = (y < height - 1 ? y + 1 : height - 1) * width;
+          
           for (let x = 0; x < width; x++) {
-            const sy = y;
-            const sx = x;
-            const dstOff = (y * width + x) * 4;
+            const dstOff = (yOff + x) * 4;
+            const prevX = x > 0 ? x - 1 : 0;
+            const nextX = x < width - 1 ? x + 1 : width - 1;
             
-            let r = 0, g = 0, b = 0;
-            for (let cy = 0; cy < side; cy++) {
-              for (let cx = 0; cx < side; cx++) {
-                const scy = Math.min(height - 1, Math.max(0, sy + cy - halfSide));
-                const scx = Math.min(width - 1, Math.max(0, sx + cx - halfSide));
-                const srcOff = (scy * width + scx) * 4;
-                const wt = kernel[cy * side + cx];
-                r += originalData[srcOff] * wt;
-                g += originalData[srcOff + 1] * wt;
-                b += originalData[srcOff + 2] * wt;
-              }
-            }
+            const cOff = dstOff;
+            const tOff = (prevYOff + x) * 4;
+            const bOff = (nextYOff + x) * 4;
+            const lOff = (yOff + prevX) * 4;
+            const rOff = (yOff + nextX) * 4;
+            
+            const rVal = originalData[cOff] * centerWt + 
+                         (originalData[tOff] + originalData[bOff] + originalData[lOff] + originalData[rOff]) * edgeWt;
+            const gVal = originalData[cOff + 1] * centerWt + 
+                         (originalData[tOff + 1] + originalData[bOff + 1] + originalData[lOff + 1] + originalData[rOff + 1]) * edgeWt;
+            const bVal = originalData[cOff + 2] * centerWt + 
+                         (originalData[tOff + 2] + originalData[bOff + 2] + originalData[lOff + 2] + originalData[rOff + 2]) * edgeWt;
             
             const mix = 0.7;
-            data[dstOff] = Math.min(255, Math.max(0, originalData[dstOff] + (r - originalData[dstOff]) * mix));
-            data[dstOff + 1] = Math.min(255, Math.max(0, originalData[dstOff + 1] + (g - originalData[dstOff + 1]) * mix));
-            data[dstOff + 2] = Math.min(255, Math.max(0, originalData[dstOff + 2] + (b - originalData[dstOff + 2]) * mix));
+            const origR = originalData[dstOff];
+            const origG = originalData[dstOff + 1];
+            const origB = originalData[dstOff + 2];
             
-            let nr = data[dstOff];
-            let ng = data[dstOff + 1];
-            let nb = data[dstOff + 2];
+            let nr = origR + (rVal - origR) * mix;
+            let ng = origG + (gVal - origG) * mix;
+            let nb = origB + (bVal - origB) * mix;
             
             nr = ((nr - 128) * 1.05) + 128;
             ng = ((ng - 128) * 1.05) + 128;
             nb = ((nb - 128) * 1.05) + 128;
             
-            data[dstOff] = Math.min(255, Math.max(0, nr));
-            data[dstOff + 1] = Math.min(255, Math.max(0, ng));
-            data[dstOff + 2] = Math.min(255, Math.max(0, nb));
+            data[dstOff] = nr < 0 ? 0 : (nr > 255 ? 255 : nr);
+            data[dstOff + 1] = ng < 0 ? 0 : (ng > 255 ? 255 : ng);
+            data[dstOff + 2] = nb < 0 ? 0 : (nb > 255 ? 255 : nb);
           }
         }
         
@@ -2363,7 +2377,7 @@ export default function Dashboard() {
                           {isEnhancing && (
                             <div className="absolute inset-0 bg-primary/10 flex flex-col justify-end">
                               <div className="absolute top-0 w-full h-0.5 bg-accent shadow-[0_0_8px_#ffd700] animate-scan"></div>
-                              <div className="bg-black/85 text-white text-[7px] uppercase tracking-widest text-center py-0.5 font-bold">
+                              <div className="bg-black/85 text-white text-[8px] uppercase tracking-normal text-center py-0.5 font-bold">
                                 Enhancing...
                               </div>
                             </div>

@@ -19,12 +19,13 @@ export class ProductService {
   ) {}
 
   async findAll(query: ProductQueryDto) {
-    const { search, category, region, craft, minPrice, maxPrice } = query;
+    const { search, category, subcategory, region, craft, minPrice, maxPrice } = query;
 
     // 1. Try Meilisearch search first if query exists
     if (search) {
       const meiliHits = await this.searchService.searchProducts(search, {
         category,
+        subcategory,
         region,
         craft,
         minPrice,
@@ -39,6 +40,7 @@ export class ProductService {
     // 2. Fallback to Prisma database search
     const where: any = {};
     if (category) where.category = category;
+    if (subcategory) where.subcategory = subcategory;
     if (region) where.region = region;
     if (craft) where.craft = craft;
     if (minPrice || maxPrice) {

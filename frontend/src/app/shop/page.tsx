@@ -7,6 +7,80 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useCartStore, formatPrice } from '@/store';
 import { motion } from 'framer-motion';
 
+const SUBCATEGORIES: Record<string, string[]> = {
+  'Women': [
+    'Handloom Sarees / Sari',
+    'Shawls / Stoles / Dupattas',
+    'Dresses',
+    'Kurtas',
+    'Tops / Blouses',
+    'Shirts',
+    'T Shirts',
+    'Jackets / Shrugs',
+    'Skirts / Ghagras / Wrap Arounds',
+    'Palazzos / Pants',
+    'Fabric Material'
+  ],
+  'Men': [
+    'Kurtas',
+    'Shirts',
+    'T Shirts',
+    'Jackets',
+    'Pants / Trousers'
+  ],
+  'Kids': [
+    'Girls Wear',
+    'Boys Wear',
+    'Infant Wear'
+  ],
+  'Jewellery': [
+    'Necklaces / Pendants',
+    'Earrings',
+    'Bangles / Bracelets',
+    'Rings'
+  ],
+  'Accessory & Footwear': [
+    'Bags / Purses',
+    'Footwear',
+    'Stoles / Scarves'
+  ],
+  'Home Textiles': [
+    'Bedspreads / Bedsheets',
+    'Quilts / Blankets',
+    'Cushion Covers',
+    'Curtains'
+  ],
+  'Home Decor': [
+    'Vases / Planters',
+    'Wall Art / Paintings',
+    'Sculptures / Figurines',
+    'Candles / Holders'
+  ],
+  'Dining & Kitchen': [
+    'Plates / Bowls',
+    'Cups / Mugs',
+    'Table Runners / Mats',
+    'Trays / Serveware'
+  ],
+  'Furniture': [
+    'Chairs / Stools',
+    'Tables',
+    'Cabinets / Shelves'
+  ],
+  'Gifting': [
+    'Gift Boxes',
+    'Festive Decor',
+    'Handmade Cards'
+  ],
+  'More to Love': [
+    'Stationery',
+    'Devotion / Ritual Essentials',
+    'Music Instruments',
+    'Organic Beauty Products',
+    'Kits / Tools / Materials'
+  ]
+};
+
 function ShopCatalog() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -19,6 +93,7 @@ function ShopCatalog() {
   
   // Filters state
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
+  const [selectedSubcategory, setSelectedSubcategory] = useState(searchParams.get('subcategory') || '');
   const [selectedRegion, setSelectedRegion] = useState(searchParams.get('region') || '');
   const [selectedCraft, setSelectedCraft] = useState(searchParams.get('craft') || '');
   
@@ -43,6 +118,7 @@ function ShopCatalog() {
     const params = new URLSearchParams();
     if (searchQuery) params.append('search', searchQuery);
     if (selectedCategory) params.append('category', selectedCategory);
+    if (selectedSubcategory) params.append('subcategory', selectedSubcategory);
     if (selectedRegion) params.append('region', selectedRegion);
     if (selectedCraft) params.append('craft', selectedCraft);
 
@@ -60,9 +136,35 @@ function ShopCatalog() {
       });
   };
 
+  // Keep state in sync with URL changes (e.g. from Mega Menu navigation)
+  useEffect(() => {
+    setSelectedCategory(searchParams.get('category') || '');
+    setSelectedSubcategory(searchParams.get('subcategory') || '');
+    setSelectedRegion(searchParams.get('region') || '');
+    setSelectedCraft(searchParams.get('craft') || '');
+    setSearchQuery(searchParams.get('search') || '');
+  }, [searchParams]);
+
+  // Fetch products when states change
   useEffect(() => {
     fetchFilteredProducts();
-  }, [selectedCategory, selectedRegion, selectedCraft, searchParams]);
+  }, [selectedCategory, selectedSubcategory, selectedRegion, selectedCraft, searchQuery]);
+
+  const handleFilterChange = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    
+    // Clear subcategory if main category is toggled or changed
+    if (key === 'category') {
+      params.delete('subcategory');
+    }
+    
+    router.push(`/shop?${params.toString()}`);
+  };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,11 +175,11 @@ function ShopCatalog() {
       params.delete('search');
     }
     router.push(`/shop?${params.toString()}`);
-    fetchFilteredProducts();
   };
 
   const clearFilters = () => {
     setSelectedCategory('');
+    setSelectedSubcategory('');
     setSelectedRegion('');
     setSelectedCraft('');
     setSearchQuery('');
@@ -120,17 +222,38 @@ function ShopCatalog() {
           {/* Category Filter */}
           <div className="space-y-3">
             <h4 className="text-xs uppercase tracking-widest text-secondary font-semibold">Category</h4>
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-col space-y-3">
               {categories.map((cat) => (
-                <label key={cat} className="flex items-center space-x-2.5 text-sm cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={selectedCategory === cat}
-                    onChange={() => setSelectedCategory(selectedCategory === cat ? '' : cat)}
-                    className="rounded border-outline text-primary focus:ring-primary w-4 h-4"
-                  />
-                  <span className={selectedCategory === cat ? 'text-primary font-medium' : 'text-on-surface-variant'}>{cat}</span>
-                </label>
+                <div key={cat} className="space-y-1.5">
+                  <label className="flex items-center space-x-2.5 text-sm cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={selectedCategory === cat}
+                      onChange={() => handleFilterChange('category', selectedCategory === cat ? '' : cat)}
+                      className="rounded border-outline text-primary focus:ring-primary w-4 h-4"
+                    />
+                    <span className={selectedCategory === cat ? 'text-primary font-medium' : 'text-on-surface-variant'}>{cat}</span>
+                  </label>
+                  
+                  {/* Indented Subcategories */}
+                  {selectedCategory === cat && SUBCATEGORIES[cat] && (
+                    <div className="pl-4 flex flex-col space-y-1.5 border-l border-outline-variant/30 ml-2 mt-1">
+                      {SUBCATEGORIES[cat].map((sub) => (
+                        <label key={sub} className="flex items-center space-x-2.5 text-xs cursor-pointer select-none">
+                          <input
+                            type="checkbox"
+                            checked={selectedSubcategory === sub}
+                            onChange={() => handleFilterChange('subcategory', selectedSubcategory === sub ? '' : sub)}
+                            className="rounded border-outline text-primary focus:ring-primary w-3.5 h-3.5"
+                          />
+                          <span className={selectedSubcategory === sub ? 'text-primary font-medium' : 'text-secondary'}>
+                            {sub}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </div>
@@ -144,7 +267,7 @@ function ShopCatalog() {
                   <input
                     type="checkbox"
                     checked={selectedRegion === reg}
-                    onChange={() => setSelectedRegion(selectedRegion === reg ? '' : reg)}
+                    onChange={() => handleFilterChange('region', selectedRegion === reg ? '' : reg)}
                     className="rounded border-outline text-primary focus:ring-primary w-4 h-4"
                   />
                   <span className={selectedRegion === reg ? 'text-primary font-medium' : 'text-on-surface-variant'}>{reg}</span>
@@ -162,7 +285,7 @@ function ShopCatalog() {
                   <input
                     type="checkbox"
                     checked={selectedCraft === cr}
-                    onChange={() => setSelectedCraft(selectedCraft === cr ? '' : cr)}
+                    onChange={() => handleFilterChange('craft', selectedCraft === cr ? '' : cr)}
                     className="rounded border-outline text-primary focus:ring-primary w-4 h-4"
                   />
                   <span className={selectedCraft === cr ? 'text-primary font-medium' : 'text-on-surface-variant'}>{cr}</span>

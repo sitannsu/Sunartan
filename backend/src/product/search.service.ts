@@ -29,8 +29,9 @@ export class SearchService implements OnModuleInit {
             'region',
             'craft',
             'category',
+            'subcategory',
           ],
-          filterableAttributes: ['region', 'craft', 'category', 'price'],
+          filterableAttributes: ['region', 'craft', 'category', 'subcategory', 'price'],
           sortableAttributes: ['price', 'createdAt'],
         });
       }
@@ -54,6 +55,7 @@ export class SearchService implements OnModuleInit {
           description: product.description,
           price: product.price,
           category: product.category,
+          subcategory: product.subcategory,
           region: product.region,
           craft: product.craft,
           rating: product.rating,
@@ -90,6 +92,8 @@ export class SearchService implements OnModuleInit {
       const filterArray: string[] = [];
       if (filters?.category)
         filterArray.push(`category = "${filters.category}"`);
+      if (filters?.subcategory)
+        filterArray.push(`subcategory = "${filters.subcategory}"`);
       if (filters?.region) filterArray.push(`region = "${filters.region}"`);
       if (filters?.craft) filterArray.push(`craft = "${filters.craft}"`);
       if (filters?.minPrice) filterArray.push(`price >= ${filters.minPrice}`);
